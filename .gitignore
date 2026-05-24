@@ -11,3 +11,18 @@ yarn-error.log*
 *.log
 .vscode/
 .idea/
+
+# Archivos locales de Claude
+.claude/
+
+# Archivos de datos antiguos
+*.xlsx
+*.json
+!package-lock.json
+!data.js
+!characters_data.json
+
+# Scripts de migración (backup local)
+*.mjs
+*.bat
+migrate-*.js

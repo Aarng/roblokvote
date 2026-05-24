@@ -32,7 +32,9 @@
       "Bash(curl -X POST \"https://hallowed-badger-330.convex.cloud/api/query\" -H \"Content-Type: application/json\" -d '{\"path\": \"characters:getCharacterCount\", \"args\": {}}')",
       "Bash(curl -X POST \"https://hallowed-badger-330.convex.cloud/api/query\" -H \"Content-Type: application/json\" -d '{\"path\": \"characters:getAllCharacters\", \"args\": {}}')",
       "Bash(curl *)",
-      "Bash(npx convex *)"
+      "Bash(npx convex *)",
+      "Bash(move index.html vote.html)",
+      "PowerShell(Rename-Item *)"
     ]
   }
 }
