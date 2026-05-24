@@ -72,35 +72,36 @@ function loadCard() {
   cardAnime.textContent = candidate.anime || 'Anime';
   cardDescription.textContent = candidate.title || 'Sin título';
 
-  // Cargar imagen con fallback
+  // Cargar imagen con fallback a emoji
   const imgContainer = document.querySelector('.card-image-container');
 
+  // Limpiar contenedor y preparar imagen
+  imgContainer.innerHTML = '';
+  cardImage = document.createElement('img');
+  cardImage.className = 'card-image';
+  cardImage.alt = candidate.name;
+  cardImage.style.width = '100%';
+  cardImage.style.height = '100%';
+  cardImage.style.objectFit = 'contain';
+  cardImage.style.objectPosition = 'center top';
+
+  // Manejar error de carga - mostrar emoji
+  cardImage.onerror = function() {
+    showEmojiFallback(imgContainer, candidate);
+  };
+
+  // Si hay URL de imagen, intentar cargarla
   if (candidate.image) {
+    imgContainer.appendChild(cardImage);
     cardImage.src = candidate.image;
-    cardImage.style.display = 'block';
 
-    // Manejar error de carga
-    cardImage.onerror = function() {
-      showImageFallback(candidate);
-    };
-  } else {
-    showImageFallback(candidate);
-  }
-
-  // Función para mostrar fallback de imagen
-  function showImageFallback(candidate) {
-    cardImage.style.display = 'none';
-    // Verificar si ya existe un fallback
-    let fallback = imgContainer.querySelector('.card-image-fallback');
-    if (!fallback) {
-      imgContainer.innerHTML = '';
-      fallback = document.createElement('div');
-      fallback.className = 'card-image-fallback';
-      imgContainer.appendChild(fallback);
+    // Verificar si la imagen ya está en caché y falló
+    if (cardImage.complete && cardImage.naturalWidth === 0) {
+      cardImage.onerror();
     }
-    fallback.textContent = candidate.emoji || '👤';
-    // Aplicar color según categoría
-    fallback.style.background = categoryGradients[candidate.category];
+  } else {
+    // No hay imagen, mostrar emoji directamente
+    showEmojiFallback(imgContainer, candidate);
   }
 
   // Actualizar badge de categoría
@@ -116,23 +117,85 @@ function loadCard() {
   // Resetear transformaciones
   card.style.transform = 'translateX(0) rotate(0)';
   hideStamps();
-
-  // Restaurar contenedor de imagen para nueva tarjeta
-  const container = document.querySelector('.card-image-container');
-  // Limpiar fallback anterior si existe
-  const oldFallback = container.querySelector('.card-image-fallback');
-  if (oldFallback) {
-    oldFallback.remove();
-  }
-  // Asegurar que la imagen esté en el contenedor
-  if (!container.querySelector('img')) {
-    container.appendChild(cardImage);
-  }
 }
 
 function hideStamps() {
   document.querySelector('.stamp-like').style.opacity = '0';
   document.querySelector('.stamp-nope').style.opacity = '0';
+}
+
+// Función para mostrar emoji fallback cuando la imagen no carga
+function showEmojiFallback(container, candidate) {
+  // Limpiar contenedor
+  container.innerHTML = '';
+
+  // Crear elemento de fallback con emoji
+  const fallback = document.createElement('div');
+  fallback.className = 'card-image-fallback';
+  fallback.style.width = '100%';
+  fallback.style.height = '100%';
+  fallback.style.display = 'flex';
+  fallback.style.alignItems = 'center';
+  fallback.style.justifyContent = 'center';
+  fallback.style.fontSize = '6rem';
+  fallback.style.background = categoryGradients[candidate.category];
+  fallback.style.color = 'white';
+  fallback.textContent = candidate.emoji || getEmojiForCharacter(candidate.name, candidate.category);
+
+  container.appendChild(fallback);
+}
+
+// Obtener emoji apropiado según el personaje
+function getEmojiForCharacter(name, category) {
+  // Emojis por categoría como fallback
+  const categoryEmojis = {
+    'MELEE': ['👊', '💪', '🥊', '🦵', '🏃', '⚡'],
+    'ESPADA': ['⚔️', '🗡️', '🏴‍☠️', '🔪', '🛡️', '⚡'],
+    'MAGIA': ['🔮', '✨', '🪄', '⭐', '🌟', '💫']
+  };
+
+  // Emojis específicos para personajes conocidos
+  const specificEmojis = {
+    'luffy': '🏴‍☠️',
+    'zoro': '⚔️',
+    'sanji': '🦵',
+    'goku': '🔥',
+    'vegeta': '👑',
+    'saitama': '👨‍🦲',
+    'naruto': '🍥',
+    'sasuke': '🔥',
+    'gojo': '👓',
+    'sukuna': '😈',
+    'eren': '⚔️',
+    'levi': '🗡️',
+    'tanjiro': '🎴',
+    'zenitsu': '⚡',
+    'asta': '⚔️',
+    'asta': '📖',
+    'ichigo': '🗡️',
+    'lucy': '🔑',
+    'natsu': '🔥',
+    'ace': '🔥',
+    'kirito': '⚔️',
+    'asuna': '🗡️',
+    'rimuru': '💧',
+    'ainz': '💀',
+    'megumin': '💥',
+    'frieren': '✨'
+  };
+
+  const lowerName = name.toLowerCase();
+
+  // Buscar emoji específico
+  for (const [key, emoji] of Object.entries(specificEmojis)) {
+    if (lowerName.includes(key)) {
+      return emoji;
+    }
+  }
+
+  // Fallback a emoji de categoría basado en el nombre
+  const emojis = categoryEmojis[category] || ['👤'];
+  return emojis[lowerName.length % emojis.length];
 }
 
 function showStamps(likeOpacity, nopeOpacity) {
@@ -171,6 +234,7 @@ function vote(like) {
     vote: like ? 'SI' : 'NO',
     anime: candidate.anime,
     image: candidate.image,
+    emoji: candidate.emoji,
     timestamp: new Date().toISOString()
   });
 
@@ -244,7 +308,7 @@ function showResults() {
         ${catVotes.length > 0
           ? catVotes.map(v => `
             <div class="favorite-card">
-              <img src="${v.image || ''}" alt="${v.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2250%22 height=%2250%22><text x=%2225%22 y=%2235%22 font-size=%2230%22 text-anchor=%22middle%22>👤</text></svg>'">
+              <div style="width: 50px; height: 50px; border-radius: 50%; background: ${bgColors[cat]}; display: flex; align-items: center; justify-content: center; font-size: 1.8rem;">${v.emoji || '👤'}</div>
               <div class="info">
                 <div class="name">${v.name}</div>
                 <div class="anime">${v.anime || ''}</div>
