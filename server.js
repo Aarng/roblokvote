@@ -17,9 +17,40 @@ const io = socketIo(server, {
 // Trust proxy para Railway
 app.set('trust proxy', 1);
 
+// Middleware para parsear JSON
+app.use(express.json());
+
 // Healthcheck para Railway
 app.get('/health', (req, res) => {
-  res.json({ status: 'ok', uptime: process.uptime() });
+  res.json({ status: 'ok', uptime: process.uptime(), lobbies: lobbies.size });
+});
+
+// API REST para iniciar votación (fallback)
+app.post('/api/start-voting', (req, res) => {
+  const { lobbyCode, socketId } = req.body;
+  console.log(`[HTTP API] Solicitud start-voting: lobby=${lobbyCode}, socket=${socketId}`);
+
+  const lobby = lobbies.get(lobbyCode);
+  if (!lobby) {
+    return res.status(404).json({ error: 'Lobby no encontrado' });
+  }
+
+  if (lobby.players.size < 2) {
+    return res.status(400).json({ error: 'Se necesitan al menos 2 jugadores' });
+  }
+
+  lobby.status = 'voting';
+  lobby.currentCharacterIndex = 0;
+
+  io.to(lobby.code).emit('voting-started', {
+    totalCharacters: require('./data.js').candidates.length,
+    players: Array.from(lobby.players.values())
+  });
+
+  sendNextCharacter(lobby);
+
+  console.log(`[HTTP API] Votación iniciada en ${lobby.code}`);
+  res.json({ success: true, message: 'Votación iniciada' });
 });
 
 // Servir archivos estáticos
@@ -49,7 +80,12 @@ function createLobby(hostId, maxPlayers) {
 }
 
 io.on('connection', (socket) => {
-  console.log('Nuevo jugador conectado:', socket.id);
+  console.log('=== NUEVO JUGADOR CONECTADO:', socket.id, '===');
+
+  // Listar todos los eventos registrados
+  socket.onAny((eventName, ...args) => {
+    console.log(`[SOCKET EVENT] ${eventName} de ${socket.id}`, args);
+  });
 
   // Manejar errores en el socket individual
   socket.on('error', (err) => {

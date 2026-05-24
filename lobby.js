@@ -55,14 +55,35 @@ function joinLobby() {
 }
 
 // Iniciar votación (solo host)
-function startVoting() {
+async function startVoting() {
     console.log('[CLIENT] Intentando iniciar votación, isHost:', isHost);
     if (!isHost) {
         console.error('[CLIENT] No eres el host, no puedes iniciar');
         return;
     }
-    console.log('[CLIENT] Emitiendo start-voting');
+    console.log('[CLIENT] Emitiendo start-voting via WebSocket');
+
+    // Intentar primero con WebSocket
     socket.emit('start-voting');
+
+    // Fallback: intentar con HTTP API después de 1 segundo si no responde
+    setTimeout(async () => {
+        console.log('[CLIENT] WebSocket no respondió, intentando HTTP API...');
+        try {
+            const response = await fetch('/api/start-voting', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    lobbyCode: currentLobby,
+                    socketId: socket.id
+                })
+            });
+            const data = await response.json();
+            console.log('[CLIENT] HTTP API response:', data);
+        } catch (err) {
+            console.error('[CLIENT] HTTP API error:', err);
+        }
+    }, 1000);
 }
 
 // Votar
