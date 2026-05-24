@@ -429,6 +429,12 @@
             </div>
         </div>
 
+        <div style="text-align: center; margin: 20px 0;">
+            <button onclick="clearLocalCache()" style="background: rgba(231, 76, 60, 0.3); border: 1px solid #e74c3c; color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 0.9rem;">
+                🗑️ Limpiar Caché Local
+            </button>
+        </div>
+
         <div class="voters-list">
             <h2>📋 Registro de Votantes</h2>
             <div id="votersList">
@@ -450,7 +456,7 @@
         </div>
     </div>
 
-    <script src="convex-client.js?v=5"></script>
+    <script src="convex-client.js?v=6"></script>
     <script>
         const ADMIN_KEY = 'status2026';
         let currentVoter = null;
@@ -485,6 +491,19 @@
 
         function logout() {
             sessionStorage.removeItem('adminLoggedIn');
+            location.reload();
+        }
+
+        function clearLocalCache() {
+            if (!confirm('¿Limpiar TODO el caché local?\n\nEsto eliminará:\n- Resultados guardados localmente\n- Datos de votantes en localStorage\n\nLos datos en Convex NO se verán afectados.')) {
+                return;
+            }
+
+            localStorage.removeItem('proyectpiece_results');
+            localStorage.removeItem('cachedCharacters');
+            localStorage.removeItem('voterName');
+
+            alert('Caché local limpiado. Recargando...');
             location.reload();
         }
 
@@ -587,10 +606,27 @@
             }
 
             try {
+                // 1. Borrar de Convex
                 await convexMutation('votes:deleteVoterResults', { voterName });
+
+                // 2. Limpiar localStorage también
+                const localResults = JSON.parse(localStorage.getItem('proyectpiece_results') || '[]');
+                const filteredResults = localResults.filter(r => r.votante !== voterName);
+                if (localResults.length !== filteredResults.length) {
+                    localStorage.setItem('proyectpiece_results', JSON.stringify(filteredResults));
+                    console.log('[Admin] Limpiado localStorage para:', voterName);
+                }
+
+                // 3. Limpiar cache de personajes si existe
+                const cachedChars = localStorage.getItem('cachedCharacters');
+                if (cachedChars) {
+                    // No borramos cache de personajes, solo resultados de votos
+                }
+
                 alert(`Votos de "${voterName}" eliminados correctamente`);
                 loadVoters(); // Reload list
             } catch (error) {
+                console.error('[Admin] Error eliminando:', error);
                 alert('Error eliminando votos: ' + error.message);
             }
         }
