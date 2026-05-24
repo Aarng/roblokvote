@@ -209,9 +209,19 @@ io.on('connection', (socket) => {
 
   // Recibir voto de un jugador
   socket.on('vote', ({ vote }) => {
+    console.log(`[VOTE] Voto recibido de ${socket.id}: ${vote ? 'SI' : 'NO'}`);
+
     const lobby = lobbies.get(socket.lobbyCode);
 
-    if (!lobby || lobby.status !== 'voting') return;
+    if (!lobby) {
+      console.error(`[VOTE] Lobby no encontrado para socket ${socket.id}`);
+      return;
+    }
+
+    if (lobby.status !== 'voting') {
+      console.error(`[VOTE] Lobby ${lobby.code} no está en modo voting (status: ${lobby.status})`);
+      return;
+    }
 
     // Guardar voto
     const charIndex = lobby.currentCharacterIndex;
@@ -220,25 +230,29 @@ io.on('connection', (socket) => {
     }
     lobby.currentVotes.get(charIndex).set(socket.id, vote);
 
-    // Verificar si todos votaron
     const votes = lobby.currentVotes.get(charIndex);
+    console.log(`[VOTE] Votos: ${votes.size}/${lobby.players.size} para personaje ${charIndex + 1}`);
+
+    // Verificar si todos votaron
     if (votes.size === lobby.players.size) {
       // Calcular resultado
       const result = calculateResult(votes, lobby.players.size);
 
       // Guardar resultado
-      const candidates = candidates;
+      const currentCharacter = candidates[charIndex];
       lobby.results.push({
-        character: candidates[charIndex],
+        character: currentCharacter,
         approved: result.approved,
         yesVotes: result.yesCount,
         noVotes: result.noCount,
         totalPlayers: lobby.players.size
       });
 
+      console.log(`[VOTE] Resultado: ${result.approved ? 'APROBADO' : 'RECHAZADO'} - ${currentCharacter.name} (${result.yesCount} SI, ${result.noCount} NO)`);
+
       // Notificar a todos
       io.to(lobby.code).emit('vote-result', {
-        character: candidates[charIndex],
+        character: currentCharacter,
         approved: result.approved,
         yesVotes: result.yesCount,
         noVotes: result.noCount,
@@ -249,6 +263,7 @@ io.on('connection', (socket) => {
       // Esperar y enviar siguiente personaje
       setTimeout(() => {
         lobby.currentCharacterIndex++;
+        console.log(`[VOTE] Enviando siguiente personaje: ${lobby.currentCharacterIndex + 1}/${candidates.length}`);
         if (lobby.currentCharacterIndex < candidates.length) {
           sendNextCharacter(lobby);
         } else {

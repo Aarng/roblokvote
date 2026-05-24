@@ -170,11 +170,9 @@ socket.on('voting-started', ({ totalCharacters: total, players }) => {
 
 // Nuevo personaje
 socket.on('new-character', ({ index, total, character }) => {
+    console.log(`[CLIENT] Nuevo personaje recibido: ${index + 1}/${total} - ${character.name}`);
     currentCharacter = character;
     hasVoted = false;
-
-    // Ocultar overlay
-    document.getElementById('waiting-overlay').classList.remove('active');
 
     // Actualizar UI
     document.getElementById('current-char-num').textContent = index + 1;
