@@ -437,18 +437,6 @@
         <a href="index.html" class="home-btn">🏠 Proyecto Piece</a>
 
         <h1>🗳️ Votación de Personajes</h1>
-        <div style="margin-bottom: 15px; display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap;">
-            <input type="text" id="access-code" placeholder="Código de acceso" maxlength="20"
-                   style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3);
-                          border-radius: 20px; padding: 8px 15px; color: white; font-size: 0.9rem;
-                          text-align: center; width: 180px; outline: none;">
-            <a href="proyectopiece.html" id="multiplayer-link" style="display: none; color: #f39c12; text-decoration: none; font-size: 1rem;">
-                👥 Modo Multijugador →
-            </a>
-            <a href="proyectopiecestatus.html" id="status-link" style="display: none; color: #2ecc71; text-decoration: none; font-size: 1rem;">
-                🔐 Panel Admin →
-            </a>
-        </div>
         <span id="currentCategory" class="category-badge">Cargando...</span>
         <div class="progress" id="progress">Cargando...</div>
     </div>
@@ -487,8 +475,8 @@
         <button class="btn-download" onclick="downloadResults()">📥 Descargar Resultados</button>
     </div>
 
-    <script src="convex-client.js?v=4"></script>
-    <script src="app-convex.js?v=4"></script>
+    <script src="convex-client.js?v=5"></script>
+    <script src="app-convex.js?v=5"></script>
     <script>
         // Verificar si ya está registrado
         let voterName = sessionStorage.getItem('voterName');
@@ -537,21 +525,6 @@
             }
         });
 
-        // Códigos de acceso
-        document.getElementById('access-code').addEventListener('input', function(e) {
-            const code = e.target.value.toLowerCase().trim();
-            const input = e.target;
-
-            if (code === 'proyectpiece') {
-                // Acceso a modo multijugador
-                document.getElementById('multiplayer-link').style.display = 'inline';
-                input.style.display = 'none';
-            } else if (code === 'status2026') {
-                // Acceso a resultados
-                document.getElementById('status-link').style.display = 'inline';
-                input.style.display = 'none';
-            }
-        });
     </script>
 </body>
 </html>
