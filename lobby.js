@@ -10,6 +10,7 @@ let currentCharacter = null;
 let hasVoted = false;
 let totalPlayers = 0;
 let totalCharacters = candidates.length;
+let isLoading = false; // Prevenir clicks duplicados
 
 // Mostrar pantalla
 function showScreen(screenId) {
@@ -20,6 +21,8 @@ function showScreen(screenId) {
 
 // Crear sala
 function createLobby() {
+    if (isLoading) return; // Prevenir clicks duplicados
+
     const name = document.getElementById('create-name').value.trim();
     const maxPlayers = parseInt(document.getElementById('max-players').value);
 
@@ -33,11 +36,20 @@ function createLobby() {
         return;
     }
 
+    isLoading = true;
+    const btn = document.querySelector('#screen-create .btn-primary');
+    if (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Creando...';
+    }
+
     socket.emit('create-lobby', { playerName: name, maxPlayers });
 }
 
 // Unirse a sala
 function joinLobby() {
+    if (isLoading) return; // Prevenir clicks duplicados
+
     const name = document.getElementById('join-name').value.trim();
     const code = document.getElementById('lobby-code').value.trim().toUpperCase();
 
@@ -51,39 +63,48 @@ function joinLobby() {
         return;
     }
 
+    isLoading = true;
+    const btn = document.querySelector('#screen-join .btn-primary');
+    if (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Uniendo...';
+    }
+
     socket.emit('join-lobby', { code, playerName: name });
 }
 
 // Iniciar votación (solo host)
 async function startVoting() {
+    if (isLoading) return; // Prevenir clicks duplicados
+
     console.log('[CLIENT] Intentando iniciar votación, isHost:', isHost);
     if (!isHost) {
         console.error('[CLIENT] No eres el host, no puedes iniciar');
         return;
     }
+
+    isLoading = true;
+    const btn = document.getElementById('start-btn');
+    if (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Iniciando...';
+    }
+
     console.log('[CLIENT] Emitiendo start-voting via WebSocket');
 
     // Intentar primero con WebSocket
     socket.emit('start-voting');
 
-    // Fallback: intentar con HTTP API después de 1 segundo si no responde
-    setTimeout(async () => {
-        console.log('[CLIENT] WebSocket no respondió, intentando HTTP API...');
-        try {
-            const response = await fetch('/api/start-voting', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    lobbyCode: currentLobby,
-                    socketId: socket.id
-                })
-            });
-            const data = await response.json();
-            console.log('[CLIENT] HTTP API response:', data);
-        } catch (err) {
-            console.error('[CLIENT] HTTP API error:', err);
+    // Re-habilitar después de 2 segundos si no hubo respuesta
+    setTimeout(() => {
+        if (isLoading) {
+            isLoading = false;
+            if (btn) {
+                btn.disabled = false;
+                btn.textContent = 'Iniciar Votación';
+            }
         }
-    }, 1000);
+    }, 2000);
 }
 
 // Votar
@@ -103,6 +124,7 @@ function vote(voteValue) {
 
 // Lobby creado
 socket.on('lobby-created', ({ code, maxPlayers, players }) => {
+    isLoading = false;
     currentLobby = code;
     isHost = true;
     totalPlayers = players.length;
@@ -119,6 +141,7 @@ socket.on('lobby-created', ({ code, maxPlayers, players }) => {
 
 // Unido a lobby
 socket.on('lobby-joined', ({ code, maxPlayers, players }) => {
+    isLoading = false;
     currentLobby = code;
     isHost = false;
     totalPlayers = players.length;
@@ -162,6 +185,7 @@ socket.on('player-left', ({ players, playerName }) => {
 
 // Votación iniciada
 socket.on('voting-started', ({ totalCharacters: total, players }) => {
+    isLoading = false;
     totalCharacters = total;
     document.getElementById('total-chars').textContent = total;
     document.getElementById('total-voters').textContent = players.length;
@@ -292,6 +316,13 @@ socket.on('lobby-closed', (message) => {
 
 // Error
 socket.on('error', (message) => {
+    isLoading = false;
+    // Re-habilitar botones
+    document.querySelectorAll('.btn').forEach(btn => {
+        btn.disabled = false;
+        if (btn.textContent === 'Creando...') btn.textContent = 'Crear Sala';
+        if (btn.textContent === 'Uniendo...') btn.textContent = 'Unirse';
+    });
     showError(message);
 });
 
