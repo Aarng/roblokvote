@@ -1,5 +1,5 @@
-// Conexión Socket.io
-const socket = io();
+// Conexión Socket.io - detecta automáticamente el servidor
+const socket = io(window.location.origin);
 
 // Estado del juego
 let currentLobby = null;
