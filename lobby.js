@@ -56,7 +56,12 @@ function joinLobby() {
 
 // Iniciar votación (solo host)
 function startVoting() {
-    if (!isHost) return;
+    console.log('[CLIENT] Intentando iniciar votación, isHost:', isHost);
+    if (!isHost) {
+        console.error('[CLIENT] No eres el host, no puedes iniciar');
+        return;
+    }
+    console.log('[CLIENT] Emitiendo start-voting');
     socket.emit('start-voting');
 }
 

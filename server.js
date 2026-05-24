@@ -58,12 +58,22 @@ io.on('connection', (socket) => {
 
   // Crear un nuevo lobby
   socket.on('create-lobby', ({ playerName, maxPlayers }) => {
+    console.log(`[DEBUG] create-lobby recibido: playerName=${playerName}, maxPlayers=${maxPlayers}`);
+
+    if (!playerName || !maxPlayers) {
+      console.error('[DEBUG] Datos invalidos:', { playerName, maxPlayers });
+      socket.emit('error', 'Datos invalidos');
+      return;
+    }
+
     const lobby = createLobby(socket.id, maxPlayers);
     lobby.players.set(socket.id, { name: playerName, ready: true });
     lobbies.set(lobby.code, lobby);
 
     socket.join(lobby.code);
     socket.lobbyCode = lobby.code;
+
+    console.log(`[DEBUG] Lobby creado: ${lobby.code}, jugadores: ${lobby.players.size}`);
 
     socket.emit('lobby-created', {
       code: lobby.code,
@@ -117,20 +127,33 @@ io.on('connection', (socket) => {
 
   // Iniciar la votación (solo host)
   socket.on('start-voting', () => {
+    console.log(`[DEBUG] start-voting recibido de socket: ${socket.id}`);
+    console.log(`[DEBUG] socket.lobbyCode: ${socket.lobbyCode}`);
+
     const lobby = lobbies.get(socket.lobbyCode);
 
-    if (!lobby || lobby.hostId !== socket.id) {
-      socket.emit('error', 'No autorizado');
+    if (!lobby) {
+      console.error(`[DEBUG] Lobby no encontrado: ${socket.lobbyCode}`);
+      socket.emit('error', 'Lobby no encontrado');
+      return;
+    }
+
+    if (lobby.hostId !== socket.id) {
+      console.error(`[DEBUG] No autorizado: host=${lobby.hostId}, socket=${socket.id}`);
+      socket.emit('error', 'No autorizado - Solo el host puede iniciar');
       return;
     }
 
     if (lobby.players.size < 2) {
+      console.error(`[DEBUG] Jugadores insuficientes: ${lobby.players.size}`);
       socket.emit('error', 'Se necesitan al menos 2 jugadores');
       return;
     }
 
     lobby.status = 'voting';
     lobby.currentCharacterIndex = 0;
+
+    console.log(`[DEBUG] Iniciando votación en lobby ${lobby.code} con ${lobby.players.size} jugadores`);
 
     // Notificar a todos los jugadores
     io.to(lobby.code).emit('voting-started', {
