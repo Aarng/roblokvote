@@ -126,7 +126,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 1000;
+            z-index: 2000;
         }
 
         .name-prompt.hidden {
@@ -248,7 +248,6 @@
         .card-image {
             width: 100%;
             height: 100%;
-            object-fit: cover;
             object-fit: contain;
             object-position: center top;
             background: linear-gradient(135deg, #2d3436 0%, #1a1a2e 100%);
@@ -485,7 +484,7 @@
     </style>
 </head>
 <body>
-    <!-- Prompt para ingresar nombre -->
+    <!-- Prompt para ingresar nombre (primero para que esté encima) -->
     <div id="name-prompt" class="name-prompt">
         <div class="name-form">
             <h2>🗳️ Proyecto Piece</h2>
@@ -495,100 +494,6 @@
         </div>
     </div>
 
-    <div class="header">
-        <a href="index.html" class="home-btn">🏠 Proyecto Piece</a>
-        <a href="status.html" style="position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.1); color: white; text-decoration: none; padding: 10px 20px; border-radius: 25px; font-size: 0.9rem;">📊 Status</a>
-
-        <h1>🗳️ Votación de Personajes</h1>
-        <span id="currentCategory" class="category-badge">Cargando...</span>
-        <div class="progress" id="progress">Cargando...</div>
-    </div>
-
-    <div class="card-container" id="cardContainer">
-        <div class="card" id="card">
-            <div class="stamp stamp-like">¡SÍ!</div>
-            <div class="stamp stamp-nope">NO</div>
-
-            <div class="card-image-container">
-                <img class="card-image" id="cardImage" src="" alt="Personaje">
-            </div>
-
-            <div class="card-content">
-                <div class="card-anime" id="cardAnime">Anime</div>
-                <div class="card-name" id="cardName">Cargando...</div>
-                <div class="card-category" id="cardCategory">Categoría</div>
-                <div class="card-title" id="cardDescription">Título...</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="controls" id="controls">
-        <button class="btn btn-nope" onclick="vote(false)">✕</button>
-        <button class="btn btn-like" onclick="vote(true)">✓</button>
-    </div>
-
-    <div class="instructions" id="instructions">
-        Teclado: <kbd>←</kbd> o <kbd>A</kbd> = NO ✕ | <kbd>→</kbd> o <kbd>D</kbd> = SÍ ✓
-    </div>
-
-    <div class="results" id="results">
-        <h2>🎉 ¡Votación Completada!</h2>
-        <p>Estos son tus personajes favoritos por categoría:</p>
-        <div class="results-grid" id="resultsGrid"></div>
-        <button class="btn-download" onclick="downloadResults()">📥 Descargar Resultados</button>
-    </div>
-
-    <script src="convex-client.js?v=11"></script>
-    <script src="app-convex.js?v=11"></script>
-    <script>
-        // Verificar si ya está registrado
-        let voterName = sessionStorage.getItem('voterName');
-
-        if (voterName) {
-            document.getElementById('name-prompt').classList.add('hidden');
-            updateProgressDisplay();
-        }
-
-        function registerVoter() {
-            const nameInput = document.getElementById('voter-name');
-            const name = nameInput.value.trim();
-
-            if (!name) {
-                alert('Por favor ingresa tu nombre');
-                return;
-            }
-
-            if (name.length < 2) {
-                alert('El nombre debe tener al menos 2 caracteres');
-                return;
-            }
-
-            voterName = name;
-            sessionStorage.setItem('voterName', name);
-            document.getElementById('name-prompt').classList.add('hidden');
-            updateProgressDisplay();
-
-            // Iniciar la votación
-            if (typeof init === 'function') {
-                init();
-            }
-        }
-
-        function updateProgressDisplay() {
-            const voterName = sessionStorage.getItem('voterName');
-            if (voterName) {
-                document.getElementById('progress').innerHTML = `Votante: <strong>${voterName}</strong>`;
-            }
-        }
-
-        // Enter key support en nombre
-        document.getElementById('voter-name').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                registerVoter();
-            }
-        });
-
-    </script>
     <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="nav-container">
@@ -603,16 +508,6 @@
         </div>
     </nav>
 
-    <!-- Prompt para ingresar nombre -->
-    <div id="name-prompt" class="name-prompt">
-        <div class="name-form">
-            <h2>🗳️ Proyecto Piece</h2>
-            <p>Bienvenido al sistema de votación de personajes anime. Ingresa tu nombre para comenzar:</p>
-            <input type="text" id="voter-name" placeholder="Tu nombre" maxlength="30">
-            <button onclick="registerVoter()">Comenzar Votación</button>
-        </div>
-    </div>
-
     <div class="header">
         <h1>🗳️ Votación de Personajes</h1>
         <span id="currentCategory" class="category-badge">Cargando...</span>
@@ -653,8 +548,8 @@
         <button class="btn-download" onclick="downloadResults()">📥 Descargar Resultados</button>
     </div>
 
-    <script src="convex-client.js?v=11"></script>
-    <script src="app-convex.js?v=11"></script>
+    <script src="convex-client.js?v=12"></script>
+    <script src="app-convex.js?v=12"></script>
     <script>
         // Verificar si ya está registrado
         let voterName = sessionStorage.getItem('voterName');
@@ -702,7 +597,6 @@
                 registerVoter();
             }
         });
-
     </script>
 </body>
 </html>
