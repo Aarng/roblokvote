@@ -152,3 +152,8 @@ const candidates = [
 ];
 
 const categories = ['MELEE', 'ESPADA', 'MAGIA'];
+
+// Exportar para Node.js (modo multijugador)
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { candidates, categories };
+}

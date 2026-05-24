@@ -4,6 +4,10 @@ const socketIo = require('socket.io');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 
+// Cargar datos de personajes
+const { candidates, categories } = require('./data.js');
+console.log(`Servidor cargado con ${candidates.length} personajes`);
+
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
@@ -43,7 +47,7 @@ app.post('/api/start-voting', (req, res) => {
   lobby.currentCharacterIndex = 0;
 
   io.to(lobby.code).emit('voting-started', {
-    totalCharacters: require('./data.js').candidates.length,
+    totalCharacters: candidates.length,
     players: Array.from(lobby.players.values())
   });
 
@@ -193,7 +197,7 @@ io.on('connection', (socket) => {
 
     // Notificar a todos los jugadores
     io.to(lobby.code).emit('voting-started', {
-      totalCharacters: require('./data.js').candidates.length,
+      totalCharacters: candidates.length,
       players: Array.from(lobby.players.values())
     });
 
@@ -223,7 +227,7 @@ io.on('connection', (socket) => {
       const result = calculateResult(votes, lobby.players.size);
 
       // Guardar resultado
-      const candidates = require('./data.js').candidates;
+      const candidates = candidates;
       lobby.results.push({
         character: candidates[charIndex],
         approved: result.approved,
@@ -284,7 +288,7 @@ io.on('connection', (socket) => {
 });
 
 function sendNextCharacter(lobby) {
-  const candidates = require('./data.js').candidates;
+  const candidates = candidates;
   const character = candidates[lobby.currentCharacterIndex];
 
   io.to(lobby.code).emit('new-character', {
