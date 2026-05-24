@@ -27,7 +27,7 @@ export const saveVote = mutation({
       });
       return { updated: true, id: existing._id };
     } else {
-      // Crear nuevo voto (sessionCompleted: false por defecto)
+      // Crear nuevo voto (sessionCompleted: false = pendiente)
       const id = await ctx.db.insert("votes", {
         ...args,
         timestamp: Date.now(),
@@ -77,8 +77,8 @@ export const getGlobalResults = query({
     const byCategory: Record<string, { total: number; yes: number; characters: Record<string, { yes: number; no: number }> }> = {};
 
     for (const vote of allVotes) {
-      // Solo contar votos de sesiones completadas (undefined o false = no completado)
-      if (!vote.sessionCompleted) continue;
+      // Solo contar votos de sesiones completadas (undefined = voto antiguo completado, false = pendiente)
+      if (vote.sessionCompleted === false) continue;
 
       if (!byCategory[vote.category]) {
         byCategory[vote.category] = { total: 0, yes: 0, characters: {} };
