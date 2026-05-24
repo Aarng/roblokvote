@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto Piece - Status</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: white;
+        }
+
+        .login-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .login-screen h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #f39c12, #e74c3c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .login-screen p {
+            color: #aaa;
+            margin-bottom: 30px;
+        }
+
+        .login-form {
+            background: rgba(255,255,255,0.1);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        .login-form input {
+            background: rgba(255,255,255,0.15);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            padding: 15px 25px;
+            font-size: 1.2rem;
+            color: white;
+            text-align: center;
+            letter-spacing: 3px;
+            width: 250px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .login-form input:focus {
+            border-color: #f39c12;
+        }
+
+        .login-form input::placeholder {
+            color: #888;
+            letter-spacing: normal;
+        }
+
+        .login-form button {
+            margin-top: 20px;
+            background: linear-gradient(135deg, #f39c12, #e74c3c);
+            border: none;
+            border-radius: 10px;
+            padding: 15px 40px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .login-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(243, 156, 18, 0.4);
+        }
+
+        .error-msg {
+            color: #e74c3c;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .content-screen {
+            display: none;
+            padding: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            padding: 25px 40px;
+            border-radius: 15px;
+            text-align: center;
+            min-width: 150px;
+        }
+
+        .stat-card.melee { border-top: 4px solid #e74c3c; }
+        .stat-card.espada { border-top: 4px solid #3498db; }
+        .stat-card.magia { border-top: 4px solid #9b59b6; }
+        .stat-card.total { border-top: 4px solid #f39c12; }
+
+        .stat-card .number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-card .label {
+            color: #aaa;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .categories-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+
+        .category-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 25px;
+        }
+
+        .category-section h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.5rem;
+        }
+
+        .category-section.melee h2 { background: #e74c3c; }
+        .category-section.espada h2 { background: #3498db; }
+        .category-section.magia h2 { background: #9b59b6; }
+
+        .characters-grid {
+            display: grid;
+            gap: 10px;
+        }
+
+        .character-item {
+            background: rgba(255,255,255,0.1);
+            padding: 12px 15px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .character-item:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateX(5px);
+        }
+
+        .character-info {
+            flex: 1;
+        }
+
+        .character-name {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .character-anime {
+            font-size: 0.8rem;
+            color: #aaa;
+            margin-top: 2px;
+        }
+
+        .character-votes {
+            background: rgba(243, 156, 18, 0.2);
+            color: #f39c12;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .logout-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(231, 76, 60, 0.3);
+            border-color: #e74c3c;
+        }
+
+        @media (max-width: 768px) {
+            .categories-container {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-card {
+                min-width: 120px;
+                padding: 20px 25px;
+            }
+
+            .stat-card .number {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="login-screen" class="login-screen">
+        <h1>Proyecto Piece</h1>
+        <p>Panel de resultados privado</p>
+        <div class="login-form">
+            <input type="password" id="password-input" placeholder="Ingresa la contraseña" maxlength="20">
+            <br>
+            <button onclick="checkPassword()">Acceder</button>
+            <div id="error-msg" class="error-msg">Contraseña incorrecta</div>
+        </div>
+    </div>
+
+    <!-- Content Screen -->
+    <div id="content-screen" class="content-screen">
+        <div class="header">
+            <h1>Resultados de Votación</h1>
+            <p style="color: #aaa;">Lista curada - Proyecto Piece</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card melee">
+                <div class="number" id="melee-count">0</div>
+                <div class="label">MELEE</div>
+            </div>
+            <div class="stat-card espada">
+                <div class="number" id="espada-count">0</div>
+                <div class="label">ESPADA</div>
+            </div>
+            <div class="stat-card magia">
+                <div class="number" id="magia-count">0</div>
+                <div class="label">MAGIA</div>
+            </div>
+            <div class="stat-card total">
+                <div class="number" id="total-count">0</div>
+                <div class="label">TOTAL VOTOS</div>
+            </div>
+        </div>
+
+        <div class="categories-container">
+            <div class="category-section melee">
+                <h2>MELEE</h2>
+                <div class="characters-grid" id="melee-grid"></div>
+            </div>
+            <div class="category-section espada">
+                <h2>ESPADA</h2>
+                <div class="characters-grid" id="espada-grid"></div>
+            </div>
+            <div class="category-section magia">
+                <h2>MAGIA</h2>
+                <div class="characters-grid" id="magia-grid"></div>
+            </div>
+        </div>
+
+        <button class="logout-btn" onclick="logout()">Cerrar Sesión</button>
+    </div>
+
+    <script>
+        // Datos de personajes (desde resultados v1.xlsx)
+        const charactersData = {
+            melee: [
+                { name: "Monkey D. Luffy", anime: "ONE PIECE", votes: 0 },
+                { name: "Sanji", anime: "ONE PIECE", votes: 0 },
+                { name: "Yuji Itadori", anime: "Jujutsu Kaisen", votes: 0 },
+                { name: "Aoi Todo", anime: "JUJUTSU KAISEN", votes: 0 },
+                { name: "Maki Zenin", anime: "JUJUTSU KAISEN", votes: 0 },
+                { name: "Toji Fushiguro", anime: "JUJUTSU KAISEN Season 2", votes: 0 },
+                { name: "Naoya Zenin", anime: "JUJUTSU KAISEN", votes: 0 },
+                { name: "Naruto Uzumaki", anime: "Naruto", votes: 0 },
+                { name: "Rock Lee", anime: "Naruto", votes: 0 },
+                { name: "Son Goku", anime: "Dragon Ball Z", votes: 0 },
+                { name: "Vegeta", anime: "Dragon Ball Z", votes: 0 },
+                { name: "Broly", anime: "Dragon Ball Super: Broly", votes: 0 },
+                { name: "Gohan", anime: "Dragon Ball Z", votes: 0 },
+                { name: "Piccolo", anime: "Dragon Ball Z", votes: 0 },
+                { name: "Gon Freecss", anime: "Hunter x Hunter (2011)", votes: 0 },
+                { name: "Killua Zoldyck", anime: "Hunter x Hunter (2011)", votes: 0 },
+                { name: "Genos", anime: "One-Punch Man", votes: 0 },
+                { name: "Saitama", anime: "One-Punch Man", votes: 0 },
+                { name: "Garou", anime: "One-Punch Man", votes: 0 },
+                { name: "Baki Hanma", anime: "BAKI", votes: 0 },
+                { name: "Yujiro hanma", anime: "BAKI", votes: 0 },
+                { name: "Mori Jin", anime: "The God of High School", votes: 0 },
+                { name: "Han Daewi", anime: "The God of High School", votes: 0 },
+                { name: "Denji", anime: "Chainsaw Man", votes: 0 },
+                { name: "Power", anime: "Chainsaw Man", votes: 0 },
+                { name: "Shinra Kusakabe", anime: "Fire Force", votes: 0 },
+                { name: "Akaza", anime: "Demon Slayer -Kimetsu no Yaiba- The Movie: Mugen Train", votes: 0 },
+                { name: "Ban", anime: "The Seven Deadly Sins", votes: 0 },
+                { name: "All Might", anime: "My Hero Academia", votes: 0 },
+                { name: "Izuku Midoriya", anime: "My Hero Academia", votes: 0 },
+                { name: "Mirko", anime: "My Hero Academia Season 4", votes: 0 },
+                { name: "Eren Yeager", anime: "Attack on Titan", votes: 0 },
+                { name: "Joseph Joestar", anime: "JoJo's Bizarre Adventure (TV)", votes: 0 },
+                { name: "Jonathan Joestar", anime: "JoJo's Bizarre Adventure (TV)", votes: 0 },
+                { name: "DIO", anime: "JoJo's Bizarre Adventure (TV)", votes: 0 },
+                { name: "Yujiro hanma", anime: "BAKI", votes: 0 },
+                { name: "Benimaru Shinmon", anime: "Fire Force", votes: 0 },
+                { name: "Kaneki", anime: "Tokyo Ghoul", votes: 0 },
+                { name: "Eto", anime: "Tokyo Ghoul", votes: 0 }
+            ],
+            espada: [
+                { name: "Roronoa Zoro", anime: "ONE PIECE", votes: 0 },
+                { name: "Dracule Mihawk", anime: "OnE PIECE", votes: 0 },
+                { name: "Shanks", anime: "ONE PIECE", votes: 0 },
+                { name: "Trafalgar Law", anime: "ONE PIECE", votes: 0 },
+                { name: "Ichigo", anime: "BLEACH", votes: 0 },
+                { name: "Biakuya Kuchiki", anime: "BLEACH", votes: 0 },
+                { name: "Kenpachi Zaraki", anime: "BLEACH", votes: 0 },
+                { name: "Genryusai Yamamoto", anime: "BLEACH", votes: 0 },
+                { name: "Kisuke Urahara", anime: "BLEACH", votes: 0 },
+                { name: "Sunraku", anime: "SHANGRI-LA FRONTIER", votes: 0 },
+                { name: "Arthur Pencilgon", anime: "SHANGRI-LA FRONTIER", votes: 0 },
+                { name: "Tanjiro Kamado", anime: "KIMETSU NO YAIBA", votes: 0 },
+                { name: "Giyu Tomioka", anime: "KIMETSU NO YAIBA", votes: 0 },
+                { name: "Kyojuro Rengoku", anime: "KIMETSU NO YAIBA", votes: 0 },
+                { name: "Muichiro Tokito", anime: "KIMETSU NO YAIBA", votes: 0 },
+                { name: "Zenitsu Agatsuma", anime: "KIMETSU NO YAIBA", votes: 0 },
+                { name: "Yoriichi Tsugikuni", anime: "KIMETSU NO YAIBA", votes: 0 },
+                { name: "Sasuke Uchiha", anime: "NARUTO", votes: 0 },
+                { name: "Mifune", anime: "SOUL EATER", votes: 0 },
+                { name: "Asta", anime: "BLACK CLOVER", votes: 0 },
+                { name: "Erza Scarlet", anime: "FAIRY TAIL", votes: 0 },
+                { name: "Kirito", anime: "SAO", votes: 0 },
+                { name: "Asuna Yuuki", anime: "SAO", votes: 0 },
+                { name: "Guts", anime: "BERSERK", votes: 0 },
+                { name: "Griffith", anime: "BERSERK", votes: 0 },
+                { name: "Kenshin Himura", anime: "SAMURAI X", votes: 0 },
+                { name: "Hyakkimaru", anime: "DORORO", votes: 0 },
+                { name: "Levi Ackerman", anime: "ATTACK ON TITAN", votes: 0 },
+                { name: "Mikasa Ackerman", anime: "ATTACK ON TITAN", votes: 0 },
+                { name: "Vergil", anime: "DEVIL MAY CRY", votes: 0 },
+                { name: "Raiden", anime: "METAL GEAR RISING", votes: 0 },
+                { name: "B2", anime: "NIER: AUTOMATA", votes: 0 },
+                { name: "Saber", anime: "FATE", votes: 0 },
+                { name: "Mugen", anime: "SAMURAI CHAMPLOO", votes: 0 },
+                { name: "Jinwoo Sung", anime: "SOLO LEVELING", votes: 0 },
+                { name: "Hakumen", anime: "BLAZBLUE", votes: 0 },
+                { name: "Sesshomaru", anime: "INUYASHA", votes: 0 },
+                { name: "inuyasha", anime: "INUYASHA", votes: 0 },
+                { name: "Ragna the Bloodedge", anime: "BLAZBLUE", votes: 0 },
+                { name: "Noctis Lucis Caelum", anime: "FINAL FANTASY XV", votes: 0 },
+                { name: "Dante", anime: "DEVIL MAY CRY", votes: 0 },
+                { name: "Rimuru Tempest", anime: "That Time I Got Reincarnated as a Slime", votes: 0 },
+                { name: "Inosuke Hashibira", anime: "Demon Slayer: Kimetsu no Yaiba", votes: 0 },
+                { name: "Escanor", anime: "The Seven Deadly Sins: Revival of the Commandments", votes: 0 },
+                { name: "Sho Kusakabe", anime: "Fire Force", votes: 0 }
+            ],
+            magia: [
+                { name: "Yuta Okkotsu", anime: "JUJUTSU KAISEN", votes: 0 },
+                { name: "Satoru Gojo", anime: "JUJUTSU KAISEN", votes: 0 },
+                { name: "Megumi Fushiguro", anime: "JUJUTSU KAISEN", votes: 0 },
+                { name: "Ryomen Sukuna", anime: "Jujutsu Kaisen", votes: 0 },
+                { name: "Suguru Geto (kenjaku?)", anime: "JUJUTSU KAISEN", votes: 0 },
+                { name: "Mahito", anime: "JUJUTSU KAISEN", votes: 0 },
+                { name: "Choso", anime: "JUJUTSU KAISEN", votes: 0 },
+                { name: "Megumin", anime: "KONOSUBA -God's blessing on this wonderful world!", votes: 0 },
+                { name: "Frieren", anime: "Frieren: Beyond Journey's End", votes: 0 },
+                { name: "Fern", anime: "Frieren: Beyond Journey's End", votes: 0 },
+                { name: "Portgas D. Ace", anime: "ONE PIECE", votes: 0 },
+                { name: "Aokiji", anime: "ONE PIECE", votes: 0 },
+                { name: "Akainu", anime: "ONE PIECE", votes: 0 },
+                { name: "Kizaru", anime: "ONE PIECE", votes: 0 },
+                { name: "Boa Hancock", anime: "ONE PIECE", votes: 0 },
+                { name: "Eustass Kid", anime: "ONE PIECE", votes: 0 },
+                { name: "Blackbeard", anime: "ONE PIECE", votes: 0 },
+                { name: "Perona", anime: "One Piece", votes: 0 },
+                { name: "Charlotte Katakuri", anime: "ONE PIECE", votes: 0 },
+                { name: "Milim Nava", anime: "Tensei shitara Slime Datta Ken", votes: 0 },
+                { name: "Diablo", anime: "That Time I Got Reincarnated as a Slime", votes: 0 },
+                { name: "Lucy Heartfilia", anime: "Fairy Tail", votes: 0 },
+                { name: "Zeref", anime: "Fairy Tail", votes: 0 },
+                { name: "Noelle Silva", anime: "Black Clover", votes: 0 },
+                { name: "Tatsumaki", anime: "one punch man", votes: 0 },
+                { name: "Madoka Kaname", anime: "Mahou Shoujo Madoka★Magica", votes: 0 },
+                { name: "Homura Akemi", anime: "Mahou Shoujo Madoka★Magica", votes: 0 },
+                { name: "Mami Tomoe", anime: "Mahou Shoujo Madoka★Magica", votes: 0 },
+                { name: "Ainz Ooal Gown", anime: "Overlord", votes: 0 },
+                { name: "Emilia", anime: "Re zero", votes: 0 },
+                { name: "Beatrice", anime: "Re zero", votes: 0 },
+                { name: "Roxy Migurdia", anime: "Mushoku Tensei: Isekai Ittara Honki Dasu", votes: 0 },
+                { name: "Rudeus Greyrat", anime: "Mushoku Tensei: Isekai Ittara Honki Dasu", votes: 0 },
+                { name: "Anos Voldigoad", anime: "The Misfit of Demon King Academy", votes: 0 },
+                { name: "Howl", anime: "Howl's Moving Castle", votes: 0 },
+                { name: "Sailor Moon", anime: "Sailor Moon", votes: 0 },
+                { name: "Sailor Mars", anime: "Sailor Moon", votes: 0 },
+                { name: "Sailor Mercury", anime: "Sailor Moon", votes: 0 },
+                { name: "Gilgamesh", anime: "Fate/Zero", votes: 0 }
+            ]
+        };
+
+        // Verificar contraseña
+        function checkPassword() {
+            const input = document.getElementById('password-input').value;
+            const errorMsg = document.getElementById('error-msg');
+
+            if (input === 'status2026') {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('content-screen').style.display = 'block';
+                errorMsg.style.display = 'none';
+                renderData();
+            } else {
+                errorMsg.style.display = 'block';
+                document.getElementById('password-input').value = '';
+            }
+        }
+
+        // Enter key support
+        document.getElementById('password-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
+        // Render character data
+        function renderData() {
+            // Update stats
+            const meleeTotal = charactersData.melee.length;
+            const espadaTotal = charactersData.espada.length;
+            const magiaTotal = charactersData.magia.length;
+            const total = meleeTotal + espadaTotal + magiaTotal;
+
+            document.getElementById('melee-count').textContent = meleeTotal;
+            document.getElementById('espada-count').textContent = espadaTotal;
+            document.getElementById('magia-count').textContent = magiaTotal;
+            document.getElementById('total-count').textContent = total;
+
+            // Render each category
+            renderCategory('melee-grid', charactersData.melee, 'melee');
+            renderCategory('espada-grid', charactersData.espada, 'espada');
+            renderCategory('magia-grid', charactersData.magia, 'magia');
+        }
+
+        function renderCategory(gridId, characters, category) {
+            const grid = document.getElementById(gridId);
+            grid.innerHTML = '';
+
+            characters.forEach((char, index) => {
+                const item = document.createElement('div');
+                item.className = 'character-item';
+                item.innerHTML = `
+                    <div class="character-info">
+                        <div class="character-name">${char.name}</div>
+                        <div class="character-anime">${char.anime}</div>
+                    </div>
+                    <div class="character-votes">#${index + 1}</div>
+                `;
+                grid.appendChild(item);
+            });
+        }
+
+        function logout() {
+            document.getElementById('content-screen').style.display = 'none';
+            document.getElementById('login-screen').style.display = 'flex';
+            document.getElementById('password-input').value = '';
+        }
+    </script>
+</body>
+</html>

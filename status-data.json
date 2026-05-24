@@ -1,0 +1,508 @@
+{
+  "categories": {
+    "melee": [
+      {
+        "name": "Monkey D. Luffy",
+        "anime": "ONE PIECE"
+      },
+      {
+        "name": "Sanji",
+        "anime": "ONE PIECE"
+      },
+      {
+        "name": "Yuji Itadori",
+        "anime": "Jujutsu Kaisen"
+      },
+      {
+        "name": "Aoi Todo",
+        "anime": "JUJUTSU KAISEN"
+      },
+      {
+        "name": "Maki Zenin",
+        "anime": "JUJUTSU KAISEN"
+      },
+      {
+        "name": "Toji Fushiguro",
+        "anime": "JUJUTSU KAISEN Season 2"
+      },
+      {
+        "name": "Naoya Zenin",
+        "anime": "JUJUTSU KAISEN"
+      },
+      {
+        "name": "Naruto Uzumaki",
+        "anime": "Naruto"
+      },
+      {
+        "name": "Rock Lee",
+        "anime": "Naruto"
+      },
+      {
+        "name": "Son Goku",
+        "anime": "Dragon Ball Z"
+      },
+      {
+        "name": "Vegeta",
+        "anime": "Dragon Ball Z"
+      },
+      {
+        "name": "Broly",
+        "anime": "Dragon Ball Super: Broly"
+      },
+      {
+        "name": "Gohan",
+        "anime": "Dragon Ball Z"
+      },
+      {
+        "name": "Piccolo",
+        "anime": "Dragon Ball Z"
+      },
+      {
+        "name": "Gon Freecss",
+        "anime": "Hunter x Hunter (2011)"
+      },
+      {
+        "name": "Killua Zoldyck",
+        "anime": "Hunter x Hunter (2011)"
+      },
+      {
+        "name": "Genos",
+        "anime": "One-Punch Man"
+      },
+      {
+        "name": "Saitama",
+        "anime": "One-Punch Man"
+      },
+      {
+        "name": "Garou",
+        "anime": "One-Punch Man"
+      },
+      {
+        "name": "Baki Hanma",
+        "anime": "BAKI"
+      },
+      {
+        "name": "Yujiro hanma",
+        "anime": "BAKI"
+      },
+      {
+        "name": "Mori Jin",
+        "anime": "The God of High School"
+      },
+      {
+        "name": "Han Daewi",
+        "anime": "The God of High School"
+      },
+      {
+        "name": "Denji",
+        "anime": "Chainsaw Man"
+      },
+      {
+        "name": "Power",
+        "anime": "Chainsaw Man"
+      },
+      {
+        "name": "Shinra Kusakabe",
+        "anime": "Fire Force"
+      },
+      {
+        "name": "Akaza",
+        "anime": "Demon Slayer -Kimetsu no Yaiba- The Movie: Mugen Train"
+      },
+      {
+        "name": "Ban",
+        "anime": "The Seven Deadly Sins"
+      },
+      {
+        "name": "All Might",
+        "anime": "My Hero Academia"
+      },
+      {
+        "name": "Izuku Midoriya",
+        "anime": "My Hero Academia"
+      },
+      {
+        "name": "Mirko",
+        "anime": "My Hero Academia Season 4"
+      },
+      {
+        "name": "Eren Yeager",
+        "anime": "Attack on Titan"
+      },
+      {
+        "name": "Joseph Joestar",
+        "anime": "JoJo's Bizarre Adventure (TV)"
+      },
+      {
+        "name": "Jonathan Joestar",
+        "anime": "JoJo's Bizarre Adventure (TV)"
+      },
+      {
+        "name": "DIO",
+        "anime": "JoJo's Bizarre Adventure (TV)"
+      },
+      {
+        "name": "Yujiro hanma",
+        "anime": "BAKI"
+      },
+      {
+        "name": "Benimaru  Shinmon",
+        "anime": "Fire Force"
+      },
+      {
+        "name": "Kaneki",
+        "anime": "Tokyo Ghoul"
+      },
+      {
+        "name": "Eto",
+        "anime": "Tokyo Ghoul"
+      }
+    ],
+    "espada": [
+      {
+        "name": "Roronoa Zoro",
+        "anime": "ONE PIECE"
+      },
+      {
+        "name": "Dracule Mihawk",
+        "anime": "OnE PIECE"
+      },
+      {
+        "name": "Shanks",
+        "anime": "ONE PIECE"
+      },
+      {
+        "name": "Trafalgar Law",
+        "anime": "ONE PIECE"
+      },
+      {
+        "name": "Ichigo",
+        "anime": "BLEACH"
+      },
+      {
+        "name": "Biakuya Kuchiki",
+        "anime": "BLEACH"
+      },
+      {
+        "name": "Kenpachi Zaraki",
+        "anime": "BLEACH"
+      },
+      {
+        "name": "Genryusai Yamamoto",
+        "anime": "BLEACH"
+      },
+      {
+        "name": "Kisuke Urahara",
+        "anime": "BLEACH"
+      },
+      {
+        "name": "Sunraku",
+        "anime": "SHANGRI-LA FRONTIER"
+      },
+      {
+        "name": "Arthur Pencilgon",
+        "anime": "SHANGRI-LA FRONTIER"
+      },
+      {
+        "name": "Tanjiro Kamado",
+        "anime": "KIMETSU NO YAIBA"
+      },
+      {
+        "name": "Giyu Tomioka",
+        "anime": "KIMETSU NO YAIBA"
+      },
+      {
+        "name": "Kyojuro Rengoku",
+        "anime": "KIMETSU NO YAIBA"
+      },
+      {
+        "name": "Muichiro Tokito",
+        "anime": "KIMETSU NO YAIBA"
+      },
+      {
+        "name": "Zenitsu Agatsuma",
+        "anime": "KIMETSU NO YAIBA"
+      },
+      {
+        "name": "Yoriichi Tsugikuni",
+        "anime": "KIMETSU NO YAIBA"
+      },
+      {
+        "name": "Sasuke Uchiha",
+        "anime": "NARUTO"
+      },
+      {
+        "name": "Mifune",
+        "anime": "SOUL EATER"
+      },
+      {
+        "name": "Asta",
+        "anime": "BLACK CLOVER"
+      },
+      {
+        "name": "Erza Scarlet",
+        "anime": "FAIRY TAIL"
+      },
+      {
+        "name": "Kirito",
+        "anime": "SAO"
+      },
+      {
+        "name": "Asuna Yuuki",
+        "anime": "SAO"
+      },
+      {
+        "name": "Guts",
+        "anime": "BERSERK"
+      },
+      {
+        "name": "Griffith",
+        "anime": "BERSERK"
+      },
+      {
+        "name": "Kenshin Himura",
+        "anime": "SAMURAI X"
+      },
+      {
+        "name": "Hyakkimaru",
+        "anime": "DORORO"
+      },
+      {
+        "name": "Levi Ackerman",
+        "anime": "ATTACK ON TITAN"
+      },
+      {
+        "name": "Mikasa Ackerman",
+        "anime": "ATTACK ON TITAN"
+      },
+      {
+        "name": "Vergil",
+        "anime": "DEVIL MAY CRY"
+      },
+      {
+        "name": "Raiden",
+        "anime": "METAL GEAR RISING"
+      },
+      {
+        "name": "B2",
+        "anime": "NIER: AUTOMATA"
+      },
+      {
+        "name": "Saber",
+        "anime": "FATE"
+      },
+      {
+        "name": "Mugen",
+        "anime": "SAMURAI CHAMPLOO"
+      },
+      {
+        "name": "Jinwoo Sung",
+        "anime": "SOLO LEVELING"
+      },
+      {
+        "name": "Hakumen",
+        "anime": "BLAZBLUE"
+      },
+      {
+        "name": "Sesshomaru",
+        "anime": "INUYASHA"
+      },
+      {
+        "name": "inuyasha",
+        "anime": "INUYASHA"
+      },
+      {
+        "name": "Ragna the Bloodedge",
+        "anime": "BLAZBLUE"
+      },
+      {
+        "name": "Noctis Lucis Caelum",
+        "anime": "FINAL FANTASY XV"
+      },
+      {
+        "name": "Dante ",
+        "anime": "DEVIL MAY CRY"
+      },
+      {
+        "name": "Rimuru Tempest",
+        "anime": "That Time I Got Reincarnated as a Slime"
+      },
+      {
+        "name": "Inosuke Hashibira",
+        "anime": "Demon Slayer: Kimetsu no Yaiba"
+      },
+      {
+        "name": "Escanor",
+        "anime": "The Seven Deadly Sins: Revival of the Commandments"
+      },
+      {
+        "name": "Sho Kusakabe",
+        "anime": "Fire Force"
+      }
+    ],
+    "magia": [
+      {
+        "name": "Yuta Okkotsu",
+        "anime": "JUJUTSU KAISEN"
+      },
+      {
+        "name": "Satoru Gojo",
+        "anime": "JUJUTSU KAISEN"
+      },
+      {
+        "name": "Megumi Fushiguro",
+        "anime": "JUJUTSU KAISEN"
+      },
+      {
+        "name": "Ryomen Sukuna",
+        "anime": "Jujutsu Kaisen"
+      },
+      {
+        "name": "Suguru Geto (kenjaku?)",
+        "anime": "JUJUTSU KAISEN"
+      },
+      {
+        "name": "Mahito",
+        "anime": "JUJUTSU KAISEN"
+      },
+      {
+        "name": "Choso",
+        "anime": "JUJUTSU KAISEN"
+      },
+      {
+        "name": "Megumin",
+        "anime": "KONOSUBA -God's blessing on this wonderful world!"
+      },
+      {
+        "name": "Frieren",
+        "anime": "Frieren: Beyond Journey’s End"
+      },
+      {
+        "name": "Fern",
+        "anime": "Frieren: Beyond Journey’s End"
+      },
+      {
+        "name": "Portgas D. Ace",
+        "anime": "ONE PIECE"
+      },
+      {
+        "name": "Aokiji",
+        "anime": "ONE PIECE"
+      },
+      {
+        "name": "Akainu",
+        "anime": "ONE PIECE"
+      },
+      {
+        "name": "Kizaru",
+        "anime": "ONE PIECE"
+      },
+      {
+        "name": "Boa Hancock",
+        "anime": "ONE PIECE"
+      },
+      {
+        "name": "Eustass Kid",
+        "anime": "ONE PIECE"
+      },
+      {
+        "name": "Blackbeard",
+        "anime": "ONE PIECE"
+      },
+      {
+        "name": "Perona",
+        "anime": "One Piece"
+      },
+      {
+        "name": "Charlotte Katakuri",
+        "anime": "ONE PIECE"
+      },
+      {
+        "name": "Milim Nava",
+        "anime": "Tensei shitara Slime Datta Ken"
+      },
+      {
+        "name": "Diablo",
+        "anime": "That Time I Got Reincarnated as a Slime"
+      },
+      {
+        "name": "Lucy Heartfilia",
+        "anime": "Fairy Tail"
+      },
+      {
+        "name": "Zeref",
+        "anime": "Fairy Tail"
+      },
+      {
+        "name": "Noelle Silva",
+        "anime": "Black Clover"
+      },
+      {
+        "name": "Tatsumaki",
+        "anime": "one punch man"
+      },
+      {
+        "name": "Madoka Kaname",
+        "anime": "Mahou Shoujo Madoka★Magica"
+      },
+      {
+        "name": "Homura Akemi",
+        "anime": "Mahou Shoujo Madoka★Magica"
+      },
+      {
+        "name": "Mami Tomoe",
+        "anime": "Mahou Shoujo Madoka★Magica"
+      },
+      {
+        "name": "Ainz Ooal Gown",
+        "anime": "Overlord"
+      },
+      {
+        "name": "Emilia",
+        "anime": "Re zero"
+      },
+      {
+        "name": "Beatrice",
+        "anime": "Re zero"
+      },
+      {
+        "name": "Roxy Migurdia",
+        "anime": "Mushoku Tensei: Isekai Ittara Honki Dasu"
+      },
+      {
+        "name": "Rudeus Greyrat",
+        "anime": "Mushoku Tensei: Isekai Ittara Honki Dasu"
+      },
+      {
+        "name": "Anos Voldigoad",
+        "anime": "The Misfit of Demon King Academy"
+      },
+      {
+        "name": "Howl",
+        "anime": "Howl‘s Moving Castle"
+      },
+      {
+        "name": "Sailor Moon",
+        "anime": "Sailor Moon"
+      },
+      {
+        "name": "Sailor Mars",
+        "anime": "Sailor Moon"
+      },
+      {
+        "name": "Sailor Mercury",
+        "anime": "Sailor Moon"
+      },
+      {
+        "name": "Gilgamesh",
+        "anime": "Fate/Zero"
+      }
+    ]
+  },
+  "voteCounts": {
+    "melee": 39,
+    "espada": 45,
+    "magia": 39,
+    "total": 123
+  }
+}
