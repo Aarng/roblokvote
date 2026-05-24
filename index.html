@@ -334,7 +334,11 @@
     <div class="header">
         <h1>🗳️ Votación de Personajes</h1>
         <div style="margin-bottom: 15px;">
-            <a href="lobby.html" style="color: #f39c12; text-decoration: none; font-size: 1rem;">
+            <input type="text" id="access-code" placeholder="Código de acceso" maxlength="20"
+                   style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3);
+                          border-radius: 20px; padding: 8px 15px; color: white; font-size: 0.9rem;
+                          text-align: center; width: 180px; outline: none;">
+            <a href="lobby.html" id="multiplayer-link" style="display: none; color: #f39c12; text-decoration: none; font-size: 1rem; margin-left: 10px;">
                 👥 Modo Multijugador →
             </a>
         </div>
@@ -379,5 +383,14 @@
 
     <script src="data.js"></script>
     <script src="app.js"></script>
+    <script>
+        // Código de acceso al modo multijugador
+        document.getElementById('access-code').addEventListener('input', function(e) {
+            if (e.target.value.toLowerCase() === 'proyectpiece') {
+                document.getElementById('multiplayer-link').style.display = 'inline';
+                e.target.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
