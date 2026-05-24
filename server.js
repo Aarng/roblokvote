@@ -17,6 +17,11 @@ const io = socketIo(server, {
 // Trust proxy para Railway
 app.set('trust proxy', 1);
 
+// Healthcheck para Railway
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', uptime: process.uptime() });
+});
+
 // Servir archivos estáticos
 app.use(express.static(path.join(__dirname)));
 
@@ -45,6 +50,11 @@ function createLobby(hostId, maxPlayers) {
 
 io.on('connection', (socket) => {
   console.log('Nuevo jugador conectado:', socket.id);
+
+  // Manejar errores en el socket individual
+  socket.on('error', (err) => {
+    console.error('Socket error:', err);
+  });
 
   // Crear un nuevo lobby
   socket.on('create-lobby', ({ playerName, maxPlayers }) => {
@@ -269,7 +279,16 @@ function finishVoting(lobby) {
   console.log(`Votación finalizada en lobby ${lobby.code}`);
 }
 
+// Manejo de errores para prevenir crashes
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+});
+
 const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
+server.listen(PORT, '0.0.0.0', () => {
   console.log(`Servidor corriendo en puerto ${PORT}`);
 });
