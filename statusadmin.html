@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - Proyecto Piece</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .home-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .home-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.4);
+        }
+
+        /* Login overlay */
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .login-overlay.hidden {
+            display: none;
+        }
+
+        .login-form {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            border: 2px solid rgba(243, 156, 18, 0.3);
+        }
+
+        .login-form h2 {
+            margin-bottom: 20px;
+            color: #f39c12;
+        }
+
+        .login-form p {
+            color: #aaa;
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 1.1rem;
+            text-align: center;
+            outline: none;
+            margin-bottom: 20px;
+        }
+
+        .login-form input:focus {
+            border-color: #f39c12;
+        }
+
+        .login-form button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .login-form button:hover {
+            transform: translateY(-2px);
+        }
+
+        .error-msg {
+            color: #e74c3c;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        /* Admin panel */
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: none;
+        }
+
+        .admin-container.visible {
+            display: block;
+        }
+
+        .stats-bar {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #f39c12;
+        }
+
+        .stat-label {
+            color: #aaa;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .voters-list {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 25px;
+        }
+
+        .voters-list h2 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .voter-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .voter-info {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .voter-name {
+            font-weight: bold;
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .voter-date {
+            color: #888;
+            font-size: 0.85rem;
+        }
+
+        .voter-stats {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .voter-stat {
+            text-align: center;
+        }
+
+        .voter-stat-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2ecc71;
+        }
+
+        .voter-stat-label {
+            font-size: 0.75rem;
+            color: #888;
+            text-transform: uppercase;
+        }
+
+        .voter-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-view {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+
+        .btn-view:hover {
+            background: #2980b9;
+        }
+
+        .btn-delete {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+
+        .btn-delete:hover {
+            background: #c0392b;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px;
+            color: #888;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .modal-overlay.visible {
+            display: flex;
+        }
+
+        .modal {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            color: white;
+            font-size: 1.3rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-close:hover {
+            color: white;
+        }
+
+        .modal-content {
+            color: #ddd;
+        }
+
+        .favorites-list {
+            margin-top: 15px;
+        }
+
+        .favorite-item {
+            background: rgba(255,255,255,0.1);
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .favorite-name {
+            font-weight: bold;
+            color: white;
+        }
+
+        .favorite-category {
+            font-size: 0.8rem;
+            padding: 3px 10px;
+            border-radius: 12px;
+            text-transform: uppercase;
+        }
+
+        .category-melee { background: #e74c3c; }
+        .category-espada { background: #3498db; }
+        .category-magia { background: #9b59b6; }
+
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(231, 76, 60, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .voter-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .voter-stats {
+                width: 100%;
+                justify-content: space-around;
+            }
+
+            .voter-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="home-btn">🏠 Inicio</a>
+    <button class="logout-btn" onclick="logout()">Cerrar Sesión</button>
+
+    <div class="header">
+        <h1>🔐 Panel Admin</h1>
+        <p style="color: #aaa;">Gestión de votantes y resultados</p>
+    </div>
+
+    <!-- Login Overlay -->
+    <div id="loginOverlay" class="login-overlay">
+        <div class="login-form">
+            <h2>Acceso Administrativo</h2>
+            <p>Ingresa la clave de administrador para continuar</p>
+            <input type="password" id="adminCode" placeholder="Clave de acceso" maxlength="20">
+            <button onclick="checkAccess()">Ingresar</button>
+            <div id="loginError" class="error-msg"></div>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminContainer" class="admin-container">
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-value" id="totalVoters">0</div>
+                <div class="stat-label">Votantes</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="totalVotes">0</div>
+                <div class="stat-label">Votos Totales</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="totalFavorites">0</div>
+                <div class="stat-label">Favoritos</div>
+            </div>
+        </div>
+
+        <div class="voters-list">
+            <h2>📋 Registro de Votantes</h2>
+            <div id="votersList">
+                <div class="empty-state">Cargando votantes...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="modalOverlay" class="modal-overlay" onclick="closeModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Detalles del Votante</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-content" id="modalContent">
+                <!-- Content injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <script src="convex-client.js?v=5"></script>
+    <script>
+        const ADMIN_KEY = 'status2026';
+        let currentVoter = null;
+        let votersData = [];
+
+        // Check if already logged in
+        function checkSession() {
+            const isLoggedIn = sessionStorage.getItem('adminLoggedIn');
+            if (isLoggedIn === 'true') {
+                showAdminPanel();
+            }
+        }
+
+        function checkAccess() {
+            const code = document.getElementById('adminCode').value.trim();
+            const errorDiv = document.getElementById('loginError');
+
+            if (code === ADMIN_KEY) {
+                sessionStorage.setItem('adminLoggedIn', 'true');
+                showAdminPanel();
+            } else {
+                errorDiv.textContent = 'Clave incorrecta. Inténtalo de nuevo.';
+                document.getElementById('adminCode').value = '';
+            }
+        }
+
+        function showAdminPanel() {
+            document.getElementById('loginOverlay').classList.add('hidden');
+            document.getElementById('adminContainer').classList.add('visible');
+            loadVoters();
+        }
+
+        function logout() {
+            sessionStorage.removeItem('adminLoggedIn');
+            location.reload();
+        }
+
+        async function loadVoters() {
+            const listContainer = document.getElementById('votersList');
+
+            try {
+                console.log('[Admin] Cargando votantes...');
+                votersData = await convexQuery('votes:getAllVoters');
+                console.log('[Admin] Votantes:', votersData);
+
+                if (!votersData || votersData.length === 0) {
+                    listContainer.innerHTML = '<div class="empty-state">No hay votantes registrados aún</div>';
+                    updateStats(0, 0, 0);
+                    return;
+                }
+
+                // Calculate stats
+                const totalVoters = votersData.length;
+                const totalFavorites = votersData.reduce((sum, v) => sum + (v.totalYes || 0), 0);
+                const totalVotes = totalFavorites + votersData.reduce((sum, v) =>
+                    sum + ((v.totalVoted || 0) - (v.totalYes || 0)), 0);
+
+                updateStats(totalVoters, totalVotes, totalFavorites);
+
+                // Render voters
+                listContainer.innerHTML = votersData.map(voter => `
+                    <div class="voter-card" data-name="${voter.name}">
+                        <div class="voter-info">
+                            <div class="voter-name">${voter.name}</div>
+                            <div class="voter-date">${new Date(voter.completedAt).toLocaleString('es-ES')}</div>
+                        </div>
+                        <div class="voter-stats">
+                            <div class="voter-stat">
+                                <div class="voter-stat-value">${voter.totalYes || 0}</div>
+                                <div class="voter-stat-label">Favoritos</div>
+                            </div>
+                        </div>
+                        <div class="voter-actions">
+                            <button class="btn-view" onclick="viewVoterDetails('${voter.name}')">Ver</button>
+                            <button class="btn-delete" onclick="deleteVoter('${voter.name}')">Eliminar</button>
+                        </div>
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                console.error('[Admin] Error:', error);
+                listContainer.innerHTML = `<div class="empty-state">Error cargando votantes: ${error.message}</div>`;
+            }
+        }
+
+        function updateStats(voters, votes, favorites) {
+            document.getElementById('totalVoters').textContent = voters;
+            document.getElementById('totalVotes').textContent = votes;
+            document.getElementById('totalFavorites').textContent = favorites;
+        }
+
+        async function viewVoterDetails(voterName) {
+            try {
+                const votes = await convexQuery('votes:getResultsByVoter', { voterName });
+                const yesVotes = votes.filter(v => v.vote === 'SI');
+                const byCategory = { MELEE: [], ESPADA: [], MAGIA: [] };
+
+                yesVotes.forEach(v => {
+                    if (byCategory[v.category]) {
+                        byCategory[v.category].push(v);
+                    }
+                });
+
+                document.getElementById('modalTitle').textContent = `Votos de ${voterName}`;
+                document.getElementById('modalContent').innerHTML = `
+                    <p><strong>Total de votos:</strong> ${votes.length}</p>
+                    <p><strong>Favoritos:</strong> ${yesVotes.length}</p>
+
+                    <div class="favorites-list">
+                        ${Object.entries(byCategory).map(([cat, votes]) =>
+                            votes.length > 0 ? `
+                                <h4 style="color: white; margin: 15px 0 10px 0;">${cat}</h4>
+                                ${votes.map(v => `
+                                    <div class="favorite-item">
+                                        <span class="favorite-name">${v.characterName}</span>
+                                        <span class="favorite-category category-${cat.toLowerCase()}">${cat}</span>
+                                    </div>
+                                `).join('')}
+                            ` : ''
+                        ).join('')}
+                        ${yesVotes.length === 0 ? '<p style="color: #888; font-style: italic;">No hay favoritos</p>' : ''}
+                    </div>
+                `;
+
+                document.getElementById('modalOverlay').classList.add('visible');
+            } catch (error) {
+                alert('Error cargando detalles: ' + error.message);
+            }
+        }
+
+        async function deleteVoter(voterName) {
+            if (!confirm(`¿Estás seguro de eliminar todos los votos de "${voterName}"?\n\nEsta acción no se puede deshacer.`)) {
+                return;
+            }
+
+            try {
+                await convexMutation('votes:deleteVoterResults', { voterName });
+                alert(`Votos de "${voterName}" eliminados correctamente`);
+                loadVoters(); // Reload list
+            } catch (error) {
+                alert('Error eliminando votos: ' + error.message);
+            }
+        }
+
+        function closeModal(event) {
+            if (!event || event.target.id === 'modalOverlay') {
+                document.getElementById('modalOverlay').classList.remove('visible');
+            }
+        }
+
+        // Handle Enter key on login
+        document.getElementById('adminCode')?.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkAccess();
+            }
+        });
+
+        // Check session on load
+        checkSession();
+    </script>
+</body>
+</html>
