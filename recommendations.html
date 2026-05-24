@@ -83,7 +83,7 @@
         /* Main Content */
         .main-content {
             padding: 30px 20px;
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
         }
 
@@ -105,31 +105,186 @@
             line-height: 1.6;
         }
 
-        .info-box {
-            background: rgba(243, 156, 18, 0.1);
-            border: 1px solid rgba(243, 156, 18, 0.3);
-            border-radius: 15px;
-            padding: 20px;
+        /* Ranking Section */
+        .ranking-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
             margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .ranking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .ranking-title {
+            font-size: 1.3rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .total-recommendations {
+            background: rgba(243, 156, 18, 0.2);
             color: #f39c12;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .ranking-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .ranking-item {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: transform 0.2s;
+        }
+
+        .ranking-item:hover {
+            transform: translateX(5px);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .ranking-position {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .ranking-position.gold {
+            background: linear-gradient(135deg, #ffd700, #ffb700);
+            color: #1a1a2e;
+        }
+
+        .ranking-position.silver {
+            background: linear-gradient(135deg, #c0c0c0, #a0a0a0);
+            color: #1a1a2e;
+        }
+
+        .ranking-position.bronze {
+            background: linear-gradient(135deg, #cd7f32, #b87333);
+            color: white;
+        }
+
+        .ranking-position.normal {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .ranking-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .ranking-character {
+            font-weight: bold;
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 3px;
+        }
+
+        .ranking-anime {
+            color: #888;
+            font-size: 0.85rem;
+        }
+
+        .ranking-category {
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-right: 10px;
+        }
+
+        .category-melee { background: #e74c3c; }
+        .category-espada { background: #3498db; }
+        .category-magia { background: #9b59b6; }
+
+        .ranking-stats {
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .ranking-count {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #f39c12;
+        }
+
+        .ranking-percentage {
+            font-size: 0.85rem;
+            color: #aaa;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f39c12, #e67e22);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        .empty-state {
             text-align: center;
+            padding: 40px;
+            color: #888;
         }
 
-        .info-box p {
-            margin: 0;
-            font-size: 0.95rem;
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
         }
 
-        /* Form Styles */
-        .recommendation-form {
+        /* Form Section */
+        .form-section {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 20px;
             padding: 30px;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
+        .form-title {
+            font-size: 1.3rem;
+            color: white;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .form-group label {
@@ -185,7 +340,7 @@
         }
 
         .form-group textarea {
-            min-height: 120px;
+            min-height: 100px;
             resize: vertical;
         }
 
@@ -254,60 +409,6 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
-        /* Character Preview */
-        .character-preview {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 20px;
-            display: none;
-        }
-
-        .character-preview.visible {
-            display: block;
-        }
-
-        .preview-title {
-            color: #f39c12;
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .preview-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 20px;
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .preview-image {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            flex-shrink: 0;
-        }
-
-        .preview-info h3 {
-            color: white;
-            margin-bottom: 5px;
-        }
-
-        .preview-info p {
-            color: #888;
-            font-size: 0.9rem;
-            margin: 0;
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
             .nav-container {
@@ -331,8 +432,19 @@
                 font-size: 1.5rem;
             }
 
-            .recommendation-form {
-                padding: 20px;
+            .ranking-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .ranking-item {
+                flex-wrap: wrap;
+            }
+
+            .ranking-stats {
+                width: 100%;
+                text-align: left;
+                margin-top: 10px;
             }
         }
     </style>
@@ -354,85 +466,164 @@
 
     <div class="main-content">
         <div class="header">
-            <h1>⭐ Recomendar Personaje</h1>
-            <p>¿Crees que falta algún personaje en la lista? ¡Recomiéndalo y podría ser agregado a Proyecto Piece!</p>
+            <h1>⭐ Recomendaciones</h1>
+            <p>Descubre los personajes más solicitados por la comunidad y envía tu propia recomendación</p>
         </div>
 
-        <div class="info-box">
-            <p>💡 Las recomendaciones son revisadas periódicamente. Los personajes más solicitados tienen mayor probabilidad de ser agregados a la lista oficial.</p>
+        <!-- Ranking de Recomendaciones -->
+        <div class="ranking-section">
+            <div class="ranking-header">
+                <h2 class="ranking-title">📈 Más Solicitados</h2>
+                <span class="total-recommendations" id="totalCount">Cargando...</span>
+            </div>
+            <div id="rankingList" class="ranking-list">
+                <div class="empty-state">
+                    <div class="empty-state-icon">📊</div>
+                    <p>Cargando recomendaciones...</p>
+                </div>
+            </div>
         </div>
 
-        <form id="recommendationForm" class="recommendation-form">
-            <div class="form-group">
-                <label for="charName">Nombre del Personaje <span>*</span></label>
-                <input type="text" id="charName" name="charName" placeholder="Ej: Goku, Naruto, Luffy..." required maxlength="50">
+        <!-- Formulario -->
+        <div class="form-section">
+            <h2 class="form-title">📝 Enviar Recomendación</h2>
+            <p style="color: #888; margin-bottom: 20px; font-size: 0.9rem;">
+                💡 Las recomendaciones son revisadas periódicamente. Los personajes más solicitados tienen mayor probabilidad de ser agregados.
+            </p>
+
+            <form id="recommendationForm">
+                <div class="form-group">
+                    <label for="charName">Nombre del Personaje <span>*</span></label>
+                    <input type="text" id="charName" required maxlength="50" placeholder="Ej: Goku, Naruto, Luffy...">
+                </div>
+
+                <div class="form-group">
+                    <label for="charAnime">Anime / Serie <span>*</span></label>
+                    <input type="text" id="charAnime" required maxlength="50" placeholder="Ej: Dragon Ball, One Piece, Naruto...">
+                </div>
+
+                <div class="form-group">
+                    <label for="charCategory">Categoría Sugerida <span>*</span></label>
+                    <select id="charCategory" required>
+                        <option value="">Selecciona una categoría...</option>
+                        <option value="MELEE">👊 Melee (Pelea cuerpo a cuerpo)</option>
+                        <option value="ESPADA">⚔️ Espada (Espadachines)</option>
+                        <option value="MAGIA">✨ Magia (Hechiceros/Magos)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="charDescription">¿Por qué debería estar en la lista?</label>
+                    <textarea id="charDescription" maxlength="500" placeholder="Explica brevemente por qué crees que este personaje debería ser incluido..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="userName">Tu Nombre (Opcional)</label>
+                    <input type="text" id="userName" maxlength="30" placeholder="Para saber quién hizo la recomendación">
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">📤 Enviar Recomendación</button>
+            </form>
+
+            <div id="successMessage" class="success-message">
+                <h2>✅ ¡Recomendación Enviada!</h2>
+                <p>Tu recomendación ha sido registrada. ¡Gracias por contribuir a Proyecto Piece!</p>
+                <button onclick="resetForm()">Enviar otra recomendación</button>
             </div>
-
-            <div class="form-group">
-                <label for="charAnime">Anime / Serie <span>*</span></label>
-                <input type="text" id="charAnime" name="charAnime" placeholder="Ej: Dragon Ball, One Piece, Naruto..." required maxlength="50">
-            </div>
-
-            <div class="form-group">
-                <label for="charCategory">Categoría Sugerida <span>*</span></label>
-                <select id="charCategory" name="charCategory" required>
-                    <option value="">Selecciona una categoría...</option>
-                    <option value="MELEE">👊 Melee (Pelea cuerpo a cuerpo)</option>
-                    <option value="ESPADA">⚔️ Espada (Espadachines)</option>
-                    <option value="MAGIA">✨ Magia (Hechiceros/Magos)</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="charDescription">¿Por qué debería estar en la lista? (Opcional)</label>
-                <textarea id="charDescription" name="charDescription" placeholder="Explica brevemente por qué crees que este personaje debería ser incluido..." maxlength="500"></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="userName">Tu Nombre (Opcional)</label>
-                <input type="text" id="userName" name="userName" placeholder="Para saber quién hizo la recomendación" maxlength="30">
-            </div>
-
-            <button type="submit" class="submit-btn">📤 Enviar Recomendación</button>
-        </form>
-
-        <div id="successMessage" class="success-message">
-            <h2>✅ ¡Recomendación Enviada!</h2>
-            <p>Tu recomendación ha sido registrada. ¡Gracias por contribuir a Proyecto Piece!</p>
-            <button onclick="resetForm()">Enviar otra recomendación</button>
         </div>
     </div>
 
-    <script src="convex-client.js?v=13"></script>
+    <script src="convex-client.js?v=14"></script>
     <script>
+        // Cargar ranking al iniciar
+        async function loadRanking() {
+            try {
+                const ranking = await convexQuery('recommendations:getRecommendationsRanking');
+                const container = document.getElementById('rankingList');
+                const totalCount = document.getElementById('totalCount');
+
+                if (!ranking || ranking.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📝</div>
+                            <p>Aún no hay recomendaciones.<br>Sé el primero en sugerir un personaje!</p>
+                        </div>
+                    `;
+                    totalCount.textContent = '0 recomendaciones';
+                    return;
+                }
+
+                const total = ranking.reduce((sum, item) => sum + item.count, 0);
+                totalCount.textContent = `${total} recomendaciones totales`;
+
+                container.innerHTML = ranking.map((item, index) => {
+                    let positionClass = 'normal';
+                    if (index === 0) positionClass = 'gold';
+                    else if (index === 1) positionClass = 'silver';
+                    else if (index === 2) positionClass = 'bronze';
+
+                    const categoryClass = item.category.toLowerCase();
+
+                    return `
+                        <div class="ranking-item">
+                            <div class="ranking-position ${positionClass}">${index + 1}</div>
+                            <div class="ranking-info">
+                                <div class="ranking-character">${item.characterName}</div>
+                                <div class="ranking-anime">${item.anime}</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: ${item.percentage}%"></div>
+                                </div>
+                            </div>
+                            <span class="ranking-category category-${categoryClass}">${item.category}</span>
+                            <div class="ranking-stats">
+                                <div class="ranking-count">${item.count}</div>
+                                <div class="ranking-percentage">${item.percentage}%</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+            } catch (error) {
+                console.error('[Ranking] Error:', error);
+                document.getElementById('rankingList').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">⚠️</div>
+                        <p>Error cargando recomendaciones</p>
+                    </div>
+                `;
+            }
+        }
+
         // Manejar envío del formulario
         document.getElementById('recommendationForm').addEventListener('submit', async function(e) {
             e.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Enviando...';
 
             const formData = {
                 characterName: document.getElementById('charName').value.trim(),
                 anime: document.getElementById('charAnime').value.trim(),
                 category: document.getElementById('charCategory').value,
                 description: document.getElementById('charDescription').value.trim(),
-                userName: document.getElementById('userName').value.trim() || 'Anónimo',
-                timestamp: new Date().toISOString()
+                userName: document.getElementById('userName').value.trim() || 'Anónimo'
             };
 
             try {
-                // Guardar en localStorage (hasta tener backend)
-                let recommendations = JSON.parse(localStorage.getItem('projectpiece_recommendations') || '[]');
-                recommendations.push(formData);
-                localStorage.setItem('projectpiece_recommendations', JSON.stringify(recommendations));
+                await convexMutation('recommendations:saveRecommendation', formData);
 
-                // Mostrar mensaje de éxito
                 document.getElementById('recommendationForm').style.display = 'none';
                 document.getElementById('successMessage').classList.add('visible');
 
-                console.log('[Recommendations] Recomendación guardada:', formData);
+                // Recargar ranking
+                loadRanking();
 
             } catch (error) {
                 console.error('[Recommendations] Error:', error);
                 alert('Error al enviar la recomendación. Inténtalo de nuevo.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = '📤 Enviar Recomendación';
             }
         });
 
@@ -440,7 +631,12 @@
             document.getElementById('recommendationForm').reset();
             document.getElementById('recommendationForm').style.display = 'block';
             document.getElementById('successMessage').classList.remove('visible');
+            document.getElementById('submitBtn').disabled = false;
+            document.getElementById('submitBtn').textContent = '📤 Enviar Recomendación';
         }
+
+        // Cargar ranking al iniciar
+        loadRanking();
     </script>
 </body>
 </html>

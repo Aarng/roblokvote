@@ -420,6 +420,130 @@
             background: rgba(231, 76, 60, 0.5);
         }
 
+        /* Recommendations Section */
+        .recommendations-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .recommendations-section h2 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .recommendations-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .rec-stat-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .rec-stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #f39c12;
+        }
+
+        .rec-stat-label {
+            color: #888;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+
+        .recommendations-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .recommendation-item {
+            background: rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .recommendation-rank {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .recommendation-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .recommendation-character {
+            font-weight: bold;
+            color: white;
+            font-size: 1.05rem;
+        }
+
+        .recommendation-anime {
+            color: #888;
+            font-size: 0.85rem;
+        }
+
+        .recommendation-category {
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin: 0 10px;
+        }
+
+        .recommendation-count {
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .recommendation-count-value {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #2ecc71;
+        }
+
+        .recommendation-count-label {
+            font-size: 0.75rem;
+            color: #888;
+        }
+
+        .recommendation-votes {
+            display: flex;
+            gap: 3px;
+            margin-top: 5px;
+        }
+
+        .vote-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #2ecc71;
+        }
+
         @media (max-width: 768px) {
             .nav-container {
                 flex-wrap: wrap;
@@ -511,6 +635,28 @@
             </button>
         </div>
 
+        <!-- Recommendations Section -->
+        <div class="recommendations-section">
+            <h2>⭐ Recomendaciones de Personajes</h2>
+            <div class="recommendations-stats">
+                <div class="rec-stat-card">
+                    <div class="rec-stat-value" id="totalRecommendations">0</div>
+                    <div class="rec-stat-label">Total Recomendaciones</div>
+                </div>
+                <div class="rec-stat-card">
+                    <div class="rec-stat-value" id="uniqueUsers">0</div>
+                    <div class="rec-stat-label">Usuarios Diferentes</div>
+                </div>
+                <div class="rec-stat-card">
+                    <div class="rec-stat-value" id="topCategory">-</div>
+                    <div class="rec-stat-label">Categoría Más Solicitada</div>
+                </div>
+            </div>
+            <div id="recommendationsList" class="recommendations-list">
+                <div class="empty-state">Cargando recomendaciones...</div>
+            </div>
+        </div>
+
         <div class="voters-list">
             <h2>📋 Registro de Votantes</h2>
             <div id="votersList">
@@ -533,7 +679,7 @@
         </div>
     </div>
 
-    <script src="convex-client.js?v=13"></script>
+    <script src="convex-client.js?v=14"></script>
     <script>
         const ADMIN_KEY = 'status2026';
         let currentVoter = null;
@@ -723,6 +869,80 @@
 
         // Check session on load
         checkSession();
+
+        // Load Recommendations
+        async function loadRecommendations() {
+            const container = document.getElementById('recommendationsList');
+            const totalEl = document.getElementById('totalRecommendations');
+            const usersEl = document.getElementById('uniqueUsers');
+            const catEl = document.getElementById('topCategory');
+
+            try {
+                const [ranking, stats] = await Promise.all([
+                    convexQuery('recommendations:getRecommendationsRanking'),
+                    convexQuery('recommendations:getRecommendationStats')
+                ]);
+
+                totalEl.textContent = stats.totalRecommendations;
+                usersEl.textContent = stats.uniqueUsers;
+
+                // Find top category
+                const catEntries = Object.entries(stats.byCategory);
+                if (catEntries.length > 0) {
+                    const topCat = catEntries.sort((a, b) => b[1] - a[1])[0];
+                    catEl.textContent = topCat[0];
+                } else {
+                    catEl.textContent = '-';
+                }
+
+                if (!ranking || ranking.length === 0) {
+                    container.innerHTML = '<div class="empty-state">No hay recomendaciones aún</div>';
+                    return;
+                }
+
+                container.innerHTML = ranking.map((item, index) => {
+                    let rankClass = '';
+                    if (index === 0) rankClass = 'gold';
+                    else if (index === 1) rankClass = 'silver';
+                    else if (index === 2) rankClass = 'bronze';
+                    else rankClass = 'normal';
+
+                    const catClass = item.category.toLowerCase();
+
+                    // Generate vote dots (max 10)
+                    const dots = Array(Math.min(item.count, 10)).fill('<div class="vote-dot"></div>').join('');
+
+                    return `
+                        <div class="recommendation-item">
+                            <div class="recommendation-rank ${rankClass}">${index + 1}</div>
+                            <div class="recommendation-info">
+                                <div class="recommendation-character">${item.characterName}</div>
+                                <div class="recommendation-anime">${item.anime}</div>
+                                <div class="recommendation-votes">${dots}</div>
+                            </div>
+                            <span class="recommendation-category category-${catClass}">${item.category}</span>
+                            <div class="recommendation-count">
+                                <div class="recommendation-count-value">${item.count}</div>
+                                <div class="recommendation-count-label">votos</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+            } catch (error) {
+                console.error('[Admin Recommendations] Error:', error);
+                container.innerHTML = `<div class="empty-state">Error cargando recomendaciones</div>`;
+            }
+        }
+
+        // Load recommendations when panel is shown
+        const originalShowAdminPanel = showAdminPanel;
+        showAdminPanel = function() {
+            document.getElementById('loginOverlay').classList.add('hidden');
+            document.getElementById('adminContainer').classList.add('visible');
+            loadVoters();
+            loadRecommendations();
+        };
     </script>
 </body>
 </html>

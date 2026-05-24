@@ -37,4 +37,17 @@ export default defineSchema({
     completedAt: v.number(),
   })
     .index("by_voter", ["voterName"]),
+
+  // Recomendaciones de personajes por usuarios
+  recommendations: defineTable({
+    characterName: v.string(),
+    anime: v.string(),
+    category: v.string(), // 'MELEE', 'ESPADA', 'MAGIA'
+    description: v.optional(v.string()),
+    userName: v.string(), // Quién hizo la recomendación
+    timestamp: v.number(),
+  })
+    .index("by_character", ["characterName"])
+    .index("by_user", ["userName"])
+    .index("by_category", ["category"]),
 });
