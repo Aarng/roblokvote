@@ -119,6 +119,13 @@
             justify-content: center;
             font-size: 1.8rem;
             flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .character-emoji img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .character-info {
@@ -230,7 +237,7 @@
         <div class="loading">Cargando estadísticas...</div>
     </div>
 
-    <script src="convex-client.js?v=5"></script>
+    <script src="convex-client.js?v=6"></script>
     <script>
         const categoryColors = {
             'MELEE': { bg: '#e74c3c', gradient: 'linear-gradient(135deg, #e74c3c 0%, #c0392b 100%)' },
@@ -242,9 +249,24 @@
             const container = document.getElementById('statsContainer');
 
             try {
-                console.log('[Status] Cargando estadísticas...');
-                const results = await convexQuery('votes:getGlobalResults');
+                console.log('[Status] Cargando estadísticas y personajes...');
+
+                // Cargar votos y personajes en paralelo
+                const [results, characters] = await Promise.all([
+                    convexQuery('votes:getGlobalResults'),
+                    convexQuery('characters:getAllCharacters')
+                ]);
+
                 console.log('[Status] Resultados:', results);
+                console.log('[Status] Personajes:', characters);
+
+                // Crear mapa de nombre → imagen
+                const characterImages = {};
+                if (characters && characters.length > 0) {
+                    characters.forEach(char => {
+                        characterImages[char.name] = char.image || char.emoji || '👤';
+                    });
+                }
 
                 if (!results || Object.keys(results).length === 0) {
                     container.innerHTML = '<div class="error">No hay votos registrados aún</div>';
@@ -263,7 +285,7 @@
                     const categoryApproval = catData.total > 0 ? Math.round((catData.yes / catData.total) * 100) : 0;
 
                     // Ordenar personajes por votos totales
-                    const characters = Object.entries(catData.characters)
+                    const categoryCharacters = Object.entries(catData.characters)
                         .map(([name, votes]) => ({
                             name,
                             ...votes,
@@ -282,10 +304,13 @@
                                 </div>
                             </div>
                             <div class="characters-grid">
-                                ${characters.map(char => `
+                                ${categoryCharacters.map(char => {
+                                    const imgUrl = characterImages[char.name];
+                                    const isImage = imgUrl && (imgUrl.startsWith('http') || imgUrl.startsWith('https'));
+                                    return `
                                     <div class="character-card">
                                         <div class="character-emoji" style="background: ${categoryColors[category].gradient}">
-                                            👤
+                                            ${isImage ? `<img src="${imgUrl}" alt="${char.name}" onerror="this.style.display='none'; this.parentElement.textContent='👤';">` : '👤'}
                                         </div>
                                         <div class="character-info">
                                             <div class="character-name">${char.name}</div>
@@ -300,7 +325,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                `).join('')}
+                                `}).join('')}
                             </div>
                         </div>
                     `;
