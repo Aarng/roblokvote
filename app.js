@@ -258,6 +258,9 @@ function showResults() {
     byCategory[cat] = yesVotes.filter(v => v.category === cat);
   });
 
+  // Guardar resultados en localStorage para análisis global
+  saveVoterResults(voterName, votes, yesVotes, byCategory);
+
   // Agregar el nombre del votante al título de resultados
   const resultsTitle = results.querySelector('h2');
   if (resultsTitle) {
@@ -292,6 +295,33 @@ function showResults() {
       </div>
     `;
   }).join('');
+}
+
+function saveVoterResults(voterName, allVotes, yesVotes, byCategory) {
+  // Obtener resultados existentes
+  let allResults = JSON.parse(localStorage.getItem('proyectpiece_results') || '[]');
+
+  // Crear registro de este votante
+  const voterRecord = {
+    id: Date.now(),
+    votante: voterName,
+    fecha: new Date().toISOString(),
+    total_votados: candidates.length,
+    total_favoritos: yesVotes.length,
+    favoritos_por_categoria: byCategory,
+    todos_los_votos: allVotes
+  };
+
+  // Verificar si este votante ya existe (mismo nombre)
+  const existingIndex = allResults.findIndex(r => r.votante === voterName);
+  if (existingIndex >= 0) {
+    allResults[existingIndex] = voterRecord;
+  } else {
+    allResults.push(voterRecord);
+  }
+
+  // Guardar en localStorage
+  localStorage.setItem('proyectpiece_results', JSON.stringify(allResults));
 }
 
 function downloadResults() {
