@@ -707,7 +707,7 @@
         <div class="characters-container">
             <div class="section-header">
                 <h2>Personajes <span>Destacados</span></h2>
-                <p>Conoce algunos de los personajes que podrían estar en el juego</p>
+                <p>Descubre diferentes personajes de nuestra colección. ¡Cada vez que visitas o presionas el botón verás nuevos! 🎲</p>
             </div>
             <div class="categories-tabs">
                 <button class="category-tab active" onclick="filterCategory('all')">Todos</button>
@@ -721,8 +721,11 @@
                 <div class="loading-skeleton" style="height: 300px; border-radius: 20px;"></div>
                 <div class="loading-skeleton" style="height: 300px; border-radius: 20px;"></div>
             </div>
-            <div style="text-align: center; margin-top: 40px;">
-                <a href="index.html" class="btn-secondary">Ver Todos los Personajes 🡢</a>
+            <div style="text-align: center; margin-top: 40px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                <button onclick="shuffleFeaturedCharacters()" class="btn-secondary" style="cursor: pointer; border: none; font-family: inherit;">
+                    🎲 Ver otros personajes
+                </button>
+                <a href="vote.html" class="btn-secondary">Ver Todos los Personajes 🡢</a>
             </div>
         </div>
     </section>
@@ -795,38 +798,49 @@
             }
         }
 
-        // Cargar personajes destacados
-        async function loadFeaturedCharacters() {
-            try {
-                const characters = await convexQuery('characters:getAllCharacters');
+        // Variables para personajes destacados
+        let allCharacters = [];
+        let currentFeaturedSet = 0;
+        const CHARACTERS_PER_SET = 12;
 
-                if (!characters || characters.length === 0) {
-                    document.getElementById('charactersGrid').innerHTML =
-                        '<p style="text-align: center; color: #888;">No hay personajes disponibles</p>';
-                    return;
-                }
+        // Colores y clases por categoría
+        const categoryColors = {
+            'MELEE': '#e74c3c',
+            'ESPADA': '#3498db',
+            'MAGIA': '#9b59b6'
+        };
 
-                // Mezclar y tomar 8 personajes aleatorios
-                const shuffled = characters.sort(() => 0.5 - Math.random());
-                const featured = shuffled.slice(0, 8);
+        const categoryClasses = {
+            'MELEE': 'category-melee',
+            'ESPADA': 'category-espada',
+            'MAGIA': 'category-magia'
+        };
 
-                const categoryColors = {
-                    'MELEE': '#e74c3c',
-                    'ESPADA': '#3498db',
-                    'MAGIA': '#9b59b6'
-                };
+        // Mezclar array (Fisher-Yates)
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
 
-                const categoryClasses = {
-                    'MELEE': 'category-melee',
-                    'ESPADA': 'category-espada',
-                    'MAGIA': 'category-magia'
-                };
+        // Renderizar personajes
+        function renderCharacters(characters) {
+            const grid = document.getElementById('charactersGrid');
 
-                document.getElementById('charactersGrid').innerHTML = featured.map(char => `
+            // Aplicar animación de fade out
+            grid.style.opacity = '0';
+            grid.style.transform = 'translateY(20px)';
+            grid.style.transition = 'all 0.3s ease';
+
+            setTimeout(() => {
+                grid.innerHTML = characters.map(char => `
                     <div class="character-card" data-category="${char.category}">
                         <div class="character-image">
                             ${char.image ?
-                                `<img src="${char.image}" alt="${char.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='${char.emoji || '👤'}'; this.parentElement.style.background='linear-gradient(135deg, ${categoryColors[char.category]} 0%, ${categoryColors[char.category]}80 100%)';"/>` :
+                                `<img src="${char.image}" alt="${char.name}" loading="lazy" onerror="this.style.display='none'; this.parentElement.innerHTML='${char.emoji || '👤'}'; this.parentElement.style.background='linear-gradient(135deg, ${categoryColors[char.category]} 0%, ${categoryColors[char.category]}80 100%)';"/>` :
                                 (char.emoji || '👤')
                             }
                             <span class="character-category ${categoryClasses[char.category]}">${char.category}</span>
@@ -838,11 +852,82 @@
                     </div>
                 `).join('');
 
+                // Animación de fade in
+                grid.style.opacity = '1';
+                grid.style.transform = 'translateY(0)';
+            }, 300);
+        }
+
+        // Cargar personajes destacados
+        async function loadFeaturedCharacters() {
+            try {
+                // Si ya tenemos personajes, solo mostrar el siguiente conjunto
+                if (allCharacters.length > 0) {
+                    showNextCharacterSet();
+                    return;
+                }
+
+                const characters = await convexQuery('characters:getAllCharacters');
+
+                if (!characters || characters.length === 0) {
+                    document.getElementById('charactersGrid').innerHTML =
+                        '<p style="text-align: center; color: #888;">No hay personajes disponibles</p>';
+                    return;
+                }
+
+                // Guardar todos los personajes mezclados
+                allCharacters = shuffleArray(characters);
+                currentFeaturedSet = 0;
+
+                // Mostrar primer conjunto
+                showNextCharacterSet();
+
             } catch (error) {
                 console.error('Error loading characters:', error);
                 document.getElementById('charactersGrid').innerHTML =
                     '<p style="text-align: center; color: #888;">Error cargando personajes</p>';
             }
+        }
+
+        // Mostrar siguiente conjunto de personajes
+        function showNextCharacterSet() {
+            if (allCharacters.length === 0) return;
+
+            const start = currentFeaturedSet * CHARACTERS_PER_SET;
+            const end = start + CHARACTERS_PER_SET;
+
+            // Si llegamos al final, volver al principio
+            if (start >= allCharacters.length) {
+                currentFeaturedSet = 0;
+                // Re-mezclar para variedad
+                allCharacters = shuffleArray(allCharacters);
+                const featured = allCharacters.slice(0, CHARACTERS_PER_SET);
+                renderCharacters(featured);
+            } else {
+                const featured = allCharacters.slice(start, end);
+                // Si no hay suficientes personajes, completar con del principio
+                if (featured.length < CHARACTERS_PER_SET) {
+                    const remaining = CHARACTERS_PER_SET - featured.length;
+                    featured.push(...allCharacters.slice(0, remaining));
+                }
+                renderCharacters(featured);
+            }
+
+            // Actualizar índice para la próxima vez
+            currentFeaturedSet++;
+        }
+
+        // Función para el botón de shuffle
+        function shuffleFeaturedCharacters() {
+            // Re-mezclar todo y empezar desde el principio
+            allCharacters = shuffleArray(allCharacters);
+            currentFeaturedSet = 0;
+            showNextCharacterSet();
+
+            // Resetear el filtro a "Todos"
+            document.querySelectorAll('.category-tab').forEach((tab, index) => {
+                tab.classList.toggle('active', index === 0);
+            });
         }
 
         // Filtrar por categoría
@@ -853,14 +938,23 @@
             });
             event.target.classList.add('active');
 
-            // Filter cards
+            // Filter cards con animación
             const cards = document.querySelectorAll('.character-card');
-            cards.forEach(card => {
-                if (category === 'all' || card.dataset.category === category) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    if (category === 'all' || card.dataset.category === category) {
+                        card.style.display = 'block';
+                        card.style.opacity = '0';
+                        card.style.transform = 'scale(0.9)';
+                        setTimeout(() => {
+                            card.style.transition = 'all 0.3s ease';
+                            card.style.opacity = '1';
+                            card.style.transform = 'scale(1)';
+                        }, 50);
+                    } else {
+                        card.style.display = 'none';
+                    }
+                }, index * 50);
             });
         }
 
