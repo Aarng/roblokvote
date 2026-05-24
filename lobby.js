@@ -1,3 +1,9 @@
+// Verificar acceso - redirigir si no viene de /proyectopiece
+if (sessionStorage.getItem('proyectpiece_access') !== 'true') {
+    window.location.replace('proyectopiece.html');
+    throw new Error('Acceso denegado - redirigiendo...');
+}
+
 // Conexión Socket.io - detecta automáticamente el servidor
 const socket = io(window.location.origin, {
   transports: ['websocket', 'polling'] // Fallback para compatibilidad
