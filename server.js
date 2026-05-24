@@ -303,8 +303,9 @@ io.on('connection', (socket) => {
 });
 
 function sendNextCharacter(lobby) {
-  const candidates = candidates;
   const character = candidates[lobby.currentCharacterIndex];
+
+  console.log(`[SEND] Enviando personaje: ${character.name} (${character.anime})`);
 
   io.to(lobby.code).emit('new-character', {
     index: lobby.currentCharacterIndex,

@@ -174,6 +174,9 @@ socket.on('new-character', ({ index, total, character }) => {
     currentCharacter = character;
     hasVoted = false;
 
+    // Ocultar overlay de espera
+    document.getElementById('waiting-overlay').classList.remove('active');
+
     // Actualizar UI
     document.getElementById('current-char-num').textContent = index + 1;
     document.getElementById('char-name').textContent = character.name;
