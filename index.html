@@ -522,6 +522,11 @@
             sessionStorage.setItem('voterName', name);
             document.getElementById('name-prompt').classList.add('hidden');
             updateProgressDisplay();
+
+            // Iniciar la votación
+            if (typeof init === 'function') {
+                init();
+            }
         }
 
         function updateProgressDisplay() {
