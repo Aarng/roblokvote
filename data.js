@@ -35,11 +35,11 @@ const candidates = [
   { name: "Eren Yeager", category: "MELEE", emoji: "🦍", anime: "Attack on Titan", image: "images/Eren_Yeager.png", title: "Portador del Titán de Ataque / Fundador" },
   { name: "Joseph Joestar", category: "MELEE", emoji: "👊", anime: "JoJo's Bizarre Adventure (TV)", image: "images/Joseph_Joestar.png", title: "Usuario de Hamon / Héroe de la Segunda Parte" },
   { name: "Jonathan Joestar", category: "MELEE", emoji: "👊", anime: "JoJo's Bizarre Adventure (TV)", image: "images/Jonathan_Joestar.png", title: "Caballero Gentil / Primer JoJo" },
-  { name: "DIO", category: "MELEE", emoji: "👊", anime: "JoJo's Bizarre Adventure (TV)", image: "", title: "El Vampiro Inmortal / Usuario de The World" },
+  { name: "DIO", category: "MELEE", emoji: "👊", anime: "JoJo's Bizarre Adventure (TV)", image: "images/DIO.png", title: "El Vampiro Inmortal / Usuario de The World" },
   { name: "Yujiro Hanma", category: "MELEE", emoji: "👊", anime: "BAKI", image: "images/Yujiro_Hanma.png", title: "El Ogro / El Más Fuerte de la Tierra" },
-  { name: "Benimaru Shinmon", category: "MELEE", emoji: "🔥", anime: "Fire Force", image: "", title: "Capitán de la Compañía 7 / Pilar Carmesí" },
-  { name: "Kaneki", category: "MELEE", emoji: "👊", anime: "Tokyo Ghoul", image: "", title: "Ghoul de Ojo Negro / Centopeia" },
-  { name: "Eto", category: "MELEE", emoji: "👊", anime: "Tokyo Ghoul", image: "", title: "Búho de Un Solo Ojo / Autor de Sen Takatsuki" },
+  { name: "Benimaru Shinmon", category: "MELEE", emoji: "🔥", anime: "Fire Force", image: "images/Benimaru Shinmon.png", title: "Capitán de la Compañía 7 / Pilar Carmesí" },
+  { name: "Kaneki", category: "MELEE", emoji: "👊", anime: "Tokyo Ghoul", image: "images/kaneki.png", title: "Ghoul de Ojo Negro / Centopeia" },
+  { name: "Eto", category: "MELEE", emoji: "👊", anime: "Tokyo Ghoul", image: "images/ETO.png", title: "Búho de Un Solo Ojo / Autor de Sen Takatsuki" },
 
   // ESPADA - 45 personajes
   { name: "Roronoa Zoro", category: "ESPADA", emoji: "⚔️", anime: "ONE PIECE", image: "images/Roronoa_Zoro.png", title: "Espadachín Pirata / Cazador de Piratas" },
@@ -82,11 +82,11 @@ const candidates = [
   { name: "Inuyasha", category: "ESPADA", emoji: "⚔️", anime: "INUYASHA", image: "images/Inuyasha.png", title: "Hijo de un Demonio y Humana / Portador de Tessaiga" },
   { name: "Ragna the Bloodedge", category: "ESPADA", emoji: "⚔️", anime: "BLAZBLUE", image: "images/Ragna_the_Bloodedge.png", title: "Portador de la Azure Grimoire / Rebelde" },
   { name: "Noctis Lucis Caelum", category: "ESPADA", emoji: "⚔️", anime: "FINAL FANTASY XV", image: "images/Noctis_Lucis_Caelum.png", title: "Rey de Lucis / Portador del Cristal" },
-  { name: "Dante", category: "ESPADA", emoji: "⚔️", anime: "DEVIL MAY CRY", image: "", title: "Cazador de Demonios / Hijo de Sparda" },
+  { name: "Dante", category: "ESPADA", emoji: "⚔️", anime: "DEVIL MAY CRY", image: "images/Dante.png", title: "Cazador de Demonios / Hijo de Sparda" },
   { name: "Rimuru Tempest", category: "ESPADA", emoji: "⚔️", anime: "That Time I Got Reincarnated as a Slime", image: "images/Rimuru_Tempest.png", title: "Señor de la Tempestad / Slime Legendario" },
   { name: "Inosuke Hashibira", category: "ESPADA", emoji: "⚔️", anime: "Demon Slayer: Kimetsu no Yaiba", image: "images/Inosuke_Hashibira.png", title: "Cazador de Demonios / Respiración de la Bestia" },
   { name: "Escanor", category: "ESPADA", emoji: "⚔️", anime: "The Seven Deadly Sins: Revival of the Commandments", image: "images/Escanor.png", title: "Lion's Sin of Pride / El Hombre Más Fuerte" },
-  { name: "Sho Kusakabe", category: "ESPADA", emoji: "⚔️", anime: "Fire Force", image: "", title: "Capitán de la Compañía 8 / Hermano de Shinra" },
+  { name: "Sho Kusakabe", category: "ESPADA", emoji: "⚔️", anime: "Fire Force", image: "images/Shou Kusakabe.png", title: "Capitán de la Compañía 8 / Hermano de Shinra" },
 
   // MAGIA - 38 personajes
   { name: "Yuta Okkotsu", category: "MAGIA", emoji: "✨", anime: "JUJUTSU KAISEN", image: "images/Yuta_Okkotsu.png", title: "Hechicero Especial / Portador de Rika" },

@@ -135,3 +135,45 @@ export const deleteVoterResults = mutation({
     }
   },
 });
+
+// Obtener personajes más votados (recomendaciones)
+export const getTopCharacters = query({
+  handler: async (ctx) => {
+    const allVotes = await ctx.db.query("votes").collect();
+
+    // Contar votos SI por personaje
+    const characterVotes: Record<string, {
+      name: string;
+      category: string;
+      anime: string;
+      yes: number;
+      no: number;
+      total: number;
+    }> = {};
+
+    for (const vote of allVotes) {
+      if (!characterVotes[vote.characterName]) {
+        characterVotes[vote.characterName] = {
+          name: vote.characterName,
+          category: vote.category,
+          anime: vote.anime || '',
+          yes: 0,
+          no: 0,
+          total: 0,
+        };
+      }
+
+      characterVotes[vote.characterName].total++;
+      if (vote.vote === "SI") {
+        characterVotes[vote.characterName].yes++;
+      } else {
+        characterVotes[vote.characterName].no++;
+      }
+    }
+
+    // Convertir a array y ordenar por votos SI
+    const sorted = Object.values(characterVotes).sort((a, b) => b.yes - a.yes);
+
+    return sorted;
+  },
+});

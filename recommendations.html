@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recomendaciones - Proyecto Piece</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #f39c12;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-logo:hover {
+            color: #e67e22;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 10px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .nav-links a.active {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 30px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #aaa;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .info-box {
+            background: rgba(243, 156, 18, 0.1);
+            border: 1px solid rgba(243, 156, 18, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            color: #f39c12;
+            text-align: center;
+        }
+
+        .info-box p {
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        /* Form Styles */
+        .recommendation-form {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-group label span {
+            color: #e74c3c;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #888;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #f39c12;
+        }
+
+        .form-group select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23fff' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            padding-right: 40px;
+        }
+
+        .form-group select option {
+            background: #1a1a2e;
+            color: white;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(243, 156, 18, 0.4);
+        }
+
+        .submit-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            background: rgba(46, 204, 113, 0.1);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .success-message.visible {
+            display: block;
+        }
+
+        .success-message h2 {
+            color: #2ecc71;
+            margin-bottom: 15px;
+        }
+
+        .success-message p {
+            color: #aaa;
+            margin-bottom: 20px;
+        }
+
+        .success-message button {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: background 0.2s;
+        }
+
+        .success-message button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Character Preview */
+        .character-preview {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .character-preview.visible {
+            display: block;
+        }
+
+        .preview-title {
+            color: #f39c12;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .preview-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .preview-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            flex-shrink: 0;
+        }
+
+        .preview-info h3 {
+            color: white;
+            margin-bottom: 5px;
+        }
+
+        .preview-info p {
+            color: #888;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-wrap: wrap;
+                height: auto;
+                padding: 10px 0;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+                margin-top: 10px;
+            }
+
+            .nav-links a {
+                padding: 8px 15px;
+                font-size: 0.85rem;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .recommendation-form {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                🏴‍☠️ Proyecto Piece
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">🗳️ Votar</a></li>
+                <li><a href="status.html">📊 Status</a></li>
+                <li><a href="recommendations.html" class="active">⭐ Recomendaciones</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="header">
+            <h1>⭐ Recomendar Personaje</h1>
+            <p>¿Crees que falta algún personaje en la lista? ¡Recomiéndalo y podría ser agregado a Proyecto Piece!</p>
+        </div>
+
+        <div class="info-box">
+            <p>💡 Las recomendaciones son revisadas periódicamente. Los personajes más solicitados tienen mayor probabilidad de ser agregados a la lista oficial.</p>
+        </div>
+
+        <form id="recommendationForm" class="recommendation-form">
+            <div class="form-group">
+                <label for="charName">Nombre del Personaje <span>*</span></label>
+                <input type="text" id="charName" name="charName" placeholder="Ej: Goku, Naruto, Luffy..." required maxlength="50">
+            </div>
+
+            <div class="form-group">
+                <label for="charAnime">Anime / Serie <span>*</span></label>
+                <input type="text" id="charAnime" name="charAnime" placeholder="Ej: Dragon Ball, One Piece, Naruto..." required maxlength="50">
+            </div>
+
+            <div class="form-group">
+                <label for="charCategory">Categoría Sugerida <span>*</span></label>
+                <select id="charCategory" name="charCategory" required>
+                    <option value="">Selecciona una categoría...</option>
+                    <option value="MELEE">👊 Melee (Pelea cuerpo a cuerpo)</option>
+                    <option value="ESPADA">⚔️ Espada (Espadachines)</option>
+                    <option value="MAGIA">✨ Magia (Hechiceros/Magos)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="charDescription">¿Por qué debería estar en la lista? (Opcional)</label>
+                <textarea id="charDescription" name="charDescription" placeholder="Explica brevemente por qué crees que este personaje debería ser incluido..." maxlength="500"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="userName">Tu Nombre (Opcional)</label>
+                <input type="text" id="userName" name="userName" placeholder="Para saber quién hizo la recomendación" maxlength="30">
+            </div>
+
+            <button type="submit" class="submit-btn">📤 Enviar Recomendación</button>
+        </form>
+
+        <div id="successMessage" class="success-message">
+            <h2>✅ ¡Recomendación Enviada!</h2>
+            <p>Tu recomendación ha sido registrada. ¡Gracias por contribuir a Proyecto Piece!</p>
+            <button onclick="resetForm()">Enviar otra recomendación</button>
+        </div>
+    </div>
+
+    <script src="convex-client.js?v=11"></script>
+    <script>
+        // Manejar envío del formulario
+        document.getElementById('recommendationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const formData = {
+                characterName: document.getElementById('charName').value.trim(),
+                anime: document.getElementById('charAnime').value.trim(),
+                category: document.getElementById('charCategory').value,
+                description: document.getElementById('charDescription').value.trim(),
+                userName: document.getElementById('userName').value.trim() || 'Anónimo',
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                // Guardar en localStorage (hasta tener backend)
+                let recommendations = JSON.parse(localStorage.getItem('projectpiece_recommendations') || '[]');
+                recommendations.push(formData);
+                localStorage.setItem('projectpiece_recommendations', JSON.stringify(recommendations));
+
+                // Mostrar mensaje de éxito
+                document.getElementById('recommendationForm').style.display = 'none';
+                document.getElementById('successMessage').classList.add('visible');
+
+                console.log('[Recommendations] Recomendación guardada:', formData);
+
+            } catch (error) {
+                console.error('[Recommendations] Error:', error);
+                alert('Error al enviar la recomendación. Inténtalo de nuevo.');
+            }
+        });
+
+        function resetForm() {
+            document.getElementById('recommendationForm').reset();
+            document.getElementById('recommendationForm').style.display = 'block';
+            document.getElementById('successMessage').classList.remove('visible');
+        }
+    </script>
+</body>
+</html>

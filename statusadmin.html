@@ -15,7 +15,75 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 0;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #f39c12;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-logo:hover {
+            color: #e67e22;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 10px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .nav-links a.active {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+        }
+
+        .main-content {
+            padding: 30px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         .header {
@@ -28,25 +96,6 @@
         .header h1 {
             font-size: 2rem;
             margin-bottom: 10px;
-        }
-
-        .home-btn {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: linear-gradient(135deg, #f39c12, #e67e22);
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-weight: bold;
-            font-size: 0.9rem;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .home-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.4);
         }
 
         /* Login overlay */
@@ -357,9 +406,6 @@
         .category-magia { background: #9b59b6; }
 
         .logout-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
             background: rgba(255,255,255,0.1);
             color: white;
             border: none;
@@ -375,6 +421,23 @@
         }
 
         @media (max-width: 768px) {
+            .nav-container {
+                flex-wrap: wrap;
+                height: auto;
+                padding: 10px 0;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+                margin-top: 10px;
+            }
+
+            .nav-links a {
+                padding: 8px 15px;
+                font-size: 0.85rem;
+            }
+
             .voter-card {
                 flex-direction: column;
                 align-items: flex-start;
@@ -393,16 +456,29 @@
     </style>
 </head>
 <body>
-    <a href="index.html" class="home-btn">🏠 Inicio</a>
-    <button class="logout-btn" onclick="logout()">Cerrar Sesión</button>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                🏴‍☠️ Proyecto Piece
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">🗳️ Votar</a></li>
+                <li><a href="status.html">📊 Status</a></li>
+                <li><a href="recommendations.html">⭐ Recomendaciones</a></li>
+            </ul>
+            <button class="logout-btn" onclick="logout()">Cerrar Sesión</button>
+        </div>
+    </nav>
 
-    <div class="header">
-        <h1>🔐 Panel Admin</h1>
-        <p style="color: #aaa;">Gestión de votantes y resultados</p>
-    </div>
+    <div class="main-content">
+        <div class="header">
+            <h1>🔐 Panel Admin</h1>
+            <p style="color: #aaa;">Gestión de votantes y resultados</p>
+        </div>
 
-    <!-- Login Overlay -->
-    <div id="loginOverlay" class="login-overlay">
+        <!-- Login Overlay -->
+        <div id="loginOverlay" class="login-overlay">
         <div class="login-form">
             <h2>Acceso Administrativo</h2>
             <p>Ingresa la clave de administrador para continuar</p>
@@ -442,6 +518,7 @@
             </div>
         </div>
     </div>
+    </div>
 
     <!-- Modal -->
     <div id="modalOverlay" class="modal-overlay" onclick="closeModal(event)">
@@ -456,7 +533,7 @@
         </div>
     </div>
 
-    <script src="convex-client.js?v=6"></script>
+    <script src="convex-client.js?v=11"></script>
     <script>
         const ADMIN_KEY = 'status2026';
         let currentVoter = null;

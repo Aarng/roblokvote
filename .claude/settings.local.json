@@ -31,7 +31,8 @@
       "Bash(sed -i 's|image: \"\", title: \"Capitán de la 6ª División|image: \"images/Byakuya_Kuchiki.jpg\", title: \"Capitán de la 6ª División|g' data.js)",
       "Bash(curl -X POST \"https://hallowed-badger-330.convex.cloud/api/query\" -H \"Content-Type: application/json\" -d '{\"path\": \"characters:getCharacterCount\", \"args\": {}}')",
       "Bash(curl -X POST \"https://hallowed-badger-330.convex.cloud/api/query\" -H \"Content-Type: application/json\" -d '{\"path\": \"characters:getAllCharacters\", \"args\": {}}')",
-      "Bash(curl *)"
+      "Bash(curl *)",
+      "Bash(npx convex *)"
     ]
   }
 }
