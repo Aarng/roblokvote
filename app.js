@@ -32,6 +32,13 @@ const categoryGradients = {
 };
 
 function init() {
+  // Verificar si hay un nombre registrado
+  const voterName = sessionStorage.getItem('voterName');
+  if (!voterName) {
+    // No inicializar hasta que se registre el nombre
+    return;
+  }
+
   votes = [];
   currentIndex = 0;
   loadCard();
@@ -243,12 +250,19 @@ function showResults() {
   progressText.style.display = 'none';
   results.style.display = 'block';
 
+  const voterName = sessionStorage.getItem('voterName') || 'Anónimo';
   const yesVotes = votes.filter(v => v.vote === 'SI');
   const byCategory = {};
 
   categories.forEach(cat => {
     byCategory[cat] = yesVotes.filter(v => v.category === cat);
   });
+
+  // Agregar el nombre del votante al título de resultados
+  const resultsTitle = results.querySelector('h2');
+  if (resultsTitle) {
+    resultsTitle.innerHTML = `🎉 Resultados de <span style="color: #f39c12;">${voterName}</span>`;
+  }
 
   resultsGrid.innerHTML = categories.map(cat => {
     const catVotes = byCategory[cat];
@@ -282,6 +296,7 @@ function showResults() {
 
 function downloadResults() {
   const yesVotes = votes.filter(v => v.vote === 'SI');
+  const voterName = sessionStorage.getItem('voterName') || 'Anónimo';
 
   const byCategory = {};
   categories.forEach(cat => {
@@ -292,6 +307,7 @@ function downloadResults() {
   });
 
   const data = {
+    votante: voterName,
     fecha: new Date().toLocaleString('es-ES'),
     total_votados: candidates.length,
     total_favoritos: yesVotes.length,
@@ -299,11 +315,11 @@ function downloadResults() {
     todos_los_votos: votes
   };
 
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' };
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `votacion_resultados_${new Date().toISOString().split('T')[0]}.json`;
+  a.download = `votacion_${voterName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.json`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
