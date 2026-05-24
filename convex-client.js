@@ -8,7 +8,12 @@ async function convexQuery(name, args = {}) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ path: name, args })
   });
-  return response.json();
+  const result = await response.json();
+  // Convex devuelve {status: "success", value: [...]} - extraemos el value
+  if (result.status === 'success') {
+    return result.value;
+  }
+  throw new Error(result.error || 'Error en query de Convex');
 }
 
 async function convexMutation(name, args = {}) {
@@ -17,7 +22,12 @@ async function convexMutation(name, args = {}) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ path: name, args })
   });
-  return response.json();
+  const result = await response.json();
+  // Extraer el value de la respuesta de Convex
+  if (result.status === 'success') {
+    return result.value;
+  }
+  throw new Error(result.error || 'Error en mutation de Convex');
 }
 
 // Funciones específicas

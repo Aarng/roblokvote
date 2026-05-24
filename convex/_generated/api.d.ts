@@ -9,6 +9,7 @@
  */
 
 import type * as characters from "../characters.js";
+import type * as storage from "../storage.js";
 import type * as votes from "../votes.js";
 
 import type {
@@ -19,6 +20,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   characters: typeof characters;
+  storage: typeof storage;
   votes: typeof votes;
 }>;
 

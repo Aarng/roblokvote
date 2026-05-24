@@ -20,26 +20,8 @@ const categoryGradients = {
   'MAGIA': 'linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%)'
 };
 
-const CONVEX_URL = 'https://hallowed-badger-330.convex.cloud/';
-
-// Helper para llamar a Convex
-async function convexQuery(name, args = {}) {
-  const response = await fetch(`${CONVEX_URL}/api/query`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ path: name, args })
-  });
-  return response.json();
-}
-
-async function convexMutation(name, args = {}) {
-  const response = await fetch(`${CONVEX_URL}/api/mutation`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ path: name, args })
-  });
-  return response.json();
-}
+// Usar las funciones de convex-client.js (ya cargado globalmente)
+// convexQuery y convexMutation están disponibles desde convex-client.js
 
 // Cargar personajes desde Convex
 async function loadCharactersFromConvex() {
@@ -403,3 +385,8 @@ function downloadResults() {
 
 // Inicializar
 document.addEventListener('DOMContentLoaded', init);
+
+// Exponer funciones globalmente para los botones HTML
+window.vote = vote;
+window.animateAndVote = animateAndVote;
+window.downloadResults = downloadResults;
