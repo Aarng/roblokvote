@@ -27,17 +27,18 @@ export const saveVote = mutation({
       });
       return { updated: true, id: existing._id };
     } else {
-      // Crear nuevo voto
+      // Crear nuevo voto (sessionCompleted: false por defecto)
       const id = await ctx.db.insert("votes", {
         ...args,
         timestamp: Date.now(),
+        sessionCompleted: false,
       });
       return { created: true, id };
     }
   },
 });
 
-// Guardar sesión completada
+// Guardar sesión completada y marcar todos los votos del votante como completados
 export const completeSession = mutation({
   args: {
     voterName: v.string(),
@@ -45,14 +46,29 @@ export const completeSession = mutation({
     totalYes: v.number(),
   },
   handler: async (ctx, args) => {
+    // Guardar la sesión completada
     await ctx.db.insert("votingSessions", {
       ...args,
       completedAt: Date.now(),
     });
+
+    // Marcar todos los votos de este votante como completados
+    const votes = await ctx.db
+      .query("votes")
+      .withIndex("by_voter", (q) => q.eq("voterName", args.voterName))
+      .collect();
+
+    for (const vote of votes) {
+      await ctx.db.patch(vote._id, {
+        sessionCompleted: true,
+      });
+    }
+
+    return { success: true, votesMarked: votes.length };
   },
 });
 
-// Obtener resultados globales
+// Obtener resultados globales (solo sesiones completadas)
 export const getGlobalResults = query({
   handler: async (ctx) => {
     const allVotes = await ctx.db.query("votes").collect();
@@ -61,6 +77,9 @@ export const getGlobalResults = query({
     const byCategory: Record<string, { total: number; yes: number; characters: Record<string, { yes: number; no: number }> }> = {};
 
     for (const vote of allVotes) {
+      // Solo contar votos de sesiones completadas
+      if (!vote.sessionCompleted) continue;
+
       if (!byCategory[vote.category]) {
         byCategory[vote.category] = { total: 0, yes: 0, characters: {} };
       }
