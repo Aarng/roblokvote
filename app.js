@@ -35,6 +35,14 @@ function init() {
     return;
   }
 
+  // Verificar que candidates esté cargado
+  if (typeof candidates === 'undefined' || !candidates || candidates.length === 0) {
+    console.error('[ERROR] No se encontró la lista de personajes (candidates)');
+    return;
+  }
+
+  console.log(`[INIT] Iniciando votación con ${candidates.length} personajes`);
+
   votes = [];
   currentIndex = 0;
   loadCard();
@@ -49,6 +57,13 @@ function loadCard() {
   }
 
   const candidate = candidates[currentIndex];
+
+  if (!candidate) {
+    console.error(`[ERROR] No se encontró el personaje en índice ${currentIndex}`);
+    return;
+  }
+
+  console.log(`[LOAD] Cargando personaje ${currentIndex + 1}/${candidates.length}: ${candidate.name}`);
 
   // Cargar datos
   cardName.textContent = candidate.name;
