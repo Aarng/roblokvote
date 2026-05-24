@@ -18,7 +18,17 @@
       "Bash(python3 -c \"import pandas as pd; df = pd.read_excel\\('resultados v1.xlsx'\\); print\\(df.to_string\\(\\)\\)\")",
       "Bash(dir \"resultados v1.xlsx\")",
       "Bash(npm list *)",
-      "Bash(git mv *)"
+      "Bash(git mv *)",
+      "WebSearch",
+      "WebFetch(domain:api.jikan.moe)",
+      "PowerShell(& \"C:\\\\Users\\\\SHANA\\\\Desktop\\\\Projects\\\\roblokvote\\\\get_anime_images.ps1\")",
+      "PowerShell(& \"C:\\\\Users\\\\SHANA\\\\Desktop\\\\Projects\\\\roblokvote\\\\fix_missing_images.ps1\")",
+      "Bash(python3 *)",
+      "Bash(sed -i 's|\"Yujiro hanma\"|\"Yujiro Hanma\"|g' data.js)",
+      "Bash(sed -i 's|image: \"\", title: \"El Ogro|image: \"images/Yujiro_Hanma.jpg\", title: \"El Ogro|g' data.js)",
+      "Bash(sed -i 's|image: \"\", title: \"Substitute Shinigami|image: \"images/Ichigo_Kurosaki.jpg\", title: \"Substitute Shinigami|g' data.js)",
+      "Bash(sed -i 's|\"Biakuya Kuchiki\"|\"Byakuya Kuchiki\"|g' data.js)",
+      "Bash(sed -i 's|image: \"\", title: \"Capitán de la 6ª División|image: \"images/Byakuya_Kuchiki.jpg\", title: \"Capitán de la 6ª División|g' data.js)"
     ]
   }
 }

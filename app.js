@@ -226,9 +226,9 @@ function animateAndVote(like) {
   }, 300);
 }
 
-function vote(like) {
+async function vote(like) {
   const candidate = candidates[currentIndex];
-  votes.push({
+  const voteData = {
     name: candidate.name,
     category: candidate.category,
     vote: like ? 'SI' : 'NO',
@@ -236,7 +236,24 @@ function vote(like) {
     image: candidate.image,
     emoji: candidate.emoji,
     timestamp: new Date().toISOString()
-  });
+  };
+  votes.push(voteData);
+
+  // Guardar en Convex
+  const voterName = sessionStorage.getItem('voterName') || 'Anónimo';
+  try {
+    if (window.convexApi) {
+      await window.convexApi.saveVote({
+        voterName: voterName,
+        characterName: candidate.name,
+        category: candidate.category,
+        vote: like ? 'SI' : 'NO',
+        anime: candidate.anime
+      });
+    }
+  } catch (e) {
+    console.log('Convex no disponible, usando solo localStorage');
+  }
 
   currentIndex++;
 
@@ -323,7 +340,7 @@ function showResults() {
   }).join('');
 }
 
-function saveVoterResults(voterName, allVotes, yesVotes, byCategory) {
+async function saveVoterResults(voterName, allVotes, yesVotes, byCategory) {
   // Obtener resultados existentes
   let allResults = JSON.parse(localStorage.getItem('proyectpiece_results') || '[]');
 
@@ -348,6 +365,19 @@ function saveVoterResults(voterName, allVotes, yesVotes, byCategory) {
 
   // Guardar en localStorage
   localStorage.setItem('proyectpiece_results', JSON.stringify(allResults));
+
+  // Guardar en Convex
+  try {
+    if (window.convexApi) {
+      await window.convexApi.completeSession({
+        voterName: voterName,
+        totalVoted: allVotes.length,
+        totalYes: yesVotes.length
+      });
+    }
+  } catch (e) {
+    console.log('Convex no disponible');
+  }
 }
 
 function downloadResults() {
