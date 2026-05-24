@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as characters from "../characters.js";
 import type * as votes from "../votes.js";
 
 import type {
@@ -17,6 +18,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  characters: typeof characters;
   votes: typeof votes;
 }>;
 

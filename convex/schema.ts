@@ -2,6 +2,19 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export default defineSchema({
+  // Tabla de personajes con imágenes
+  characters: defineTable({
+    name: v.string(),
+    category: v.string(), // 'MELEE', 'ESPADA', 'MAGIA'
+    emoji: v.string(),
+    anime: v.string(),
+    image: v.string(), // URL de la imagen
+    title: v.string(),
+    order: v.number(), // Para mantener el orden de aparición
+  })
+    .index("by_category", ["category"])
+    .index("by_order", ["order"]),
+
   // Votos individuales de cada personaje
   votes: defineTable({
     voterName: v.string(),
