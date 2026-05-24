@@ -983,5 +983,44 @@
             }
         }
     </script>
+
+    <!-- Lista curada de personajes -->
+    <script src="curated-data.js"></script>
+    <script>
+        // Usar curatedCharacters para mostrar lista base en resultados individuales
+        const originalRenderCharacterList = renderCharacterList;
+        renderCharacterList = function(chars, category) {
+            if (!category || chars.length === 0) {
+                return originalRenderCharacterList(chars);
+            }
+
+            // Obtener la lista curada de la categoría
+            const catKey = category.toLowerCase();
+            const curatedList = curatedCharacters[catKey] || [];
+
+            // Crear mapa de votos
+            const votesMap = {};
+            chars.forEach(char => {
+                votesMap[char.name] = char;
+            });
+
+            // Renderizar lista curada marcando los que tienen votos
+            return curatedList.map((char, index) => {
+                const hasVote = votesMap[char.name];
+                const voteMark = hasVote ? '✓' : '';
+                const opacity = hasVote ? '1' : '0.5';
+
+                return `
+                    <div class="character-item" style="opacity: ${opacity};">
+                        <div class="character-info">
+                            <div class="character-name">${char.name} ${voteMark}</div>
+                            <div class="character-anime">${char.anime}</div>
+                        </div>
+                        <div class="character-votes">${hasVote ? '#' + (chars.findIndex(c => c.name === char.name) + 1) : '-'}</div>
+                    </div>
+                `;
+            }).join('');
+        };
+    </script>
 </body>
 </html>
