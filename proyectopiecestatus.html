@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proyecto Piece - Resultados</title>
+    <title>Proyecto Piece - Resultados (Convex)</title>
     <style>
         * {
             margin: 0;
@@ -278,6 +278,21 @@
             font-size: 1.1rem;
         }
 
+        .delete-btn {
+            background: rgba(231, 76, 60, 0.3);
+            border: 1px solid #e74c3c;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-left: 10px;
+        }
+
+        .delete-btn:hover {
+            background: rgba(231, 76, 60, 0.5);
+        }
+
         .categories-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -414,70 +429,10 @@
             color: #888;
         }
 
-        .import-section {
-            background: rgba(255,255,255,0.05);
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 30px;
+        .loading {
             text-align: center;
-        }
-
-        .import-section h3 {
-            color: #3498db;
-            margin-bottom: 15px;
-        }
-
-        .import-section p {
-            color: #aaa;
-            margin-bottom: 15px;
-            font-size: 0.9rem;
-        }
-
-        .file-input-wrapper {
-            position: relative;
-            display: inline-block;
-        }
-
-        .file-input-wrapper input[type="file"] {
-            position: absolute;
-            left: 0;
-            top: 0;
-            opacity: 0;
-            cursor: pointer;
-            width: 100%;
-            height: 100%;
-        }
-
-        .import-btn {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            border: none;
-            border-radius: 10px;
-            padding: 12px 30px;
-            color: white;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .import-btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .clear-btn {
-            background: rgba(231, 76, 60, 0.3);
-            border: 2px solid #e74c3c;
-            color: white;
-            border-radius: 10px;
-            padding: 10px 25px;
-            margin-left: 10px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-        }
-
-        .clear-btn:hover {
-            background: rgba(231, 76, 60, 0.5);
+            padding: 50px;
+            color: #f39c12;
         }
 
         .logout-btn {
@@ -496,6 +451,28 @@
         .logout-btn:hover {
             background: rgba(231, 76, 60, 0.3);
             border-color: #e74c3c;
+        }
+
+        .convex-status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .convex-status.connected {
+            background: rgba(46, 204, 113, 0.2);
+            border: 1px solid #2ecc71;
+            color: #2ecc71;
+        }
+
+        .convex-status.error {
+            background: rgba(231, 76, 60, 0.2);
+            border: 1px solid #e74c3c;
+            color: #e74c3c;
         }
 
         @media (max-width: 768px) {
@@ -524,7 +501,7 @@
     <!-- Login Screen -->
     <div id="login-screen" class="login-screen">
         <h1>Proyecto Piece</h1>
-        <p>Panel de resultados privado</p>
+        <p>Panel de resultados privado (Convex)</p>
         <div class="login-form">
             <input type="password" id="password-input" placeholder="Ingresa la contraseña" maxlength="20">
             <br>
@@ -536,10 +513,11 @@
     <!-- Content Screen -->
     <div id="content-screen" class="content-screen">
         <a href="index.html" class="home-btn">🏠 Proyecto Piece</a>
+        <div id="convex-status" class="convex-status" style="display: none;">Conectando...</div>
 
         <div class="header">
             <h1>📊 Resultados de Votación</h1>
-            <p style="color: #aaa;">Votantes registrados y estadísticas globales</p>
+            <p style="color: #aaa;">Datos en tiempo real desde Convex</p>
         </div>
 
         <!-- Tabs -->
@@ -570,27 +548,16 @@
                 </div>
             </div>
 
-            <div class="import-section">
-                <h3>📥 Importar Resultados</h3>
-                <p>Sube archivos JSON de otros votantes para acumular resultados globales</p>
-                <div class="file-input-wrapper">
-                    <button class="import-btn">Seleccionar Archivo JSON</button>
-                    <input type="file" id="import-file" accept=".json" onchange="importResults(event)">
-                </div>
-                <button class="clear-btn" onclick="clearAllResults()">🗑️ Borrar Todos los Datos</button>
-            </div>
-
             <div id="global-results" class="global-section">
                 <h2>🏆 Top Personajes más Votados</h2>
                 <div class="top-characters" id="top-characters">
-                    <!-- Se genera dinámicamente -->
+                    <div class="loading">Cargando datos de Convex...</div>
                 </div>
             </div>
 
             <div id="empty-global" class="empty-state" style="display: none;">
                 <h3>No hay datos registrados</h3>
-                <p>Los votos se guardan automáticamente cuando alguien completa la votación.<br>
-                También puedes importar archivos JSON manualmente.</p>
+                <p>Los votos se guardan automáticamente cuando alguien completa la votación.</p>
             </div>
         </div>
 
@@ -599,11 +566,11 @@
             <div class="voters-list">
                 <h2>Selecciona un votante para ver sus resultados</h2>
                 <div id="voter-selector">
-                    <!-- Se genera dinámicamente -->
+                    <div class="loading">Cargando votantes...</div>
                 </div>
             </div>
 
-            <div id="individual-results">
+            <div id="individual-results" style="display: none;">
                 <div class="stats" id="individual-stats">
                     <div class="stat-card melee">
                         <div class="number" id="ind-melee">0</div>
@@ -637,9 +604,9 @@
         <!-- Tab: Lista de Votantes -->
         <div id="tab-voters" class="tab-content">
             <div class="voters-list">
-                <h2>📋 Votantes Registrados</h2>
+                <h2>📋 Votantes Registrados (Convex)</h2>
                 <div id="voters-list-container">
-                    <!-- Se genera dinámicamente -->
+                    <div class="loading">Cargando votantes...</div>
                 </div>
             </div>
         </div>
@@ -647,7 +614,10 @@
         <button class="logout-btn" onclick="logout()">Cerrar Sesión</button>
     </div>
 
+    <script src="convex-client.js"></script>
     <script>
+        const CONVEX_URL = 'https://hallowed-badger-330.convex.cloud/';
+
         // Verificar contraseña
         function checkPassword() {
             const input = document.getElementById('password-input').value;
@@ -693,23 +663,61 @@
         }
 
         // Load all data
-        function loadAllData() {
-            loadGlobalResults();
-            loadVotersList();
+        async function loadAllData() {
+            await loadGlobalResults();
+            await loadVotersList();
         }
 
-        // Get all results from localStorage
-        function getAllResults() {
-            return JSON.parse(localStorage.getItem('proyectpiece_results') || '[]');
+        // Helper para llamar a Convex
+        async function convexQuery(name, args = {}) {
+            const response = await fetch(`${CONVEX_URL}/api/query`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ path: name, args })
+            });
+            return response.json();
         }
 
-        // Load global results
-        function loadGlobalResults() {
-            const allResults = getAllResults();
+        async function convexMutation(name, args = {}) {
+            const response = await fetch(`${CONVEX_URL}/api/mutation`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ path: name, args })
+            });
+            return response.json();
+        }
+
+        // Update Convex connection status
+        function updateConvexStatus(connected) {
+            const statusEl = document.getElementById('convex-status');
+            statusEl.style.display = 'block';
+            if (connected) {
+                statusEl.textContent = '✓ Convex Conectado';
+                statusEl.className = 'convex-status connected';
+            } else {
+                statusEl.textContent = '✗ Convex Desconectado';
+                statusEl.className = 'convex-status error';
+            }
+        }
+
+        // Load global results from Convex
+        async function loadGlobalResults() {
+            try {
+                const results = await convexQuery('votes:getGlobalResults');
+                updateConvexStatus(true);
+                renderGlobalResults(results);
+            } catch (error) {
+                console.error('Error loading Convex data:', error);
+                updateConvexStatus(false);
+                document.getElementById('top-characters').innerHTML = '<div class="empty-state">Error al cargar datos de Convex</div>';
+            }
+        }
+
+        function renderGlobalResults(results) {
             const globalDiv = document.getElementById('global-results');
             const emptyDiv = document.getElementById('empty-global');
 
-            if (allResults.length === 0) {
+            if (!results || Object.keys(results).length === 0) {
                 globalDiv.style.display = 'none';
                 emptyDiv.style.display = 'block';
                 document.getElementById('global-stats').style.display = 'none';
@@ -721,49 +729,48 @@
             document.getElementById('global-stats').style.display = 'flex';
 
             // Calcular totales
-            let totalVoters = allResults.length;
-            let totalMelee = 0, totalEspada = 0, totalMagia = 0;
+            let totalVotes = 0;
+            let meleeYes = 0, espadaYes = 0, magiaYes = 0;
 
-            // Contar votos por personaje
-            const characterVotes = {};
-
-            allResults.forEach(result => {
-                totalMelee += result.favoritos_por_categoria?.MELEE?.length || 0;
-                totalEspada += result.favoritos_por_categoria?.ESPADA?.length || 0;
-                totalMagia += result.favoritos_por_categoria?.MAGIA?.length || 0;
-
-                // Contar votos por personaje
-                Object.values(result.favoritos_por_categoria || {}).forEach(catChars => {
-                    catChars.forEach(char => {
-                        const key = char.name + '|' + char.anime;
-                        if (!characterVotes[key]) {
-                            characterVotes[key] = { name: char.name, anime: char.anime, votes: 0 };
-                        }
-                        characterVotes[key].votes++;
-                    });
-                });
+            Object.entries(results).forEach(([category, data]) => {
+                totalVotes += data.total || 0;
+                if (category === 'MELEE') meleeYes = data.yes || 0;
+                if (category === 'ESPADA') espadaYes = data.yes || 0;
+                if (category === 'MAGIA') magiaYes = data.yes || 0;
             });
 
-            document.getElementById('global-melee').textContent = totalMelee;
-            document.getElementById('global-espada').textContent = totalEspada;
-            document.getElementById('global-magia').textContent = totalMagia;
-            document.getElementById('global-total').textContent = totalVoters;
+            // Estimar votantes basado en ~121 votos por persona
+            const estimatedVoters = Math.floor(totalVotes / 121) || 0;
 
-            // Mostrar top personajes
-            renderTopCharacters(characterVotes);
+            document.getElementById('global-melee').textContent = meleeYes;
+            document.getElementById('global-espada').textContent = espadaYes;
+            document.getElementById('global-magia').textContent = magiaYes;
+            document.getElementById('global-total').textContent = estimatedVoters;
+
+            // Render top characters
+            renderTopCharacters(results);
         }
 
-        function renderTopCharacters(characterVotes) {
+        function renderTopCharacters(results) {
             const container = document.getElementById('top-characters');
-            const allChars = Object.values(characterVotes);
 
-            // Separar por categoría basado en anime
-            const categories = { melee: [], espada: [], magia: [] };
+            // Preparar datos por categoría
+            const categories = {
+                melee: [],
+                espada: [],
+                magia: []
+            };
 
-            allChars.forEach(char => {
-                const cat = getCategoryFromAnime(char.anime);
-                if (cat) {
-                    categories[cat].push(char);
+            Object.entries(results).forEach(([category, data]) => {
+                if (data.characters) {
+                    const catKey = category.toLowerCase();
+                    Object.entries(data.characters).forEach(([name, votes]) => {
+                        categories[catKey].push({
+                            name,
+                            votes: votes.yes || 0,
+                            total: votes.yes + votes.no
+                        });
+                    });
                 }
             });
 
@@ -797,50 +804,49 @@
                     <div class="top-rank">${index + 1}</div>
                     <div style="flex: 1;">
                         <div style="font-weight: 600;">${char.name}</div>
-                        <div style="font-size: 0.8rem; color: #888;">${char.anime}</div>
                     </div>
-                    <div style="color: #f39c12; font-weight: bold;">${char.votes} voto${char.votes > 1 ? 's' : ''}</div>
+                    <div style="color: #f39c12; font-weight: bold;">${char.votes} voto${char.votes !== 1 ? 's' : ''}</div>
                 </div>
             `).join('');
         }
 
-        function getCategoryFromAnime(anime) {
-            // Lista de personajes por categoría para clasificar
-            const meleeAnimes = ['ONE PIECE', 'Jujutsu Kaisen', 'JUJUTSU KAISEN', 'Naruto', 'Dragon Ball', 'Hunter x Hunter', 'One-Punch Man', 'BAKI', 'The God of High School', 'Chainsaw Man', 'Fire Force', 'Demon Slayer', 'Seven Deadly Sins', 'My Hero Academia', 'Attack on Titan', 'JoJo', 'Tokyo Ghoul'];
-            const espadaAnimes = ['BLEACH', 'SHANGRI-LA FRONTIER', 'KIMETSU NO YAIBA', 'NARUTO', 'SOUL EATER', 'BLACK CLOVER', 'FAIRY TAIL', 'SAO', 'BERSERK', 'SAMURAI X', 'DORORO', 'DEVIL MAY CRY', 'METAL GEAR', 'NIER', 'FATE', 'SAMURAI CHAMPLOO', 'SOLO LEVELING', 'BLAZBLUE', 'INUYASHA', 'FINAL FANTASY'];
-            const magiaAnimes = ['JUJUTSU KAISEN', 'KONOSUBA', 'Frieren', 'Slime', 'Fairy Tail', 'Black Clover', 'Madoka', 'Overlord', 'Re zero', 'Mushoku Tensei', 'Demon King Academy', 'Howl', 'Sailor Moon', 'Fate/Zero'];
-
-            const animeLower = anime?.toLowerCase() || '';
-
-            if (espadaAnimes.some(a => animeLower.includes(a.toLowerCase()))) return 'espada';
-            if (magiaAnimes.some(a => animeLower.includes(a.toLowerCase()))) return 'magia';
-            return 'melee';
+        // Load voters list from Convex
+        async function loadVotersList() {
+            try {
+                const voters = await convexQuery('votes:getAllVoters');
+                updateConvexStatus(true);
+                renderVotersList(voters);
+            } catch (error) {
+                console.error('Error loading voters:', error);
+                updateConvexStatus(false);
+                document.getElementById('voters-list-container').innerHTML = '<div class="empty-state">Error al cargar votantes</div>';
+                document.getElementById('voter-selector').innerHTML = '<div class="empty-state">Error al cargar votantes</div>';
+            }
         }
 
-        // Load voters list
-        function loadVotersList() {
-            const allResults = getAllResults();
+        function renderVotersList(voters) {
             const container = document.getElementById('voters-list-container');
             const selector = document.getElementById('voter-selector');
 
-            if (allResults.length === 0) {
-                const emptyMsg = '<div class="empty-state"><h3>No hay votantes registrados</h3><p>Los votos aparecerán aquí cuando alguien complete la votación.</p></div>';
+            if (!voters || voters.length === 0) {
+                const emptyMsg = '<div class="empty-state"><h3>No hay votantes registrados</h3><p>Los votos aparecerán aquí cuando alguien complete la votación en Convex.</p></div>';
                 container.innerHTML = emptyMsg;
                 selector.innerHTML = emptyMsg;
                 return;
             }
 
-            const html = allResults.map((result, index) => `
-                <div class="voter-item" onclick="selectVoter(${index})">
+            const html = voters.map((voter, index) => `
+                <div class="voter-item" onclick="selectVoter('${voter.name}')">
                     <div class="voter-info">
-                        <div class="voter-avatar">${result.votante.charAt(0).toUpperCase()}</div>
+                        <div class="voter-avatar">${voter.name.charAt(0).toUpperCase()}</div>
                         <div>
-                            <div class="voter-name">${result.votante}</div>
-                            <div class="voter-date">${new Date(result.fecha).toLocaleDateString()}</div>
+                            <div class="voter-name">${voter.name}</div>
+                            <div class="voter-date">${new Date(voter.completedAt).toLocaleDateString()}</div>
                         </div>
                     </div>
                     <div class="voter-stats">
-                        <div class="voter-favorites">${result.total_favoritos} favoritos</div>
+                        <div class="voter-favorites">${voter.totalYes} favoritos</div>
+                        <button class="delete-btn" onclick="event.stopPropagation(); deleteVoter('${voter.name}')">Borrar</button>
                     </div>
                 </div>
             `).join('');
@@ -850,57 +856,76 @@
         }
 
         // Select voter for individual results
-        let selectedVoterIndex = -1;
+        async function selectVoter(voterName) {
+            try {
+                const votes = await convexQuery('votes:getResultsByVoter', { voterName });
 
-        function selectVoter(index) {
-            selectedVoterIndex = index;
-            const allResults = getAllResults();
-            const result = allResults[index];
+                if (!votes || votes.length === 0) {
+                    alert('No se encontraron votos para este usuario');
+                    return;
+                }
 
-            if (!result) return;
+                // Agrupar por categoría
+                const byCategory = { MELEE: [], ESPADA: [], MAGIA: [] };
+                votes.forEach(vote => {
+                    if (vote.vote === 'SI' && byCategory[vote.category]) {
+                        byCategory[vote.category].push({
+                            name: vote.characterName,
+                            anime: vote.anime || 'Anime'
+                        });
+                    }
+                });
 
-            // Update UI
-            document.querySelectorAll('.voter-item').forEach((el, i) => {
-                el.classList.toggle('selected', i === index);
-            });
+                const totalYes = votes.filter(v => v.vote === 'SI').length;
 
-            document.getElementById('empty-individual').style.display = 'none';
-            document.getElementById('individual-results').style.display = 'block';
+                // Update UI
+                document.querySelectorAll('.voter-item').forEach(el => {
+                    el.classList.remove('selected');
+                });
+                event.currentTarget.classList.add('selected');
 
-            // Update stats
-            document.getElementById('ind-melee').textContent = result.favoritos_por_categoria?.MELEE?.length || 0;
-            document.getElementById('ind-espada').textContent = result.favoritos_por_categoria?.ESPADA?.length || 0;
-            document.getElementById('ind-magia').textContent = result.favoritos_por_categoria?.MAGIA?.length || 0;
-            document.getElementById('ind-total').textContent = result.total_favoritos;
+                document.getElementById('empty-individual').style.display = 'none';
+                document.getElementById('individual-results').style.display = 'block';
 
-            // Render categories
-            const container = document.getElementById('ind-categories');
-            container.innerHTML = `
-                <div class="category-section melee">
-                    <h2>MELEE</h2>
-                    <div class="characters-grid">
-                        ${renderCharacterList(result.favoritos_por_categoria?.MELEE || [])}
+                // Update stats
+                document.getElementById('ind-melee').textContent = byCategory.MELEE.length;
+                document.getElementById('ind-espada').textContent = byCategory.ESPADA.length;
+                document.getElementById('ind-magia').textContent = byCategory.MAGIA.length;
+                document.getElementById('ind-total').textContent = totalYes;
+
+                // Render categories
+                const container = document.getElementById('ind-categories');
+                container.innerHTML = `
+                    <div class="category-section melee">
+                        <h2>MELEE</h2>
+                        <div class="characters-grid">
+                            ${renderCharacterList(byCategory.MELEE)}
+                        </div>
                     </div>
-                </div>
-                <div class="category-section espada">
-                    <h2>ESPADA</h2>
-                    <div class="characters-grid">
-                        ${renderCharacterList(result.favoritos_por_categoria?.ESPADA || [])}
+                    <div class="category-section espada">
+                        <h2>ESPADA</h2>
+                        <div class="characters-grid">
+                            ${renderCharacterList(byCategory.ESPADA)}
+                        </div>
                     </div>
-                </div>
-                <div class="category-section magia">
-                    <h2>MAGIA</h2>
-                    <div class="characters-grid">
-                        ${renderCharacterList(result.favoritos_por_categoria?.MAGIA || [])}
+                    <div class="category-section magia">
+                        <h2>MAGIA</h2>
+                        <div class="characters-grid">
+                            ${renderCharacterList(byCategory.MAGIA)}
+                        </div>
                     </div>
-                </div>
-            `;
+                `;
 
-            // Switch to individual tab
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('tab-individual').classList.add('active');
-            document.querySelector('.tab-btn:nth-child(2)').classList.add('active');
+                // Switch to individual tab
+                document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                document.getElementById('tab-individual').classList.add('active');
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+
+            } catch (error) {
+                console.error('Error loading voter results:', error);
+                alert('Error al cargar los resultados del votante');
+            }
         }
 
         function renderCharacterList(chars) {
@@ -918,109 +943,22 @@
             `).join('');
         }
 
-        // Import results from JSON file
-        function importResults(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = JSON.parse(e.target.result);
-
-                    if (!data.votante || !data.favoritos_por_categoria) {
-                        alert('Archivo JSON inválido');
-                        return;
-                    }
-
-                    // Guardar en localStorage
-                    let allResults = getAllResults();
-
-                    // Verificar si ya existe este votante
-                    const existingIndex = allResults.findIndex(r => r.votante === data.votante);
-                    if (existingIndex >= 0) {
-                        if (confirm(`El votante "${data.votante}" ya existe. ¿Deseas reemplarlo?`)) {
-                            allResults[existingIndex] = {
-                                id: Date.now(),
-                                votante: data.votante,
-                                fecha: data.fecha || new Date().toISOString(),
-                                total_votados: data.total_votados,
-                                total_favoritos: data.total_favoritos,
-                                favoritos_por_categoria: data.favoritos_por_categoria,
-                                todos_los_votos: data.todos_los_votos
-                            };
-                        }
-                    } else {
-                        allResults.push({
-                            id: Date.now(),
-                            votante: data.votante,
-                            fecha: data.fecha || new Date().toISOString(),
-                            total_votados: data.total_votados,
-                            total_favoritos: data.total_favoritos,
-                            favoritos_por_categoria: data.favoritos_por_categoria,
-                            todos_los_votos: data.todos_los_votos
-                        });
-                    }
-
-                    localStorage.setItem('proyectpiece_results', JSON.stringify(allResults));
-                    alert(`Resultados de "${data.votante}" importados correctamente`);
-                    loadAllData();
-
-                } catch (err) {
-                    alert('Error al leer el archivo: ' + err.message);
-                }
-            };
-            reader.readAsText(file);
-            event.target.value = '';
-        }
-
-        // Clear all results
-        function clearAllResults() {
-            if (confirm('¿Estás seguro de que deseas borrar TODOS los datos de votación? Esta acción no se puede deshacer.')) {
-                localStorage.removeItem('proyectpiece_results');
-                alert('Todos los datos han sido borrados');
-                loadAllData();
-            }
-        }
-    </script>
-
-    <!-- Lista curada de personajes -->
-    <script src="curated-data.js"></script>
-    <script>
-        // Usar curatedCharacters para mostrar lista base en resultados individuales
-        const originalRenderCharacterList = renderCharacterList;
-        renderCharacterList = function(chars, category) {
-            if (!category || chars.length === 0) {
-                return originalRenderCharacterList(chars);
+        // Delete voter results
+        async function deleteVoter(voterName) {
+            if (!confirm(`¿Estás seguro de que deseas borrar todos los resultados de "${voterName}"?`)) {
+                return;
             }
 
-            // Obtener la lista curada de la categoría
-            const catKey = category.toLowerCase();
-            const curatedList = curatedCharacters[catKey] || [];
-
-            // Crear mapa de votos
-            const votesMap = {};
-            chars.forEach(char => {
-                votesMap[char.name] = char;
-            });
-
-            // Renderizar lista curada marcando los que tienen votos
-            return curatedList.map((char, index) => {
-                const hasVote = votesMap[char.name];
-                const voteMark = hasVote ? '✓' : '';
-                const opacity = hasVote ? '1' : '0.5';
-
-                return `
-                    <div class="character-item" style="opacity: ${opacity};">
-                        <div class="character-info">
-                            <div class="character-name">${char.name} ${voteMark}</div>
-                            <div class="character-anime">${char.anime}</div>
-                        </div>
-                        <div class="character-votes">${hasVote ? '#' + (chars.findIndex(c => c.name === char.name) + 1) : '-'}</div>
-                    </div>
-                `;
-            }).join('');
-        };
+            try {
+                await convexMutation('votes:deleteVoterResults', { voterName });
+                alert(`Resultados de "${voterName}" borrados correctamente`);
+                loadVotersList();
+                loadGlobalResults();
+            } catch (error) {
+                console.error('Error deleting voter:', error);
+                alert('Error al borrar los resultados');
+            }
+        }
     </script>
 </body>
 </html>
