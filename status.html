@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proyecto Piece - Resultados</title>
+    <title>Proyecto Piece - Resultados Globales</title>
     <style>
         * {
             margin: 0;
@@ -16,105 +16,7 @@
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
             color: white;
-        }
-
-        .login-screen {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
             padding: 20px;
-        }
-
-        .login-screen h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, #f39c12, #e74c3c);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .login-screen p {
-            color: #aaa;
-            margin-bottom: 30px;
-        }
-
-        .login-form {
-            background: rgba(255,255,255,0.1);
-            padding: 40px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            text-align: center;
-        }
-
-        .login-form input {
-            background: rgba(255,255,255,0.15);
-            border: 2px solid rgba(255,255,255,0.2);
-            border-radius: 10px;
-            padding: 15px 25px;
-            font-size: 1.2rem;
-            color: white;
-            text-align: center;
-            width: 250px;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        .login-form input:focus {
-            border-color: #f39c12;
-        }
-
-        .login-form input::placeholder {
-            color: #888;
-        }
-
-        .login-form button {
-            margin-top: 20px;
-            background: linear-gradient(135deg, #f39c12, #e74c3c);
-            border: none;
-            border-radius: 10px;
-            padding: 15px 40px;
-            color: white;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .login-form button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(243, 156, 18, 0.4);
-        }
-
-        .error-msg {
-            color: #e74c3c;
-            margin-top: 15px;
-            font-size: 0.9rem;
-            display: none;
-        }
-
-        .content-screen {
-            display: none;
-            padding: 20px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .header {
-            position: relative;
-            text-align: center;
-            margin-bottom: 30px;
-            padding-top: 20px;
-        }
-
-        .header h1 {
-            font-size: 2rem;
-            background: linear-gradient(135deg, #f39c12, #e67e22);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
         .home-btn {
@@ -137,165 +39,76 @@
             box-shadow: 0 5px 15px rgba(243, 156, 18, 0.4);
         }
 
-        .tabs {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
+        .header {
+            text-align: center;
             margin-bottom: 30px;
-            flex-wrap: wrap;
+            padding-top: 20px;
         }
 
-        .tab-btn {
-            background: rgba(255,255,255,0.1);
-            border: 2px solid rgba(255,255,255,0.2);
-            color: white;
-            padding: 12px 25px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-
-        .tab-btn:hover {
-            background: rgba(255,255,255,0.2);
-        }
-
-        .tab-btn.active {
+        .header h1 {
+            font-size: 2.2rem;
             background: linear-gradient(135deg, #f39c12, #e67e22);
-            border-color: #f39c12;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
         }
 
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
+        .header p {
+            color: #aaa;
         }
 
         .stats {
             display: flex;
             justify-content: center;
             gap: 20px;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             flex-wrap: wrap;
         }
 
         .stat-card {
             background: rgba(255,255,255,0.1);
-            padding: 20px 35px;
+            padding: 25px 40px;
             border-radius: 15px;
             text-align: center;
-            min-width: 130px;
+            min-width: 140px;
         }
 
         .stat-card.melee { border-top: 4px solid #e74c3c; }
         .stat-card.espada { border-top: 4px solid #3498db; }
         .stat-card.magia { border-top: 4px solid #9b59b6; }
-        .stat-card.total { border-top: 4px solid #f39c12; }
+        .stat-card.total { border-top: 4px solid #2ecc71; }
 
         .stat-card .number {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             font-weight: bold;
             margin-bottom: 5px;
         }
 
         .stat-card .label {
             color: #aaa;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             text-transform: uppercase;
         }
 
-        .voters-list {
-            background: rgba(255,255,255,0.05);
-            border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 30px;
-        }
-
-        .voters-list h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #f39c12;
-        }
-
-        .voter-item {
-            background: rgba(255,255,255,0.1);
-            padding: 15px 20px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .voter-item:hover {
-            background: rgba(255,255,255,0.2);
-            transform: translateX(5px);
-        }
-
-        .voter-item.selected {
-            background: rgba(243, 156, 18, 0.3);
-            border: 2px solid #f39c12;
-        }
-
-        .voter-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .voter-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        .voter-name {
-            font-weight: 600;
-        }
-
-        .voter-date {
-            font-size: 0.8rem;
-            color: #888;
-        }
-
-        .voter-stats {
-            text-align: right;
-        }
-
-        .voter-favorites {
-            color: #f39c12;
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
-
-        .categories-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 25px;
+        .results-container {
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         .category-section {
             background: rgba(255,255,255,0.05);
             border-radius: 20px;
-            padding: 25px;
+            padding: 30px;
+            margin-bottom: 30px;
         }
 
         .category-section h2 {
             text-align: center;
-            margin-bottom: 20px;
-            padding: 12px;
+            margin-bottom: 25px;
+            padding: 15px;
             border-radius: 10px;
-            font-size: 1.3rem;
+            font-size: 1.5rem;
         }
 
         .category-section.melee h2 { background: #e74c3c; }
@@ -304,22 +117,40 @@
 
         .characters-grid {
             display: grid;
-            gap: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
         }
 
         .character-item {
             background: rgba(255,255,255,0.1);
-            padding: 12px 15px;
-            border-radius: 10px;
+            padding: 15px 20px;
+            border-radius: 12px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 15px;
             transition: all 0.2s;
         }
 
         .character-item:hover {
             background: rgba(255,255,255,0.15);
+            transform: translateY(-2px);
         }
+
+        .character-rank {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .character-rank.top-1 { background: #f1c40f; color: #333; }
+        .character-rank.top-2 { background: #bdc3c7; color: #333; }
+        .character-rank.top-3 { background: #cd7f32; color: white; }
+        .character-rank.other { background: rgba(255,255,255,0.2); color: #aaa; }
 
         .character-info {
             flex: 1;
@@ -327,160 +158,61 @@
 
         .character-name {
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 1rem;
+            margin-bottom: 3px;
         }
 
         .character-anime {
             font-size: 0.8rem;
             color: #aaa;
-            margin-top: 2px;
+        }
+
+        .character-stats {
+            text-align: right;
         }
 
         .character-votes {
-            background: rgba(243, 156, 18, 0.2);
-            color: #f39c12;
-            padding: 5px 12px;
-            border-radius: 15px;
+            font-size: 1.3rem;
             font-weight: bold;
-            font-size: 0.9rem;
-            margin-left: 10px;
+            color: #f39c12;
         }
 
-        .global-section {
-            margin-top: 30px;
-        }
-
-        .global-section h2 {
-            text-align: center;
-            margin-bottom: 25px;
+        .character-percent {
+            font-size: 0.85rem;
             color: #2ecc71;
         }
 
-        .top-characters {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .top-list {
-            background: rgba(255,255,255,0.05);
-            border-radius: 15px;
-            padding: 20px;
-        }
-
-        .top-list h3 {
-            text-align: center;
-            margin-bottom: 15px;
-            padding: 10px;
-            border-radius: 8px;
-        }
-
-        .top-list.melee h3 { background: #e74c3c; }
-        .top-list.espada h3 { background: #3498db; }
-        .top-list.magia h3 { background: #9b59b6; }
-
-        .top-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px;
+        .progress-bar {
+            width: 100%;
+            height: 6px;
             background: rgba(255,255,255,0.1);
-            border-radius: 8px;
-            margin-bottom: 8px;
+            border-radius: 3px;
+            margin-top: 8px;
+            overflow: hidden;
         }
 
-        .top-rank {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: rgba(243, 156, 18, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 0.9rem;
-            color: #f39c12;
+        .progress-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.5s ease;
         }
 
-        .top-item:first-child .top-rank {
-            background: #f1c40f;
-            color: #333;
-        }
+        .progress-fill.melee { background: #e74c3c; }
+        .progress-fill.espada { background: #3498db; }
+        .progress-fill.magia { background: #9b59b6; }
 
         .empty-state {
             text-align: center;
-            padding: 40px;
+            padding: 60px 20px;
             color: #888;
         }
 
-        .import-section {
-            background: rgba(255,255,255,0.05);
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .import-section h3 {
-            color: #3498db;
+        .empty-state h3 {
+            font-size: 1.5rem;
             margin-bottom: 15px;
         }
 
-        .import-section p {
-            color: #aaa;
-            margin-bottom: 15px;
-            font-size: 0.9rem;
-        }
-
-        .file-input-wrapper {
-            position: relative;
-            display: inline-block;
-        }
-
-        .file-input-wrapper input[type="file"] {
-            position: absolute;
-            left: 0;
-            top: 0;
-            opacity: 0;
-            cursor: pointer;
-            width: 100%;
-            height: 100%;
-        }
-
-        .import-btn {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            border: none;
-            border-radius: 10px;
-            padding: 12px 30px;
-            color: white;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .import-btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .clear-btn {
-            background: rgba(231, 76, 60, 0.3);
-            border: 2px solid #e74c3c;
-            color: white;
-            border-radius: 10px;
-            padding: 10px 25px;
-            margin-left: 10px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-        }
-
-        .clear-btn:hover {
-            background: rgba(231, 76, 60, 0.5);
-        }
-
-        .logout-btn {
+        .admin-link {
             position: fixed;
             bottom: 30px;
             right: 30px;
@@ -489,235 +221,87 @@
             color: white;
             padding: 12px 25px;
             border-radius: 25px;
-            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9rem;
             transition: all 0.3s;
         }
 
-        .logout-btn:hover {
-            background: rgba(231, 76, 60, 0.3);
-            border-color: #e74c3c;
+        .admin-link:hover {
+            background: rgba(243, 156, 18, 0.3);
+            border-color: #f39c12;
         }
 
         @media (max-width: 768px) {
-            .categories-container {
+            .characters-grid {
                 grid-template-columns: 1fr;
             }
 
             .stat-card {
                 min-width: 100px;
-                padding: 15px 20px;
+                padding: 20px 25px;
             }
 
-            .tab-btn {
-                padding: 10px 18px;
-                font-size: 0.9rem;
-            }
-
-            .home-btn {
-                padding: 8px 15px;
-                font-size: 0.8rem;
+            .stat-card .number {
+                font-size: 2rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Login Screen -->
-    <div id="login-screen" class="login-screen">
-        <h1>Proyecto Piece</h1>
-        <p>Panel de resultados privado</p>
-        <div class="login-form">
-            <input type="password" id="password-input" placeholder="Ingresa la contraseña" maxlength="20">
-            <br>
-            <button onclick="checkPassword()">Acceder</button>
-            <div id="error-msg" class="error-msg">Contraseña incorrecta</div>
+    <a href="index.html" class="home-btn">🏠 Proyecto Piece</a>
+
+    <div class="header">
+        <h1>🌍 Resultados Globales</h1>
+        <p>Estadísticas de votación acumuladas</p>
+    </div>
+
+    <div class="stats" id="global-stats">
+        <div class="stat-card melee">
+            <div class="number" id="total-melee">0</div>
+            <div class="label">MELEE</div>
+        </div>
+        <div class="stat-card espada">
+            <div class="number" id="total-espada">0</div>
+            <div class="label">ESPADA</div>
+        </div>
+        <div class="stat-card magia">
+            <div class="number" id="total-magia">0</div>
+            <div class="label">MAGIA</div>
+        </div>
+        <div class="stat-card total">
+            <div class="number" id="total-voters">0</div>
+            <div class="label">VOTANTES</div>
         </div>
     </div>
 
-    <!-- Content Screen -->
-    <div id="content-screen" class="content-screen">
-        <a href="index.html" class="home-btn">🏠 Proyecto Piece</a>
-
-        <div class="header">
-            <h1>📊 Resultados de Votación</h1>
-            <p style="color: #aaa;">Votantes registrados y estadísticas globales</p>
-        </div>
-
-        <!-- Tabs -->
-        <div class="tabs">
-            <button class="tab-btn active" onclick="showTab('global')">🌍 Resultados Globales</button>
-            <button class="tab-btn" onclick="showTab('individual')">👤 Resultados Individuales</button>
-            <button class="tab-btn" onclick="showTab('voters')">📋 Lista de Votantes</button>
-        </div>
-
-        <!-- Tab: Resultados Globales -->
-        <div id="tab-global" class="tab-content active">
-            <div class="stats" id="global-stats">
-                <div class="stat-card melee">
-                    <div class="number" id="global-melee">0</div>
-                    <div class="label">MELEE</div>
-                </div>
-                <div class="stat-card espada">
-                    <div class="number" id="global-espada">0</div>
-                    <div class="label">ESPADA</div>
-                </div>
-                <div class="stat-card magia">
-                    <div class="number" id="global-magia">0</div>
-                    <div class="label">MAGIA</div>
-                </div>
-                <div class="stat-card total">
-                    <div class="number" id="global-total">0</div>
-                    <div class="label">TOTAL VOTANTES</div>
-                </div>
-            </div>
-
-            <div class="import-section">
-                <h3>📥 Importar Resultados</h3>
-                <p>Sube archivos JSON de otros votantes para acumular resultados globales</p>
-                <div class="file-input-wrapper">
-                    <button class="import-btn">Seleccionar Archivo JSON</button>
-                    <input type="file" id="import-file" accept=".json" onchange="importResults(event)">
-                </div>
-                <button class="clear-btn" onclick="clearAllResults()">🗑️ Borrar Todos los Datos</button>
-            </div>
-
-            <div id="global-results" class="global-section">
-                <h2>🏆 Top Personajes más Votados</h2>
-                <div class="top-characters" id="top-characters">
-                    <!-- Se genera dinámicamente -->
-                </div>
-            </div>
-
-            <div id="empty-global" class="empty-state" style="display: none;">
-                <h3>No hay datos registrados</h3>
-                <p>Los votos se guardan automáticamente cuando alguien completa la votación.<br>
-                También puedes importar archivos JSON manualmente.</p>
-            </div>
-        </div>
-
-        <!-- Tab: Resultados Individuales -->
-        <div id="tab-individual" class="tab-content">
-            <div class="voters-list">
-                <h2>Selecciona un votante para ver sus resultados</h2>
-                <div id="voter-selector">
-                    <!-- Se genera dinámicamente -->
-                </div>
-            </div>
-
-            <div id="individual-results">
-                <div class="stats" id="individual-stats">
-                    <div class="stat-card melee">
-                        <div class="number" id="ind-melee">0</div>
-                        <div class="label">MELEE</div>
-                    </div>
-                    <div class="stat-card espada">
-                        <div class="number" id="ind-espada">0</div>
-                        <div class="label">ESPADA</div>
-                    </div>
-                    <div class="stat-card magia">
-                        <div class="number" id="ind-magia">0</div>
-                        <div class="label">MAGIA</div>
-                    </div>
-                    <div class="stat-card total">
-                        <div class="number" id="ind-total">0</div>
-                        <div class="label">FAVORITOS</div>
-                    </div>
-                </div>
-
-                <div class="categories-container" id="ind-categories">
-                    <!-- Se genera dinámicamente -->
-                </div>
-            </div>
-
-            <div id="empty-individual" class="empty-state">
-                <h3>Selecciona un votante de la lista</h3>
-                <p>Haz clic en cualquier votante para ver sus personajes favoritos por categoría.</p>
-            </div>
-        </div>
-
-        <!-- Tab: Lista de Votantes -->
-        <div id="tab-voters" class="tab-content">
-            <div class="voters-list">
-                <h2>📋 Votantes Registrados</h2>
-                <div id="voters-list-container">
-                    <!-- Se genera dinámicamente -->
-                </div>
-            </div>
-        </div>
-
-        <button class="logout-btn" onclick="logout()">Cerrar Sesión</button>
+    <div class="results-container" id="results-container">
+        <!-- Se genera dinámicamente -->
     </div>
+
+    <a href="proyectopiecestatus.html" class="admin-link">🔐 Panel Admin</a>
 
     <script>
-        // Verificar contraseña
-        function checkPassword() {
-            const input = document.getElementById('password-input').value;
-            const errorMsg = document.getElementById('error-msg');
-
-            if (input === 'status2026') {
-                document.getElementById('login-screen').style.display = 'none';
-                document.getElementById('content-screen').style.display = 'block';
-                errorMsg.style.display = 'none';
-                loadAllData();
-            } else {
-                errorMsg.style.display = 'block';
-                document.getElementById('password-input').value = '';
-            }
-        }
-
-        // Enter key support
-        document.getElementById('password-input').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                checkPassword();
-            }
-        });
-
-        function logout() {
-            document.getElementById('content-screen').style.display = 'none';
-            document.getElementById('login-screen').style.display = 'flex';
-            document.getElementById('password-input').value = '';
-        }
-
-        // Tab switching
-        function showTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-
-            document.getElementById('tab-' + tabName).classList.add('active');
-            event.target.classList.add('active');
-
-            if (tabName === 'global') {
-                loadGlobalResults();
-            } else if (tabName === 'voters') {
-                loadVotersList();
-            }
-        }
-
-        // Load all data
-        function loadAllData() {
-            loadGlobalResults();
-            loadVotersList();
-        }
-
         // Get all results from localStorage
         function getAllResults() {
             return JSON.parse(localStorage.getItem('proyectpiece_results') || '[]');
         }
 
-        // Load global results
-        function loadGlobalResults() {
+        function loadResults() {
             const allResults = getAllResults();
-            const globalDiv = document.getElementById('global-results');
-            const emptyDiv = document.getElementById('empty-global');
+            const container = document.getElementById('results-container');
 
             if (allResults.length === 0) {
-                globalDiv.style.display = 'none';
-                emptyDiv.style.display = 'block';
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>🗳️ No hay datos de votación</h3>
+                        <p>Los resultados aparecerán aquí cuando los votantes completen la votación.<br>
+                        Puedes importar archivos JSON desde el Panel Admin.</p>
+                    </div>
+                `;
                 document.getElementById('global-stats').style.display = 'none';
                 return;
             }
 
-            globalDiv.style.display = 'block';
-            emptyDiv.style.display = 'none';
             document.getElementById('global-stats').style.display = 'flex';
 
             // Calcular totales
@@ -725,7 +309,7 @@
             let totalMelee = 0, totalEspada = 0, totalMagia = 0;
 
             // Contar votos por personaje
-            const characterVotes = {};
+            const votesByCharacter = {};
 
             allResults.forEach(result => {
                 totalMelee += result.favoritos_por_categoria?.MELEE?.length || 0;
@@ -733,37 +317,38 @@
                 totalMagia += result.favoritos_por_categoria?.MAGIA?.length || 0;
 
                 // Contar votos por personaje
-                Object.values(result.favoritos_por_categoria || {}).forEach(catChars => {
-                    catChars.forEach(char => {
-                        const key = char.name + '|' + char.anime;
-                        if (!characterVotes[key]) {
-                            characterVotes[key] = { name: char.name, anime: char.anime, votes: 0 };
+                ['MELEE', 'ESPADA', 'MAGIA'].forEach(cat => {
+                    (result.favoritos_por_categoria?.[cat] || []).forEach(char => {
+                        const key = char.name + '|' + char.anime + '|' + cat;
+                        if (!votesByCharacter[key]) {
+                            votesByCharacter[key] = {
+                                name: char.name,
+                                anime: char.anime,
+                                category: cat,
+                                votes: 0
+                            };
                         }
-                        characterVotes[key].votes++;
+                        votesByCharacter[key].votes++;
                     });
                 });
             });
 
-            document.getElementById('global-melee').textContent = totalMelee;
-            document.getElementById('global-espada').textContent = totalEspada;
-            document.getElementById('global-magia').textContent = totalMagia;
-            document.getElementById('global-total').textContent = totalVoters;
+            // Actualizar stats
+            document.getElementById('total-melee').textContent = totalMelee;
+            document.getElementById('total-espada').textContent = totalEspada;
+            document.getElementById('total-magia').textContent = totalMagia;
+            document.getElementById('total-voters').textContent = totalVoters;
 
-            // Mostrar top personajes
-            renderTopCharacters(characterVotes);
-        }
+            // Separar por categoría y ordenar
+            const categories = {
+                MELEE: [],
+                ESPADA: [],
+                MAGIA: []
+            };
 
-        function renderTopCharacters(characterVotes) {
-            const container = document.getElementById('top-characters');
-            const allChars = Object.values(characterVotes);
-
-            // Separar por categoría basado en anime
-            const categories = { melee: [], espada: [], magia: [] };
-
-            allChars.forEach(char => {
-                const cat = getCategoryFromAnime(char.anime);
-                if (cat) {
-                    categories[cat].push(char);
+            Object.values(votesByCharacter).forEach(char => {
+                if (categories[char.category]) {
+                    categories[char.category].push(char);
                 }
             });
 
@@ -772,216 +357,51 @@
                 categories[cat].sort((a, b) => b.votes - a.votes);
             });
 
-            container.innerHTML = `
-                <div class="top-list melee">
-                    <h3>MELEE</h3>
-                    ${renderTopList(categories.melee.slice(0, 10))}
-                </div>
-                <div class="top-list espada">
-                    <h3>ESPADA</h3>
-                    ${renderTopList(categories.espada.slice(0, 10))}
-                </div>
-                <div class="top-list magia">
-                    <h3>MAGIA</h3>
-                    ${renderTopList(categories.magia.slice(0, 10))}
-                </div>
-            `;
-        }
+            // Renderizar
+            container.innerHTML = '';
 
-        function renderTopList(chars) {
-            if (chars.length === 0) {
-                return '<div class="empty-state">Sin votos registrados</div>';
-            }
-            return chars.map((char, index) => `
-                <div class="top-item">
-                    <div class="top-rank">${index + 1}</div>
-                    <div style="flex: 1;">
-                        <div style="font-weight: 600;">${char.name}</div>
-                        <div style="font-size: 0.8rem; color: #888;">${char.anime}</div>
-                    </div>
-                    <div style="color: #f39c12; font-weight: bold;">${char.votes} voto${char.votes > 1 ? 's' : ''}</div>
-                </div>
-            `).join('');
-        }
+            ['MELEE', 'ESPADA', 'MAGIA'].forEach(cat => {
+                const chars = categories[cat];
+                const catLower = cat.toLowerCase();
+                const maxVotes = Math.max(...chars.map(c => c.votes), 1);
 
-        function getCategoryFromAnime(anime) {
-            // Lista de personajes por categoría para clasificar
-            const meleeAnimes = ['ONE PIECE', 'Jujutsu Kaisen', 'JUJUTSU KAISEN', 'Naruto', 'Dragon Ball', 'Hunter x Hunter', 'One-Punch Man', 'BAKI', 'The God of High School', 'Chainsaw Man', 'Fire Force', 'Demon Slayer', 'Seven Deadly Sins', 'My Hero Academia', 'Attack on Titan', 'JoJo', 'Tokyo Ghoul'];
-            const espadaAnimes = ['BLEACH', 'SHANGRI-LA FRONTIER', 'KIMETSU NO YAIBA', 'NARUTO', 'SOUL EATER', 'BLACK CLOVER', 'FAIRY TAIL', 'SAO', 'BERSERK', 'SAMURAI X', 'DORORO', 'DEVIL MAY CRY', 'METAL GEAR', 'NIER', 'FATE', 'SAMURAI CHAMPLOO', 'SOLO LEVELING', 'BLAZBLUE', 'INUYASHA', 'FINAL FANTASY'];
-            const magiaAnimes = ['JUJUTSU KAISEN', 'KONOSUBA', 'Frieren', 'Slime', 'Fairy Tail', 'Black Clover', 'Madoka', 'Overlord', 'Re zero', 'Mushoku Tensei', 'Demon King Academy', 'Howl', 'Sailor Moon', 'Fate/Zero'];
+                container.innerHTML += `
+                    <div class="category-section ${catLower}">
+                        <h2>${cat}</h2>
+                        <div class="characters-grid">
+                            ${chars.map((char, index) => {
+                                const percentage = ((char.votes / totalVoters) * 100).toFixed(1);
+                                const rankClass = index === 0 ? 'top-1' : index === 1 ? 'top-2' : index === 2 ? 'top-3' : 'other';
+                                const progressWidth = (char.votes / maxVotes * 100).toFixed(0);
 
-            const animeLower = anime?.toLowerCase() || '';
-
-            if (espadaAnimes.some(a => animeLower.includes(a.toLowerCase()))) return 'espada';
-            if (magiaAnimes.some(a => animeLower.includes(a.toLowerCase()))) return 'magia';
-            return 'melee';
-        }
-
-        // Load voters list
-        function loadVotersList() {
-            const allResults = getAllResults();
-            const container = document.getElementById('voters-list-container');
-            const selector = document.getElementById('voter-selector');
-
-            if (allResults.length === 0) {
-                const emptyMsg = '<div class="empty-state"><h3>No hay votantes registrados</h3><p>Los votos aparecerán aquí cuando alguien complete la votación.</p></div>';
-                container.innerHTML = emptyMsg;
-                selector.innerHTML = emptyMsg;
-                return;
-            }
-
-            const html = allResults.map((result, index) => `
-                <div class="voter-item" onclick="selectVoter(${index})">
-                    <div class="voter-info">
-                        <div class="voter-avatar">${result.votante.charAt(0).toUpperCase()}</div>
-                        <div>
-                            <div class="voter-name">${result.votante}</div>
-                            <div class="voter-date">${new Date(result.fecha).toLocaleDateString()}</div>
+                                return `
+                                    <div class="character-item">
+                                        <div class="character-rank ${rankClass}">${index + 1}</div>
+                                        <div class="character-info">
+                                            <div class="character-name">${char.name}</div>
+                                            <div class="character-anime">${char.anime}</div>
+                                            <div class="progress-bar">
+                                                <div class="progress-fill ${catLower}" style="width: ${progressWidth}%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="character-stats">
+                                            <div class="character-votes">${char.votes}</div>
+                                            <div class="character-percent">${percentage}%</div>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
                         </div>
                     </div>
-                    <div class="voter-stats">
-                        <div class="voter-favorites">${result.total_favoritos} favoritos</div>
-                    </div>
-                </div>
-            `).join('');
-
-            container.innerHTML = html;
-            selector.innerHTML = html;
-        }
-
-        // Select voter for individual results
-        let selectedVoterIndex = -1;
-
-        function selectVoter(index) {
-            selectedVoterIndex = index;
-            const allResults = getAllResults();
-            const result = allResults[index];
-
-            if (!result) return;
-
-            // Update UI
-            document.querySelectorAll('.voter-item').forEach((el, i) => {
-                el.classList.toggle('selected', i === index);
+                `;
             });
-
-            document.getElementById('empty-individual').style.display = 'none';
-            document.getElementById('individual-results').style.display = 'block';
-
-            // Update stats
-            document.getElementById('ind-melee').textContent = result.favoritos_por_categoria?.MELEE?.length || 0;
-            document.getElementById('ind-espada').textContent = result.favoritos_por_categoria?.ESPADA?.length || 0;
-            document.getElementById('ind-magia').textContent = result.favoritos_por_categoria?.MAGIA?.length || 0;
-            document.getElementById('ind-total').textContent = result.total_favoritos;
-
-            // Render categories
-            const container = document.getElementById('ind-categories');
-            container.innerHTML = `
-                <div class="category-section melee">
-                    <h2>MELEE</h2>
-                    <div class="characters-grid">
-                        ${renderCharacterList(result.favoritos_por_categoria?.MELEE || [])}
-                    </div>
-                </div>
-                <div class="category-section espada">
-                    <h2>ESPADA</h2>
-                    <div class="characters-grid">
-                        ${renderCharacterList(result.favoritos_por_categoria?.ESPADA || [])}
-                    </div>
-                </div>
-                <div class="category-section magia">
-                    <h2>MAGIA</h2>
-                    <div class="characters-grid">
-                        ${renderCharacterList(result.favoritos_por_categoria?.MAGIA || [])}
-                    </div>
-                </div>
-            `;
-
-            // Switch to individual tab
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('tab-individual').classList.add('active');
-            document.querySelector('.tab-btn:nth-child(2)').classList.add('active');
         }
 
-        function renderCharacterList(chars) {
-            if (chars.length === 0) {
-                return '<div class="empty-state">No hay favoritos en esta categoría</div>';
-            }
-            return chars.map((char, index) => `
-                <div class="character-item">
-                    <div class="character-info">
-                        <div class="character-name">${char.name}</div>
-                        <div class="character-anime">${char.anime}</div>
-                    </div>
-                    <div class="character-votes">#${index + 1}</div>
-                </div>
-            `).join('');
-        }
+        // Cargar al iniciar
+        loadResults();
 
-        // Import results from JSON file
-        function importResults(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = JSON.parse(e.target.result);
-
-                    if (!data.votante || !data.favoritos_por_categoria) {
-                        alert('Archivo JSON inválido');
-                        return;
-                    }
-
-                    // Guardar en localStorage
-                    let allResults = getAllResults();
-
-                    // Verificar si ya existe este votante
-                    const existingIndex = allResults.findIndex(r => r.votante === data.votante);
-                    if (existingIndex >= 0) {
-                        if (confirm(`El votante "${data.votante}" ya existe. ¿Deseas reemplarlo?`)) {
-                            allResults[existingIndex] = {
-                                id: Date.now(),
-                                votante: data.votante,
-                                fecha: data.fecha || new Date().toISOString(),
-                                total_votados: data.total_votados,
-                                total_favoritos: data.total_favoritos,
-                                favoritos_por_categoria: data.favoritos_por_categoria,
-                                todos_los_votos: data.todos_los_votos
-                            };
-                        }
-                    } else {
-                        allResults.push({
-                            id: Date.now(),
-                            votante: data.votante,
-                            fecha: data.fecha || new Date().toISOString(),
-                            total_votados: data.total_votados,
-                            total_favoritos: data.total_favoritos,
-                            favoritos_por_categoria: data.favoritos_por_categoria,
-                            todos_los_votos: data.todos_los_votos
-                        });
-                    }
-
-                    localStorage.setItem('proyectpiece_results', JSON.stringify(allResults));
-                    alert(`Resultados de "${data.votante}" importados correctamente`);
-                    loadAllData();
-
-                } catch (err) {
-                    alert('Error al leer el archivo: ' + err.message);
-                }
-            };
-            reader.readAsText(file);
-            event.target.value = '';
-        }
-
-        // Clear all results
-        function clearAllResults() {
-            if (confirm('¿Estás seguro de que deseas borrar TODOS los datos de votación? Esta acción no se puede deshacer.')) {
-                localStorage.removeItem('proyectpiece_results');
-                alert('Todos los datos han sido borrados');
-                loadAllData();
-            }
-        }
+        // Recargar cada 5 segundos (para ver actualizaciones en tiempo real)
+        setInterval(loadResults, 5000);
     </script>
 </body>
 </html>
