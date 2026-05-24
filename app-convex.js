@@ -91,6 +91,7 @@ async function init() {
 
   votes = [];
   currentIndex = 0;
+  sessionSaved = false; // Reiniciar bandera para nuevo votante
   loadCard();
   setupGestures();
   setupKeyboard();
@@ -318,7 +319,16 @@ async function showResults() {
   }).join('');
 }
 
+let sessionSaved = false;
+
 async function saveVoterResults(voterName, allVotes, yesVotes, byCategory) {
+  // Evitar guardar múltiples veces en la misma sesión
+  if (sessionSaved) {
+    console.log('[Session] Ya guardada, ignorando duplicado');
+    return;
+  }
+  sessionSaved = true;
+
   let allResults = JSON.parse(localStorage.getItem('proyectpiece_results') || '[]');
 
   const voterRecord = {
@@ -346,8 +356,11 @@ async function saveVoterResults(voterName, allVotes, yesVotes, byCategory) {
       totalVoted: allVotes.length,
       totalYes: yesVotes.length
     });
+    console.log('[Session] Guardada exitosamente en Convex');
   } catch (e) {
-    console.log('Convex no disponible');
+    console.log('[Session] Error guardando en Convex:', e);
+    // Si falla, resetear la bandera para permitir reintentar
+    sessionSaved = false;
   }
 }
 
