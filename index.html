@@ -721,11 +721,14 @@
                 <div class="loading-skeleton" style="height: 300px; border-radius: 20px;"></div>
                 <div class="loading-skeleton" style="height: 300px; border-radius: 20px;"></div>
             </div>
-            <div style="text-align: center; margin-top: 40px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+            <div style="text-align: center; margin-top: 40px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; align-items: center;">
                 <button onclick="shuffleFeaturedCharacters()" class="btn-secondary" style="cursor: pointer; border: none; font-family: inherit;">
                     🎲 Ver otros personajes
                 </button>
                 <a href="vote.html" class="btn-secondary">Ver Todos los Personajes 🡢</a>
+            </div>
+            <div style="text-align: center; margin-top: 15px; color: rgba(255,255,255,0.5); font-size: 0.9rem;">
+                <span id="auto-rotate-indicator">🔄 Actualizando en <span id="countdown">20</span>s</span>
             </div>
         </div>
     </section>
@@ -969,9 +972,80 @@
             });
         });
 
+        // Auto-rotación de personajes cada 20 segundos
+        let autoRotateInterval;
+        let countdownInterval;
+        const ROTATE_INTERVAL = 20; // segundos
+
+        function startAutoRotate() {
+            let timeLeft = ROTATE_INTERVAL;
+            const countdownEl = document.getElementById('countdown');
+
+            // Limpiar intervalos anteriores si existen
+            if (autoRotateInterval) clearInterval(autoRotateInterval);
+            if (countdownInterval) clearInterval(countdownInterval);
+
+            // Contador regresivo visual
+            countdownInterval = setInterval(() => {
+                timeLeft--;
+                if (countdownEl) countdownEl.textContent = timeLeft;
+
+                if (timeLeft <= 0) {
+                    timeLeft = ROTATE_INTERVAL;
+                }
+            }, 1000);
+
+            // Cambio automático de personajes
+            autoRotateInterval = setInterval(() => {
+                showNextCharacterSet();
+                timeLeft = ROTATE_INTERVAL;
+                if (countdownEl) countdownEl.textContent = timeLeft;
+            }, ROTATE_INTERVAL * 1000);
+        }
+
+        // Pausar auto-rotación cuando el usuario interactúa
+        function pauseAutoRotate() {
+            if (autoRotateInterval) clearInterval(autoRotateInterval);
+            if (countdownInterval) clearInterval(countdownInterval);
+        }
+
+        function resumeAutoRotate() {
+            startAutoRotate();
+        }
+
+        // Sobrescribir shuffleFeaturedCharacters para reiniciar el timer
+        const originalShuffle = shuffleFeaturedCharacters;
+        shuffleFeaturedCharacters = function() {
+            pauseAutoRotate();
+            // Re-mezclar todo y empezar desde el principio
+            allCharacters = shuffleArray(allCharacters);
+            currentFeaturedSet = 0;
+            showNextCharacterSet();
+
+            // Resetear el filtro a "Todos"
+            document.querySelectorAll('.category-tab').forEach((tab, index) => {
+                tab.classList.toggle('active', index === 0);
+            });
+
+            // Reiniciar timer
+            startAutoRotate();
+        };
+
+        // Pausar cuando la pestaña no está visible
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                pauseAutoRotate();
+            } else {
+                resumeAutoRotate();
+            }
+        });
+
         // Load data on page load
         loadStats();
-        loadFeaturedCharacters();
+        loadFeaturedCharacters().then(() => {
+            // Iniciar auto-rotación después de cargar personajes
+            startAutoRotate();
+        });
     </script>
 </body>
 </html>
