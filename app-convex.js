@@ -6,6 +6,9 @@ let categories = ['MELEE', 'ESPADA', 'MAGIA'];
 let voteQueue = Promise.resolve(); // Cola de votos para evitar pérdida de datos
 let isVoting = false; // Bloqueo para evitar votos simultáneos
 
+// Clave para guardar progreso en localStorage
+const PROGRESS_KEY = 'proyectpiece_progress';
+
 // Elementos del DOM
 let card, cardName, cardCategory, cardImage, cardAnime, cardDescription;
 let currentCategoryBadge, progressText, cardContainer, controls, instructions, results, resultsGrid;
@@ -59,6 +62,189 @@ async function loadCharactersFromConvex() {
   }
 }
 
+// Guardar progreso actual
+function saveProgress() {
+  const voterName = sessionStorage.getItem('voterName');
+  if (!voterName || votes.length === 0) return;
+
+  const progress = {
+    voterName: voterName,
+    currentIndex: currentIndex,
+    votes: votes,
+    timestamp: Date.now(),
+    totalCandidates: candidates.length
+  };
+
+  localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress));
+  console.log(`[Progress] Guardado: ${currentIndex}/${candidates.length} personajes votados`);
+}
+
+// Cargar progreso guardado
+function loadProgress() {
+  try {
+    const saved = localStorage.getItem(PROGRESS_KEY);
+    if (!saved) return null;
+
+    const progress = JSON.parse(saved);
+    const voterName = sessionStorage.getItem('voterName');
+
+    // Solo cargar si es el mismo votante
+    if (progress.voterName === voterName) {
+      return progress;
+    }
+  } catch (e) {
+    console.error('[Progress] Error cargando progreso:', e);
+  }
+  return null;
+}
+
+// Limpiar progreso guardado
+function clearProgress() {
+  localStorage.removeItem(PROGRESS_KEY);
+  console.log('[Progress] Progreso limpiado');
+}
+
+// Mostrar diálogo para continuar o reiniciar
+function showResumeDialog(savedProgress) {
+  return new Promise((resolve) => {
+    const votedCount = savedProgress.votes.length;
+    const totalCount = savedProgress.totalCandidates || candidates.length;
+    const remaining = totalCount - votedCount;
+
+    // Crear modal
+    const modal = document.createElement('div');
+    modal.className = 'resume-modal';
+    modal.innerHTML = `
+      <div class="resume-dialog">
+        <h2>🎮 ¡Bienvenido de vuelta, ${savedProgress.voterName}!</h2>
+        <p>Tienes una votación en progreso:</p>
+        <div class="progress-stats">
+          <div class="stat">
+            <span class="stat-value">${votedCount}</span>
+            <span class="stat-label">votados</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">${remaining}</span>
+            <span class="stat-label">restantes</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">${Math.round((votedCount/totalCount)*100)}%</span>
+            <span class="stat-label">completado</span>
+          </div>
+        </div>
+        <div class="resume-actions">
+          <button class="btn-resume" onclick="this.closest('.resume-modal').remove(); resolve('resume')">
+            ▶️ Continuar votación
+          </button>
+          <button class="btn-restart" onclick="this.closest('.resume-modal').remove(); resolve('restart')">
+            🔄 Empezar de nuevo
+          </button>
+        </div>
+      </div>
+    `;
+
+    // Agregar estilos si no existen
+    if (!document.getElementById('resume-styles')) {
+      const styles = document.createElement('style');
+      styles.id = 'resume-styles';
+      styles.textContent = `
+        .resume-modal {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0,0,0,0.85);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 3000;
+          backdrop-filter: blur(5px);
+        }
+        .resume-dialog {
+          background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+          padding: 40px;
+          border-radius: 20px;
+          text-align: center;
+          max-width: 400px;
+          border: 1px solid rgba(255,255,255,0.1);
+          animation: slideIn 0.3s ease;
+        }
+        @keyframes slideIn {
+          from { opacity: 0; transform: translateY(-20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .resume-dialog h2 {
+          color: #f39c12;
+          margin-bottom: 15px;
+        }
+        .resume-dialog p {
+          color: rgba(255,255,255,0.7);
+          margin-bottom: 25px;
+        }
+        .progress-stats {
+          display: flex;
+          justify-content: center;
+          gap: 30px;
+          margin: 25px 0;
+          padding: 20px;
+          background: rgba(255,255,255,0.05);
+          border-radius: 15px;
+        }
+        .stat {
+          text-align: center;
+        }
+        .stat-value {
+          display: block;
+          font-size: 2rem;
+          font-weight: bold;
+          color: #f39c12;
+        }
+        .stat-label {
+          display: block;
+          font-size: 0.85rem;
+          color: rgba(255,255,255,0.6);
+          text-transform: uppercase;
+        }
+        .resume-actions {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          margin-top: 25px;
+        }
+        .btn-resume, .btn-restart {
+          padding: 15px 30px;
+          border-radius: 30px;
+          border: none;
+          font-size: 1rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-family: inherit;
+        }
+        .btn-resume {
+          background: linear-gradient(135deg, #f39c12, #e67e22);
+          color: white;
+        }
+        .btn-resume:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 5px 20px rgba(243, 156, 18, 0.4);
+        }
+        .btn-restart {
+          background: rgba(255,255,255,0.1);
+          color: rgba(255,255,255,0.8);
+        }
+        .btn-restart:hover {
+          background: rgba(255,255,255,0.2);
+        }
+      `;
+      document.head.appendChild(styles);
+    }
+
+    document.body.appendChild(modal);
+  });
+}
+
 async function init() {
   // Guardar referencias a elementos
   card = document.getElementById('card');
@@ -91,8 +277,33 @@ async function init() {
 
   console.log(`[INIT] Iniciando votación con ${candidates.length} personajes`);
 
-  votes = [];
-  currentIndex = 0;
+  // Verificar si hay progreso guardado
+  const savedProgress = loadProgress();
+
+  if (savedProgress && savedProgress.votes.length > 0 && savedProgress.votes.length < candidates.length) {
+    // Hay progreso guardado incompleto
+    const action = await showResumeDialog(savedProgress);
+
+    if (action === 'resume') {
+      // Restaurar progreso
+      currentIndex = savedProgress.currentIndex;
+      votes = savedProgress.votes;
+      console.log(`[INIT] Restaurando progreso: ${votes.length}/${candidates.length} votados`);
+    } else {
+      // Reiniciar
+      votes = [];
+      currentIndex = 0;
+      clearProgress();
+    }
+  } else {
+    // No hay progreso o ya está completo
+    votes = [];
+    currentIndex = 0;
+    if (savedProgress && savedProgress.votes.length >= candidates.length) {
+      clearProgress();
+    }
+  }
+
   sessionSaved = false; // Reiniciar bandera para nuevo votante
   loadCard();
   setupGestures();
@@ -238,6 +449,9 @@ async function vote(like) {
         timestamp: new Date().toISOString()
       });
 
+      // Guardar progreso localmente después de cada voto
+      saveProgress();
+
       // Guardar en Convex
       const voterName = sessionStorage.getItem('voterName') || 'Anónimo';
       try {
@@ -287,6 +501,9 @@ function setupKeyboard() {
 }
 
 async function showResults() {
+  // Limpiar progreso guardado al completar
+  clearProgress();
+
   cardContainer.style.display = 'none';
   controls.style.display = 'none';
   instructions.style.display = 'none';
