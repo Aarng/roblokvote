@@ -664,8 +664,14 @@
                 <!-- Resultados por categoría -->
             </div>
 
-            <button class="btn btn-primary" onclick="location.reload()">
-                Nueva Votación
+            <button class="btn btn-primary" onclick="exportToExcel()">
+                📊 Exportar a Excel
+            </button>
+            <button class="btn btn-secondary" onclick="exportToCSV()">
+                📄 Exportar a CSV
+            </button>
+            <button class="btn btn-secondary" onclick="location.reload()">
+                🔄 Nueva Votación
             </button>
         </div>
     </div>
@@ -679,6 +685,7 @@
         </div>
     </div>
 
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     <script src="data.js"></script>
     <script src="lobby.js"></script>
 </body>

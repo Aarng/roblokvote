@@ -240,10 +240,16 @@ socket.on('vote-result', ({ character, approved, yesVotes, noVotes, requiredVote
 
 // Votación finalizada
 socket.on('voting-finished', ({ totalCharacters, approved, rejected, byCategory, results }) => {
+    // Ocultar overlay
+    document.getElementById('waiting-overlay').classList.remove('active');
+
     showScreen('screen-final');
 
     document.getElementById('final-approved').textContent = approved;
     document.getElementById('final-rejected').textContent = rejected;
+
+    // Guardar resultados para exportación
+    window.votingResults = { totalCharacters, approved, rejected, byCategory, results };
 
     // Generar resultados por categoría
     const resultsContainer = document.getElementById('final-results');
@@ -342,3 +348,70 @@ socket.on('disconnect', () => {
     console.log('Desconectado del servidor');
     showError('Conexión perdida. Intenta recargar la página.');
 });
+
+// Funciones de exportación
+function exportToExcel() {
+    if (!window.votingResults) {
+        alert('No hay resultados para exportar');
+        return;
+    }
+
+    const { results, byCategory } = window.votingResults;
+
+    // Crear datos para Excel
+    const data = [
+        ['Personaje', 'Anime', 'Categoría', 'Estado', 'Votos SÍ', 'Votos NO', 'Total Votantes']
+    ];
+
+    results.forEach(r => {
+        data.push([
+            r.character.name,
+            r.character.anime,
+            r.character.category,
+            r.approved ? 'Aprobado' : 'Rechazado',
+            r.yesVotes,
+            r.noVotes,
+            r.totalPlayers
+        ]);
+    });
+
+    // Agregar resumen
+    data.push([]);
+    data.push(['RESUMEN']);
+    data.push(['Categoría', 'Aprobados']);
+    Object.entries(byCategory).forEach(([cat, chars]) => {
+        data.push([cat, chars.length]);
+    });
+
+    // Crear workbook
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.aoa_to_sheet(data);
+    XLSX.utils.book_append_sheet(wb, ws, 'Resultados');
+
+    // Descargar
+    const date = new Date().toISOString().split('T')[0];
+    XLSX.writeFile(wb, `votacion_anime_${date}.xlsx`);
+}
+
+function exportToCSV() {
+    if (!window.votingResults) {
+        alert('No hay resultados para exportar');
+        return;
+    }
+
+    const { results } = window.votingResults;
+
+    let csv = 'Personaje,Anime,Categoría,Estado,Votos SÍ,Votos NO,Total\n';
+
+    results.forEach(r => {
+        csv += `"${r.character.name}","${r.character.anime}","${r.character.category}",${r.approved ? 'Aprobado' : 'Rechazado'},${r.yesVotes},${r.noVotes},${r.totalPlayers}\n`;
+    });
+
+    // Descargar
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    const date = new Date().toISOString().split('T')[0];
+    link.download = `votacion_anime_${date}.csv`;
+    link.click();
+}
