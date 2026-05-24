@@ -145,22 +145,6 @@ function setupGestures() {
   // Drag/swipe deshabilitado - usar botones o teclado
 }
 
-  const diffX = currentX - startX;
-
-  if (diffX > 150) {
-    animateAndVote(true);
-  } else if (diffX < -150) {
-    animateAndVote(false);
-  } else {
-    card.style.transition = 'transform 0.3s ease';
-    card.style.transform = 'translateX(0) rotate(0)';
-    hideStamps();
-    setTimeout(() => {
-      card.style.transition = '';
-    }, 300);
-  }
-}
-
 function animateAndVote(like) {
   const direction = like ? 1 : -1;
   const distance = window.innerWidth;
