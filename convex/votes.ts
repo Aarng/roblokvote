@@ -77,7 +77,7 @@ export const getGlobalResults = query({
     const byCategory: Record<string, { total: number; yes: number; characters: Record<string, { yes: number; no: number }> }> = {};
 
     for (const vote of allVotes) {
-      // Solo contar votos de sesiones completadas
+      // Solo contar votos de sesiones completadas (undefined o false = no completado)
       if (!vote.sessionCompleted) continue;
 
       if (!byCategory[vote.category]) {

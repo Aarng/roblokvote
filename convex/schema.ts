@@ -23,7 +23,7 @@ export default defineSchema({
     vote: v.string(), // 'SI' o 'NO'
     anime: v.optional(v.string()),
     timestamp: v.number(),
-    sessionCompleted: v.boolean(), // true cuando el votante completó toda la votación
+    sessionCompleted: v.optional(v.boolean()), // true cuando el votante completó toda la votación
   })
     .index("by_voter", ["voterName"])
     .index("by_character", ["characterName"])
