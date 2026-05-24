@@ -10,8 +10,12 @@ const io = socketIo(server, {
   cors: {
     origin: "*",
     methods: ["GET", "POST"]
-  }
+  },
+  transports: ['websocket', 'polling'] // Permitir fallback a polling
 });
+
+// Trust proxy para Railway
+app.set('trust proxy', 1);
 
 // Servir archivos estáticos
 app.use(express.static(path.join(__dirname)));

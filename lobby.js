@@ -1,5 +1,7 @@
 // Conexión Socket.io - detecta automáticamente el servidor
-const socket = io(window.location.origin);
+const socket = io(window.location.origin, {
+  transports: ['websocket', 'polling'] // Fallback para compatibilidad
+});
 
 // Estado del juego
 let currentLobby = null;
