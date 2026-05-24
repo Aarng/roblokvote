@@ -1,9 +1,5 @@
 let currentIndex = 0;
 let votes = [];
-let currentCard = null;
-let startX = 0;
-let currentX = 0;
-let isDragging = false;
 
 const card = document.getElementById('card');
 const cardName = document.getElementById('cardName');
@@ -129,43 +125,10 @@ function showStamps(likeOpacity, nopeOpacity) {
   document.querySelector('.stamp-nope').style.opacity = nopeOpacity;
 }
 
+// Funciones de gestos deshabilitadas - solo votación por botones/teclado
 function setupGestures() {
-  card.addEventListener('mousedown', startDrag);
-  card.addEventListener('touchstart', startDrag, { passive: false });
-
-  document.addEventListener('mousemove', drag);
-  document.addEventListener('touchmove', drag, { passive: false });
-
-  document.addEventListener('mouseup', endDrag);
-  document.addEventListener('touchend', endDrag);
+  // Drag/swipe deshabilitado - usar botones o teclado
 }
-
-function startDrag(e) {
-  if (isDragging) return;
-  isDragging = true;
-  startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
-  card.classList.add('swiping');
-}
-
-function drag(e) {
-  if (!isDragging) return;
-  e.preventDefault();
-
-  currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
-  const diffX = currentX - startX;
-  const rotate = diffX * 0.05;
-
-  card.style.transform = `translateX(${diffX}px) rotate(${rotate}deg)`;
-
-  const likeOpacity = Math.max(0, Math.min(1, diffX / 150));
-  const nopeOpacity = Math.max(0, Math.min(1, -diffX / 150));
-  showStamps(likeOpacity, nopeOpacity);
-}
-
-function endDrag(e) {
-  if (!isDragging) return;
-  isDragging = false;
-  card.classList.remove('swiping');
 
   const diffX = currentX - startX;
 
