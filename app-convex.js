@@ -3,6 +3,8 @@ let currentIndex = 0;
 let votes = [];
 let candidates = [];
 let categories = ['MELEE', 'ESPADA', 'MAGIA'];
+let voteQueue = Promise.resolve(); // Cola de votos para evitar pérdida de datos
+let isVoting = false; // Bloqueo para evitar votos simultáneos
 
 // Elementos del DOM
 let card, cardName, cardCategory, cardImage, cardAnime, cardDescription;
@@ -214,29 +216,47 @@ function animateAndVote(like) {
 }
 
 async function vote(like) {
-  const candidate = candidates[currentIndex];
-  votes.push({
-    name: candidate.name,
-    category: candidate.category,
-    vote: like ? 'SI' : 'NO',
-    anime: candidate.anime,
-    image: candidate.image,
-    emoji: candidate.emoji,
-    timestamp: new Date().toISOString()
-  });
+  // Evitar votos múltiples simultáneos
+  if (isVoting) {
+    console.log('[Vote] Bloqueado - voto en progreso');
+    return;
+  }
+  isVoting = true;
 
-  // Guardar en Convex
-  const voterName = sessionStorage.getItem('voterName') || 'Anónimo';
+  const candidate = candidates[currentIndex];
+
   try {
-    await convexMutation('votes:saveVote', {
-      voterName: voterName,
-      characterName: candidate.name,
-      category: candidate.category,
-      vote: like ? 'SI' : 'NO',
-      anime: candidate.anime
+    // Agregar a la cola de votos para asegurar orden y completitud
+    voteQueue = voteQueue.then(async () => {
+      votes.push({
+        name: candidate.name,
+        category: candidate.category,
+        vote: like ? 'SI' : 'NO',
+        anime: candidate.anime,
+        image: candidate.image,
+        emoji: candidate.emoji,
+        timestamp: new Date().toISOString()
+      });
+
+      // Guardar en Convex
+      const voterName = sessionStorage.getItem('voterName') || 'Anónimo';
+      try {
+        await convexMutation('votes:saveVote', {
+          voterName: voterName,
+          characterName: candidate.name,
+          category: candidate.category,
+          vote: like ? 'SI' : 'NO',
+          anime: candidate.anime
+        });
+        console.log(`[Vote] Guardado: ${candidate.name} = ${like ? 'SI' : 'NO'}`);
+      } catch (e) {
+        console.error('[Vote] Error guardando en Convex:', e);
+      }
     });
-  } catch (e) {
-    console.log('Convex no disponible, voto solo local');
+
+    await voteQueue; // Esperar a que este voto se complete
+  } finally {
+    isVoting = false; // Liberar el bloqueo
   }
 
   currentIndex++;
