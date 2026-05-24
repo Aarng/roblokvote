@@ -3,7 +3,7 @@ const CONVEX_URL = 'https://hallowed-badger-330.convex.cloud/';
 
 // Función para llamar a Convex
 async function convexQuery(name, args = {}) {
-  const url = `${CONVEX_URL}/api/query`;
+  const url = `${CONVEX_URL}api/query`;
   console.log('[Convex] Query:', name, 'URL:', url);
 
   try {
@@ -36,7 +36,7 @@ async function convexQuery(name, args = {}) {
 }
 
 async function convexMutation(name, args = {}) {
-  const url = `${CONVEX_URL}/api/mutation`;
+  const url = `${CONVEX_URL}api/mutation`;
   console.log('[Convex] Mutation:', name);
 
   try {
