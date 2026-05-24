@@ -3,8 +3,8 @@ const candidates = [
   // MELEE - 38 personajes
   { name: "Monkey D. Luffy", category: "MELEE", emoji: "👊", anime: "ONE PIECE", image: "images/Monkey_D_Luffy.jpg", title: "Capitán de los Piratas del Sombrero de Paja" },
   { name: "Sanji", category: "MELEE", emoji: "🦵", anime: "ONE PIECE", image: "images/Sanji.jpg", title: "Pierna Negra / Cocinero Pirata" },
-  { name: "Yuji Itadori", category: "MELEE", emoji: "👊", anime: "Jujutsu Kaisen", image: "images/Yuji_Itadori.jpg", title: "Recipiente de Sukuna / Hechicero de Jujutsu" },
-  { name: "Aoi Todo", category: "MELEE", emoji: "👊", anime: "JUJUTSU KAISEN", image: "images/Aoi_Todo.jpg", title: "Hechicero de Grado Especial" },
+  { name: "Yuji Itadori", category: "MELEE", emoji: "👊", anime: "Jujutsu Kaisen", image: "/images/Yuji_Itadori.jpg", title: "Recipiente de Sukuna / Hechicero de Jujutsu" },
+  { name: "Aoi Todo", category: "MELEE", emoji: "👊", anime: "JUJUTSU KAISEN", image: "/images/Yuji_Itadori.jpg", title: "Hechicero de Grado Especial" },
   { name: "Maki Zenin", category: "MELEE", emoji: "🗡️", anime: "JUJUTSU KAISEN", image: "images/Maki_Zenin.jpg", title: "Semibruta del Clan Zenin" },
   { name: "Toji Fushiguro", category: "MELEE", emoji: "🔱", anime: "JUJUTSU KAISEN Season 2", image: "images/Toji_Fushiguro.jpg", title: "El Asesino de Hechiceros / Sin Energía Maldita" },
   { name: "Naoya Zenin", category: "MELEE", emoji: "👊", anime: "JUJUTSU KAISEN", image: "", title: "Hechicero del Clan Zenin" },
