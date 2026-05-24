@@ -26,7 +26,8 @@ export default defineSchema({
   })
     .index("by_voter", ["voterName"])
     .index("by_character", ["characterName"])
-    .index("by_category", ["category"]),
+    .index("by_category", ["category"])
+    .index("by_voter_character", ["voterName", "characterName"]),
 
   // Sesiones de votación completadas
   votingSessions: defineTable({

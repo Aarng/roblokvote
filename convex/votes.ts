@@ -1,7 +1,7 @@
 import { v } from "convex/values";
 import { query, mutation } from "./_generated/server";
 
-// Guardar un voto individual
+// Guardar un voto individual (upsert - evita duplicados)
 export const saveVote = mutation({
   args: {
     voterName: v.string(),
@@ -11,10 +11,29 @@ export const saveVote = mutation({
     anime: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    await ctx.db.insert("votes", {
-      ...args,
-      timestamp: Date.now(),
-    });
+    // Buscar si ya existe un voto para este votante + personaje
+    const existing = await ctx.db
+      .query("votes")
+      .withIndex("by_voter_character", (q) =>
+        q.eq("voterName", args.voterName).eq("characterName", args.characterName)
+      )
+      .first();
+
+    if (existing) {
+      // Actualizar voto existente
+      await ctx.db.patch(existing._id, {
+        vote: args.vote,
+        timestamp: Date.now(),
+      });
+      return { updated: true, id: existing._id };
+    } else {
+      // Crear nuevo voto
+      const id = await ctx.db.insert("votes", {
+        ...args,
+        timestamp: Date.now(),
+      });
+      return { created: true, id };
+    }
   },
 });
 
