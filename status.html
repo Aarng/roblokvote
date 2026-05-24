@@ -403,5 +403,128 @@
         // Recargar cada 5 segundos (para ver actualizaciones en tiempo real)
         setInterval(loadResults, 5000);
     </script>
+
+    <!-- Lista curada de personajes -->
+    <script src="curated-data.js"></script>
+    <script>
+        // Sobreescribir loadResults para usar curatedCharacters
+        function loadResults() {
+            const allResults = getAllResults();
+
+            // Calcular totales
+            let totalVoters = allResults.length;
+            let totalMelee = 0, totalEspada = 0, totalMagia = 0;
+
+            // Inicializar conteo de votos para cada personaje de la lista curada
+            const characterVotes = {};
+
+            // Inicializar con 0 votos para todos los personajes curados
+            ['melee', 'espada', 'magia'].forEach(cat => {
+                const catUpper = cat.toUpperCase();
+                curatedCharacters[cat].forEach(char => {
+                    const key = char.name + '|' + char.anime + '|' + catUpper;
+                    characterVotes[key] = {
+                        name: char.name,
+                        anime: char.anime,
+                        category: catUpper,
+                        votes: 0
+                    };
+                });
+            });
+
+            // Sumar votos de los resultados guardados
+            allResults.forEach(result => {
+                totalMelee += result.favoritos_por_categoria?.MELEE?.length || 0;
+                totalEspada += result.favoritos_por_categoria?.ESPADA?.length || 0;
+                totalMagia += result.favoritos_por_categoria?.MAGIA?.length || 0;
+
+                ['MELEE', 'ESPADA', 'MAGIA'].forEach(cat => {
+                    (result.favoritos_por_categoria?.[cat] || []).forEach(char => {
+                        const key = char.name + '|' + char.anime + '|' + cat;
+                        if (characterVotes[key]) {
+                            characterVotes[key].votes++;
+                        }
+                    });
+                });
+            });
+
+            // Actualizar stats
+            document.getElementById('total-melee').textContent = totalMelee;
+            document.getElementById('total-espada').textContent = totalEspada;
+            document.getElementById('total-magia').textContent = totalMagia;
+            document.getElementById('total-voters').textContent = totalVoters;
+
+            // Separar por categoría y ordenar
+            const categories = {
+                MELEE: [],
+                ESPADA: [],
+                MAGIA: []
+            };
+
+            Object.values(characterVotes).forEach(char => {
+                if (categories[char.category]) {
+                    categories[char.category].push(char);
+                }
+            });
+
+            // Ordenar por votos (descendente)
+            Object.keys(categories).forEach(cat => {
+                categories[cat].sort((a, b) => b.votes - a.votes);
+            });
+
+            // Renderizar
+            const container = document.getElementById('results-container');
+            container.innerHTML = '';
+
+            // Verificar si hay datos
+            if (totalVoters === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>🗳️ No hay votos registrados aún</h3>
+                        <p>La lista muestra los personajes de la votación privada.<br>
+                        Los porcentajes aparecerán cuando los votantes completen la votación.</p>
+                    </div>
+                `;
+            }
+
+            ['MELEE', 'ESPADA', 'MAGIA'].forEach(cat => {
+                const chars = categories[cat];
+                const catLower = cat.toLowerCase();
+                const maxVotes = Math.max(...Object.values(characterVotes).map(c => c.votes), 1);
+
+                container.innerHTML += `
+                    <div class="category-section ${catLower}">
+                        <h2>${cat} <span style="font-size: 0.7em; opacity: 0.8;">(${chars.length} personajes)</span></h2>
+                        <div class="characters-grid">
+                            ${chars.map((char, index) => {
+                                const percentage = totalVoters > 0 ? ((char.votes / totalVoters) * 100).toFixed(1) : '0.0';
+                                const rankClass = index === 0 && char.votes > 0 ? 'top-1' :
+                                                  index === 1 && char.votes > 0 ? 'top-2' :
+                                                  index === 2 && char.votes > 0 ? 'top-3' : 'other';
+                                const progressWidth = maxVotes > 0 ? (char.votes / maxVotes * 100).toFixed(0) : 0;
+
+                                return `
+                                    <div class="character-item">
+                                        <div class="character-rank ${rankClass}">${index + 1}</div>
+                                        <div class="character-info">
+                                            <div class="character-name">${char.name}</div>
+                                            <div class="character-anime">${char.anime}</div>
+                                            <div class="progress-bar">
+                                                <div class="progress-fill ${catLower}" style="width: ${progressWidth}%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="character-stats">
+                                            <div class="character-votes">${char.votes}</div>
+                                            <div class="character-percent">${percentage}%</div>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+    </script>
 </body>
 </html>
