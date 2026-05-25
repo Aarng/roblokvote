@@ -1,101 +1,129 @@
-# 🗳️ Sistema de Votación Multijugador - Personajes de Anime
+# ⚔️ Proyecto Piece - Anime Action RPG Voting
 
-Un sistema de votación web para elegir personajes favoritos de anime con modo individual y multijugador.
+Sistema de votación para personajes de anime. La comunidad decide qué personajes formarán parte de nuestro juego Action RPG en Roblox.
 
 ## 🎮 Características
 
-### Modo Individual
-- Sistema de swipe tipo Tinder (derecha = SÍ, izquierda = NO)
-- 150 personajes de anime organizados en 3 categorías:
+- **123 personajes** de anime organizados en 3 categorías:
   - **MELEE** (Luchadores cuerpo a cuerpo)
   - **ESPADA** (Espadachines)
-  - **MAGIA** (Usuarios de magia)
-- Fotos reales de los personajes
-- Títulos/epítetos de cada personaje obtenidos de wikis oficiales
-- Controles: flechas del teclado o teclas A/D
+  - **MAGIA** (Usuarios de magia/poderes)
 
-### Modo Multijugador (Nuevo)
-- Crear salas con código único
-- Múltiples jugadores votan simultáneamente
-- Sistema de mayoría: se requiere 50%+1 votos para aprobar
-- Host controla el inicio de la votación
-- Resultados en tiempo real
-- Soporte para 2-10 jugadores
-
-## 🚀 Instalación y Uso
-
-### Requisitos
-- Node.js (v14 o superior)
-- Navegador web moderno
-
-### Instalación
-```bash
-npm install
-```
-
-### Iniciar el servidor
-```bash
-npm start
-```
-
-El servidor se ejecutará en `http://localhost:3000`
+- **Sistema de votación tipo Tinder**: Desliza o usa botones para votar SÍ/NO
+- **Guardado de progreso**: Puedes cerrar y volver después, tu progreso se guarda
+- **Estadísticas globales**: Solo cuentan votos de usuarios que completaron toda la votación
+- **Recomendaciones**: La comunidad puede sugerir nuevos personajes
+- **Landing page dinámica**: Personajes destacados rotan cada 20 segundos
 
 ## 📁 Estructura del Proyecto
 
 ```
 roblokvote/
-├── index.html          # Modo individual
-├── lobby.html          # Interfaz multijugador
-├── lobby.js           # Lógica del cliente multijugador
-├── server.js          # Servidor Node.js + Socket.io
-├── app.js             # Lógica del modo individual
-├── data.js            # Datos de los 150 personajes
-├── images/            # Fotos de los personajes
-├── scraper.py         # Script para obtener imágenes y datos
-└── README.md
+├── index.html              # Landing page principal
+├── vote.html               # Sistema de votación
+├── status.html             # Estadísticas globales
+├── recommendations.html    # Ranking de recomendaciones
+├── statusadmin.html        # Panel admin (proteger en producción)
+├── app-convex.js          # Lógica de votación
+├── convex-client.js       # Cliente Convex
+├── data.js                # Datos de los 123 personajes
+├── images/                # Imágenes de personajes (123 archivos)
+├── convex/                # Backend Convex
+│   ├── schema.ts
+│   ├── votes.ts
+│   ├── recommendations.ts
+│   └── characters.ts
+└── update-images.js       # Script para actualizar imágenes
+└── add-character.js       # Script para agregar personajes
 ```
 
-## 🎯 Cómo Usar
+## 🚀 Uso
 
-### Modo Individual
-1. Abre `http://localhost:3000`
-2. Haz swipe o usa las teclas A/D para votar
-3. Al finalizar, descarga tus resultados
+### Desarrollo local
+```bash
+npm install
+npx convex dev
+```
 
-### Modo Multijugador
-1. Abre `http://localhost:3000/lobby.html`
-2. **Crear Sala**: Define tu nombre y cantidad de jugadores
-3. **Unirse**: Ingresa el código de 6 caracteres
-4. El host inicia cuando todos están listos
-5. Cada personaje se aprueba por mayoría de votos
-6. Al finalizar, se muestran los personajes aprobados por categoría
+### Scripts útiles
 
-## 📝 Sistema de Votación Multijugador
+**Actualizar imágenes:**
+```bash
+node update-images.js
+```
+Escannea la carpeta `images/` y actualiza `data.js` con las rutas correctas.
 
-- **Aprobación**: Requiere mayoría simple (50% + 1)
-- Ejemplo con 3 jugadores: necesita 2 votos SÍ
-- Ejemplo con 4 jugadores: necesita 3 votos SÍ
-- Ejemplo con 5 jugadores: necesita 3 votos SÍ
+**Agregar personaje nuevo:**
+```bash
+# Modo interactivo
+node add-character.js -i
 
-## 🎨 Personajes Incluidos
+# Modo rápido
+node add-character.js "Guts" "ESPADA" "Berserk" "El Espadachín Negro"
 
-Los 150 personajes provienen de:
-- One Piece, Naruto, Dragon Ball
-- Jujutsu Kaisen, Hunter x Hunter, Demon Slayer
-- My Hero Academia, Bleach, Attack on Titan
-- One Punch Man, Chainsaw Man, Black Clover
-- Fairy Tail, Sword Art Online, Re:Zero
-- Overlord, Seven Deadly Sins, JoJo
-- Fate, Mushoku Tensei, Slime, Berserk
-- Inuyasha, Madoka Magica, Sailor Moon
-- Konosuba, Frieren, Mashle, y más...
+# JSON
+node add-character.js -j '{"name":"Guts","category":"ESPADA","anime":"Berserk","title":"Espadachín Negro"}'
+```
 
-## 🛠️ Tecnologías
+## 📝 Flujo de Datos
+
+1. Los personajes están en `data.js` (usado para referencia)
+2. Los votos se guardan en **Convex** (base de datos serverless)
+3. Las imágenes deben estar en `images/Nombre_Personaje.png`
+
+### Para agregar un personaje nuevo:
+
+1. **Subir imagen** a `images/` (formato: PNG, JPG)
+   - Nombre del archivo = nombre del personaje con guiones bajos
+   - Ejemplo: `Son_Goku.png`, `Roronoa_Zoro.png`
+
+2. **Ejecutar:**
+   ```bash
+   node add-character.js -i
+   ```
+   O editar manualmente `data.js`
+
+3. **Migrar a Convex:**
+   ```bash
+   npx convex dev
+   # Luego en el dashboard de Convex, insertar el personaje
+   ```
+
+## 🔧 Tecnologías
 
 - **Frontend**: HTML5, CSS3, JavaScript vanilla
-- **Backend**: Node.js, Express, Socket.io
-- **Web Scraping**: Python + BeautifulSoup + AniList API
+- **Backend**: Convex (serverless database)
+- **Hosting**: Recomendado Netlify/Vercel (estático)
+- **Base de datos**: Convex (real-time, serverless)
+
+## 🛡️ Configuración de Producción
+
+Antes de deploy:
+
+1. **Proteger admin panel:**
+   - Renombrar `statusadmin.html` a algo aleatorio
+   - O agregar autenticación básica
+
+2. **Variables de entorno (.env):**
+   ```
+   CONVEX_URL=tu-url-de-convex
+   ```
+
+3. **Deploy Convex:**
+   ```bash
+   npx convex deploy
+   ```
+
+4. **Deploy frontend:**
+   ```bash
+   # Subir archivos HTML/JS a Netlify/Vercel
+   # Excluir: node_modules, .claude, archivos .bat/.ps1
+   ```
 
 ## 📄 Licencia
 
-MIT
+MIT - Proyecto comunitario de fans del anime.
+
+---
+
+**Nota:** Este es un proyecto de fans. No afiliado con los creadores de los animes mencionados.
