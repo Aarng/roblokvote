@@ -1398,7 +1398,9 @@
             // Controles
             controls = new OrbitControls(camera, renderer.domElement);
             controls.enableDamping = true;
-            controls.enableZoom = false;
+            controls.enableZoom = true;
+            controls.minDistance = 2;
+            controls.maxDistance = 10;
             controls.autoRotate = true;
             controls.autoRotateSpeed = 3;
 
