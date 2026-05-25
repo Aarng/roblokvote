@@ -34,7 +34,8 @@
       "Bash(curl *)",
       "Bash(npx convex *)",
       "Bash(move index.html vote.html)",
-      "PowerShell(Rename-Item *)"
+      "PowerShell(Rename-Item *)",
+      "Bash(git pull *)"
     ]
   }
 }

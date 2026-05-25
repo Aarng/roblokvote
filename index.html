@@ -990,10 +990,10 @@
         <div class="reward-container">
             <div class="reward-info">
                 <div class="reward-badge">🎁 SORTEO EXCLUSIVO</div>
-                <h2>Gana un Artículo Legendario del Juego</h2>
+                <h2>Gana la Espada Azure Legendaria</h2>
                 <p class="reward-description">
-                    Completa la votación de los 123 personajes y participa en el sorteo de un
-                    <strong>artículo exclusivo 3D</strong> para tu personaje en Proyecto Piece.
+                    Completa la votación de los 123 personajes y participa en el sorteo de la
+                    <strong>Espada Azure 3D</strong> - un arma mítica exclusiva para tu personaje en Proyecto Piece.
                 </p>
 
                 <div class="reward-features">
@@ -1035,7 +1035,7 @@
                     <button onclick="rotateModel('right')" title="Rotar derecha">↻</button>
                 </div>
                 <div class="viewer-label">
-                    🎮 Vista previa del artículo exclusivo
+                    🗡️ Espada Azure - Vista previa 3D
                 </div>
             </div>
         </div>
@@ -1414,8 +1414,8 @@
             const loadingEl = document.getElementById('fbx-loading');
             const errorEl = document.getElementById('fbx-error');
 
-            // Ruta del modelo FBX (cambiar cuando tengas el archivo)
-            const modelPath = 'models/reward-item.fbx';
+            // Ruta del modelo FBX - Espada Azure
+            const modelPath = 'models/Espada-Azure.fbx';
 
             // Verificar si el archivo existe intentando cargarlo
             if (typeof THREE.FBXLoader !== 'undefined') {
@@ -1427,21 +1427,25 @@
                         // Éxito
                         model = object;
 
-                        // Escalar y centrar modelo
+                        // Escalar y centrar modelo (ajustado para espada)
                         const box = new THREE.Box3().setFromObject(object);
                         const center = box.getCenter(new THREE.Vector3());
                         const size = box.getSize(new THREE.Vector3());
 
                         const maxDim = Math.max(size.x, size.y, size.z);
-                        const scale = 3 / maxDim;
+                        const scale = 2.5 / maxDim; // Ligeramente más pequeño para espada
                         object.scale.setScalar(scale);
 
                         object.position.sub(center.multiplyScalar(scale));
 
+                        // Rotar espada para mejor visualización (vertical)
+                        object.rotation.x = Math.PI / 6; // Inclinar 30 grados
+
                         scene.add(object);
 
-                        // Ocultar loading
+                        // Ocultar loading y error
                         if (loadingEl) loadingEl.style.display = 'none';
+                        if (errorEl) errorEl.style.display = 'none';
                     },
                     function(xhr) {
                         // Progreso
