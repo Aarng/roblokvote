@@ -25,17 +25,24 @@ const colors = {
 };
 
 // 1. Cargar variables de entorno
-dotenv.config({ path: ".env.local" });
+// Detectar si es producción o desarrollo
+const isProduction = process.argv.includes("--prod") || process.argv.includes("-p");
+const envFile = isProduction ? ".env.production" : ".env.local";
+dotenv.config({ path: envFile });
 
-const CONVEX_URL = process.env.VITE_CONVEX_URL || process.env.CONVEX_URL;
+const CONVEX_URL = process.env.VITE_CONVEX_URL || process.env.CONVEX_URL ||
+  (isProduction ? "https://tangible-ram-819.convex.cloud" : "https://hallowed-badger-330.convex.cloud");
+
 if (!CONVEX_URL) {
-  console.error(`${colors.red}❌ Error: Falta CONVEX_URL en .env.local${colors.reset}`);
+  console.error(`${colors.red}❌ Error: Falta CONVEX_URL${colors.reset}`);
   console.log("\nAsegurate de tener:");
+  console.log(`  Archivo ${envFile} con:`);
   console.log('  VITE_CONVEX_URL="https://tu-proyecto.convex.cloud"');
   process.exit(1);
 }
 
-console.log(`${colors.blue}🔗 Conectando a Convex: ${CONVEX_URL}${colors.reset}\n`);
+const envName = isProduction ? "PRODUCCIÓN" : "DESARROLLO";
+console.log(`${colors.blue}🔗 Conectando a Convex [${envName}]: ${CONVEX_URL}${colors.reset}\n`);
 
 const client = new ConvexHttpClient(CONVEX_URL);
 
@@ -209,7 +216,7 @@ async function main() {
   console.log(`${colors.red}❌ Fallidos: ${failed}${colors.reset}`);
 
   if (successful > 0) {
-    console.log(`\n${colors.green}✅ Imágenes subidas correctamente a Convex Storage!${colors.reset}`);
+    console.log(`\n${colors.green}✅ Imágenes subidas correctamente a Convex Storage [${envName}]!${colors.reset}`);
     console.log(`Las URLs se han guardado automáticamente en cada personaje.`);
   }
 
@@ -217,7 +224,12 @@ async function main() {
     console.log(`\n${colors.yellow}⚠️ Algunas imágenes fallaron.${colors.reset}`);
     console.log(`Revisa los errores arriba o intenta de nuevo.`);
   }
-}
+
+  console.log(`\n${colors.blue}💡 Usos:${colors.reset}`);
+  console.log(`  node upload-images-auto.mjs           # Subir todas (desarrollo)`);
+  console.log(`  node upload-images-auto.mjs --prod    # Subir todas (producción)`);
+  console.log(`  node upload-images-auto.mjs "Kirito"  # Subir específico`);
+
 
 main().catch(error => {
   console.error(`${colors.red}Error fatal: ${error.message}${colors.reset}`);
