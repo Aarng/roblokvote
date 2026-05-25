@@ -35,6 +35,8 @@ roblokvote/
 │   └── characters.ts
 └── update-images.js       # Script para actualizar imágenes
 └── add-character.js       # Script para agregar personajes
+└── update-character-image.js  # Script para cambiar imagen de personaje
+└── rename-character.js    # Script para renombrar personajes
 ```
 
 ## 🚀 Uso
@@ -63,6 +65,24 @@ node add-character.js "Guts" "ESPADA" "Berserk" "El Espadachín Negro"
 
 # JSON
 node add-character.js -j '{"name":"Guts","category":"ESPADA","anime":"Berserk","title":"Espadachín Negro"}'
+```
+
+**Actualizar imagen de personaje existente:**
+```bash
+# Modo interactivo (busca y sugiere imágenes automáticamente)
+node update-character-image.js
+
+# Modo directo
+node update-character-image.js "Guts" "guts_nuevo.png"
+```
+
+**Renombrar personaje:**
+```bash
+# Modo interactivo
+node rename-character.js
+
+# Modo directo
+node rename-character.js "Nombre Viejo" "Nombre Nuevo"
 ```
 
 ## 📝 Flujo de Datos
