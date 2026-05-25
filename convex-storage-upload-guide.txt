@@ -1,0 +1,137 @@
+Guía para subir imágenes a Convex Storage
+
+Fecha: 24-05-2026, 9:18:55 p. m.
+
+Para cada personaje:
+1. Ve al dashboard de Convex
+2. Ve a Files/Storage
+3. Sube la imagen: images/[nombre].png
+4. Copia la URL generada
+5. Ve a Data → characters
+6. Busca el personaje
+7. Pega la URL en el campo "image"
+
+Lista de archivos a subir:
+- Monkey D. Luffy: images/Monkey_D_Luffy.png
+- Sanji: images/Sanji.png
+- Yuji Itadori: images/Yuji_Itadori.png
+- Aoi Todo: images/Aoi_Todo.png
+- Maki Zenin: images/Maki_Zenin.png
+- Toji Fushiguro: images/Toji_Fushiguro.png
+- Naoya Zenin: images/Naoya_Zenin.png
+- Naruto Uzumaki: images/Naruto_Uzumaki.png
+- Rock Lee: images/Rock_Lee.png
+- Son Goku: images/Son_Goku.png
+- Vegeta: images/Vegeta.png
+- Broly: images/Broly.png
+- Gohan: images/Gohan.png
+- Piccolo: images/Piccolo.png
+- Gon Freecss: images/Gon_Freecss.png
+- Killua Zoldyck: images/Killua_Zoldyck.png
+- Genos: images/Genos.png
+- Saitama: images/Saitama.png
+- Garou: images/Garou.png
+- Baki Hanma: images/Baki_Hanma.png
+- Yujiro Hanma: images/Yujiro_Hanma.png
+- Mori Jin: images/Mori_Jin.png
+- Han Daewi: images/Han_Daewi.png
+- Denji: images/Denji.png
+- Power: images/Power.png
+- Shinra Kusakabe: images/Shinra_Kusakabe.png
+- Akaza: images/Akaza.png
+- Ban: images/Ban.png
+- All Might: images/All_Might.png
+- Izuku Midoriya: images/Izuku_Midoriya.png
+- Mirko: images/Mirko.png
+- Eren Yeager: images/Eren_Yeager.png
+- Joseph Joestar: images/Joseph_Joestar.png
+- Jonathan Joestar: images/Jonathan_Joestar.png
+- DIO: images/DIO.png
+- Yujiro Hanma: images/Yujiro_Hanma.png
+- Benimaru Shinmon: images/Benimaru Shinmon.png
+- Kaneki: images/kaneki.png
+- Eto: images/ETO.png
+- Roronoa Zoro: images/Roronoa_Zoro.png
+- Dracule Mihawk: images/Dracule_Mihawk.png
+- Shanks: images/Shanks.png
+- Trafalgar Law: images/Trafalgar_Law.png
+- Ichigo: images/Ichigo_Kurosaki.png
+- Byakuya Kuchiki: images/Byakuya_Kuchiki.png
+- Kenpachi Zaraki: images/Kenpachi_Zaraki.png
+- Genryusai Yamamoto: images/Genryusai_Yamamoto.png
+- Kisuke Urahara: images/Kisuke_Urahara.png
+- Sunraku: images/Sunraku.png
+- Arthur Pencilgon: images/Arthur_Pencilgon.png
+- Tanjiro Kamado: images/Tanjiro_Kamado.png
+- Giyu Tomioka: images/Giyu_Tomioka.png
+- Kyojuro Rengoku: images/Kyojuro_Rengoku.png
+- Muichiro Tokito: images/Muichiro_Tokito.png
+- Zenitsu Agatsuma: images/Zenitsu_Agatsuma.png
+- Yoriichi Tsugikuni: images/Yoriichi_Tsugikuni.png
+- Sasuke Uchiha: images/Sasuke_Uchiha.png
+- Mifune: images/Mifune.png
+- Asta: images/Asta.png
+- Erza Scarlet: images/Erza_Scarlet.png
+- Kirito: images/Kirito.png
+- Asuna Yuuki: images/Asuna_Yuuki.png
+- Guts: images/Guts.png
+- Griffith: images/Griffith.png
+- Kenshin Himura: images/Kenshin_Himura.png
+- Hyakkimaru: images/Hyakkimaru.png
+- Levi Ackerman: images/Levi_Ackerman.png
+- Mikasa Ackerman: images/Mikasa_Ackerman.png
+- Vergil: images/Vergil.png
+- Raiden: images/Raiden.png
+- 2B: images/2B.png
+- Saber: images/Saber.png
+- Mugen: images/Mugen.png
+- Jin: images/Jin.png
+- Hakumen: images/Hakumen.png
+- Sesshomaru: images/Sesshomaru.png
+- Inuyasha: images/Inuyasha.png
+- Ragna the Bloodedge: images/Ragna_the_Bloodedge.png
+- Noctis Lucis Caelum: images/Noctis_Lucis_Caelum.png
+- Dante: images/Dante.png
+- Rimuru Tempest: images/Rimuru_Tempest.png
+- Inosuke Hashibira: images/Inosuke_Hashibira.png
+- Escanor: images/Escanor.png
+- Sho Kusakabe: images/Shou Kusakabe.png
+- Yuta Okkotsu: images/Yuta_Okkotsu.png
+- Satoru Gojo: images/Satoru_Gojo.png
+- Megumi Fushiguro: images/Megumi_Fushiguro.png
+- Ryomen Sukuna: images/Ryomen_Sukuna.png
+- Suguru Geto: images/Suguru_Geto.png
+- Mahito: images/Mahito.png
+- Choso: images/Choso.png
+- Megumin: images/Megumin.png
+- Frieren: images/Frieren.png
+- Fern: images/Fern.png
+- Portgas D. Ace: images/Portgas_D_Ace.png
+- Aokiji: images/Aokiji.png
+- Akainu: images/Akainu.png
+- Kizaru: images/Kizaru.png
+- Boa Hancock: images/Boa_Hancock.png
+- Eustass Kid: images/Eustass_Kid.png
+- Blackbeard: images/Blackbeard.png
+- Perona: images/Perona.png
+- Charlotte Katakuri: images/Charlotte_Katakuri.png
+- Milim Nava: images/Milim_Nava.png
+- Diablo: images/Diablo.png
+- Lucy Heartfilia: images/Lucy_Heartfilia.png
+- Zeref: images/Zeref.png
+- Noelle Silva: images/Noelle_Silva.png
+- Tatsumaki: images/Tatsumaki.png
+- Madoka Kaname: images/Madoka_Kaname.png
+- Homura Akemi: images/Homura_Akemi.png
+- Mami Tomoe: images/Mami_Tomoe.png
+- Ainz Ooal Gown: images/Ainz_Ooal_Gown.png
+- Emilia: images/Emilia.png
+- Beatrice: images/Beatrice.png
+- Roxy Migurdia: images/Roxy_Migurdia.png
+- Rudeus Greyrat: images/Rudeus_Greyrat.png
+- Anos Voldigoad: images/Anos_Voldigoad.png
+- Howl: images/Howl.png
+- Sailor Moon: images/Sailor_Moon.png
+- Sailor Mars: images/Sailor_Mars.png
+- Sailor Mercury: images/Sailor_Mercury.png
+- Gilgamesh: images/Gilgamesh.png
