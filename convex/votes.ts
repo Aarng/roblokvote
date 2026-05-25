@@ -68,7 +68,7 @@ export const completeSession = mutation({
   },
 });
 
-// Obtener resultados globales (solo sesiones completadas)
+// Obtener resultados globales (TODOS los votos, incluyendo incompletos)
 export const getGlobalResults = query({
   handler: async (ctx) => {
     const allVotes = await ctx.db.query("votes").collect();
@@ -77,9 +77,7 @@ export const getGlobalResults = query({
     const byCategory: Record<string, { total: number; yes: number; characters: Record<string, { yes: number; no: number }> }> = {};
 
     for (const vote of allVotes) {
-      // Solo contar votos de sesiones completadas (undefined = voto antiguo completado, false = pendiente)
-      if (vote.sessionCompleted === false) continue;
-
+      // Contar TODOS los votos (completos e incompletos)
       if (!byCategory[vote.category]) {
         byCategory[vote.category] = { total: 0, yes: 0, characters: {} };
       }
@@ -129,6 +127,63 @@ export const getAllVoters = query({
   },
 });
 
+// Obtener todos los votantes con su progreso (incluyendo incompletos) - para admin
+export const getAllVotersWithProgress = query({
+  handler: async (ctx) => {
+    const allVotes = await ctx.db.query("votes").collect();
+    const sessions = await ctx.db.query("votingSessions").collect();
+    const totalCharacters = 123; // Total de personajes para votar
+
+    // Agrupar votos por votante
+    const voterVotes: Record<string, {
+      name: string;
+      votesCount: number;
+      yesCount: number;
+      isComplete: boolean;
+      completedAt?: number;
+    }> = {};
+
+    for (const vote of allVotes) {
+      if (!voterVotes[vote.voterName]) {
+        voterVotes[vote.voterName] = {
+          name: vote.voterName,
+          votesCount: 0,
+          yesCount: 0,
+          isComplete: false,
+        };
+      }
+      voterVotes[vote.voterName].votesCount++;
+      if (vote.vote === "SI") {
+        voterVotes[vote.voterName].yesCount++;
+      }
+    }
+
+    // Marcar completados
+    for (const session of sessions) {
+      if (voterVotes[session.voterName]) {
+        voterVotes[session.voterName].isComplete = true;
+        voterVotes[session.voterName].completedAt = session.completedAt;
+      }
+    }
+
+    // Convertir a array y calcular porcentajes
+    const voters = Object.values(voterVotes).map(v => ({
+      name: v.name,
+      votesCount: v.votesCount,
+      yesCount: v.yesCount,
+      progressPercent: Math.round((v.votesCount / totalCharacters) * 100),
+      isComplete: v.isComplete,
+      completedAt: v.completedAt,
+    }));
+
+    // Ordenar: primero completados, luego por porcentaje descendente
+    return voters.sort((a, b) => {
+      if (a.isComplete !== b.isComplete) return a.isComplete ? -1 : 1;
+      return b.progressPercent - a.progressPercent;
+    });
+  },
+});
+
 // Borrar votos de un votante (para admin)
 export const deleteVoterResults = mutation({
   args: { voterName: v.string() },
@@ -160,6 +215,30 @@ export const getAllVotes = query({
   handler: async (ctx) => {
     const allVotes = await ctx.db.query("votes").collect();
     return allVotes;
+  },
+});
+
+// Marcar votos de un votante como completados (para migración/admin)
+export const markVoterAsComplete = mutation({
+  args: { voterName: v.string() },
+  handler: async (ctx, { voterName }) => {
+    // Marcar todos los votos de este votante como completados
+    const votes = await ctx.db
+      .query("votes")
+      .withIndex("by_voter", (q) => q.eq("voterName", voterName))
+      .collect();
+
+    let marked = 0;
+    for (const vote of votes) {
+      if (vote.sessionCompleted !== true) {
+        await ctx.db.patch(vote._id, {
+          sessionCompleted: true,
+        });
+        marked++;
+      }
+    }
+
+    return { success: true, marked };
   },
 });
 

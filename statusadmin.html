@@ -251,6 +251,40 @@
             margin-bottom: 5px;
         }
 
+        .voter-progress {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+
+        .progress-bar-container {
+            flex: 1;
+            max-width: 150px;
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: 0.85rem;
+            color: #aaa;
+            white-space: nowrap;
+        }
+
+        .voter-status {
+            color: #f39c12;
+            font-size: 0.85rem;
+            font-style: italic;
+        }
+
         .voter-date {
             color: #888;
             font-size: 0.85rem;
@@ -736,7 +770,8 @@
 
             try {
                 console.log('[Admin] Cargando votantes...');
-                votersData = await convexQuery('votes:getAllVoters');
+                // Usar nueva función que incluye progreso de votantes incompletos
+                votersData = await convexQuery('votes:getAllVotersWithProgress');
                 console.log('[Admin] Votantes:', votersData);
 
                 if (!votersData || votersData.length === 0) {
@@ -745,24 +780,30 @@
                     return;
                 }
 
-                // Calculate stats
+                // Calculate stats - incluye todos los votos (completos e incompletos)
                 const totalVoters = votersData.length;
-                const totalFavorites = votersData.reduce((sum, v) => sum + (v.totalYes || 0), 0);
-                const totalVotes = totalFavorites + votersData.reduce((sum, v) =>
-                    sum + ((v.totalVoted || 0) - (v.totalYes || 0)), 0);
+                const completedVoters = votersData.filter(v => v.isComplete).length;
+                const totalFavorites = votersData.reduce((sum, v) => sum + (v.yesCount || 0), 0);
+                const totalVotes = votersData.reduce((sum, v) => sum + (v.votesCount || 0), 0);
 
-                updateStats(totalVoters, totalVotes, totalFavorites);
+                updateStats(totalVoters, totalVotes, totalFavorites, completedVoters);
 
-                // Render voters
+                // Render voters con barra de progreso
                 listContainer.innerHTML = votersData.map(voter => `
                     <div class="voter-card" data-name="${voter.name}">
                         <div class="voter-info">
                             <div class="voter-name">${voter.name}</div>
-                            <div class="voter-date">${new Date(voter.completedAt).toLocaleString('es-ES')}</div>
+                            <div class="voter-progress">
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar" style="width: ${voter.progressPercent}%; background: ${voter.isComplete ? '#27ae60' : '#f39c12'}"></div>
+                                </div>
+                                <span class="progress-text">${voter.votesCount}/123 (${voter.progressPercent}%) ${voter.isComplete ? '✅' : ''}</span>
+                            </div>
+                            ${voter.isComplete ? `<div class="voter-date">${new Date(voter.completedAt).toLocaleString('es-ES')}</div>` : '<div class="voter-status">En progreso</div>'}
                         </div>
                         <div class="voter-stats">
                             <div class="voter-stat">
-                                <div class="voter-stat-value">${voter.totalYes || 0}</div>
+                                <div class="voter-stat-value">${voter.yesCount || 0}</div>
                                 <div class="voter-stat-label">Favoritos</div>
                             </div>
                         </div>
@@ -779,10 +820,17 @@
             }
         }
 
-        function updateStats(voters, votes, favorites) {
+        function updateStats(voters, votes, favorites, completed = null) {
             document.getElementById('totalVoters').textContent = voters;
             document.getElementById('totalVotes').textContent = votes;
             document.getElementById('totalFavorites').textContent = favorites;
+            // Si hay completados, mostrar ratio
+            if (completed !== null) {
+                const votersLabel = document.querySelector('#totalVoters')?.parentElement?.querySelector('.stat-label');
+                if (votersLabel) {
+                    votersLabel.textContent = `Votantes (${completed} completados)`;
+                }
+            }
         }
 
         async function viewVoterDetails(voterName) {
