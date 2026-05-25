@@ -1,52 +1,47 @@
 import { v } from "convex/values";
-import { action, mutation, query } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 
-// Generar URL para subir una imagen al storage
-export const generateUploadUrl = action({
+// Generar URL para subir archivo a storage
+export const generateUploadUrl = mutation({
   handler: async (ctx) => {
     return await ctx.storage.generateUploadUrl();
   },
 });
 
-// Obtener URL de una imagen subida
-export const getImageUrl = query({
-  args: { storageId: v.string() },
-  handler: async (ctx, { storageId }) => {
-    const url = await ctx.storage.getUrl(storageId);
-    return url;
-  },
-});
-
-// Guardar referencia de imagen en la base de datos
-export const saveImageReference = mutation({
+// Guardar referencia de archivo subido y actualizar personaje
+export const saveFile = mutation({
   args: {
-    characterName: v.string(),
     storageId: v.string(),
-    url: v.string(),
+    characterName: v.string(),
+    contentType: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    // Buscar el personaje
+    // Buscar personaje por nombre
     const character = await ctx.db
       .query("characters")
-      .filter((q) => q.eq(q.field("name"), args.characterName))
+      .withIndex("by_name", (q) => q.eq("name", args.characterName))
       .first();
 
-    if (character) {
-      // Actualizar con la URL de la imagen
-      await ctx.db.patch(character._id, {
-        image: args.url,
-      });
-      return { updated: true };
+    if (!character) {
+      throw new Error(Personaje no encontrado: );
     }
-    return { updated: false };
+
+    // Generar URL publica
+    const url = await ctx.storage.getUrl(args.storageId);
+
+    await ctx.db.patch(character._id, {
+      image: url,
+      storageId: args.storageId,
+    });
+
+    return { success: true, url, characterName: args.characterName };
   },
 });
 
-// Listar todas las imágenes en storage
-export const listImages = query({
-  handler: async (ctx) => {
-    // Esta función requiere el paquete @convex-dev/storage
-    // Por ahora retornamos un array vacío
-    return [];
+// Obtener URL de storage por ID
+export const getStorageUrl = query({
+  args: { storageId: v.string() },
+  handler: async (ctx, args) => {
+    return await ctx.storage.getUrl(args.storageId);
   },
 });

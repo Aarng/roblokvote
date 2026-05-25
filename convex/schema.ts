@@ -8,12 +8,14 @@ export default defineSchema({
     category: v.string(), // 'MELEE', 'ESPADA', 'MAGIA'
     emoji: v.string(),
     anime: v.string(),
-    image: v.string(), // URL de la imagen
+    image: v.string(), // URL de la imagen (Convex Storage o local)
     title: v.string(),
     order: v.number(), // Para mantener el orden de aparición
+    storageId: v.optional(v.string()), // ID de Convex Storage
   })
     .index("by_category", ["category"])
-    .index("by_order", ["order"]),
+    .index("by_order", ["order"])
+    .index("by_name", ["name"]),
 
   // Votos individuales de cada personaje
   votes: defineTable({
