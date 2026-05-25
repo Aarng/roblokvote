@@ -1,5 +1,7 @@
 // Cliente Convex simple para vanilla JS
-const CONVEX_URL = 'https://hallowed-badger-330.convex.cloud/';
+// PRODUCCIÓN: https://tangible-ram-819.convex.cloud/
+// DESARROLLO: https://hallowed-badger-330.convex.cloud/
+const CONVEX_URL = 'https://tangible-ram-819.convex.cloud/';
 
 // Función para llamar a Convex
 async function convexQuery(name, args = {}) {
