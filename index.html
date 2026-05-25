@@ -1344,21 +1344,27 @@
         });
     </script>
 
-    <!-- Three.js y FBX Loader -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FBXLoader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <!-- Three.js con Import Map para FBX -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
 
-    <script>
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { FBXLoader } from 'three/addons/loaders/FBXLoader.js';
+
         // Renderizador 3D para el modelo FBX
         let scene, camera, renderer, model, controls;
         let autoRotate = true;
-        let rotationSpeed = 0.005;
 
         // Inicializar cuando el DOM esté listo
-        document.addEventListener('DOMContentLoaded', function() {
-            init3DViewer();
-        });
+        document.addEventListener('DOMContentLoaded', init3DViewer);
 
         function init3DViewer() {
             const container = document.getElementById('fbx-container');
@@ -1366,47 +1372,43 @@
 
             // Crear escena
             scene = new THREE.Scene();
-            scene.background = null; // Transparente
 
             // Cámara
-            camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-            camera.position.set(0, 0, 5);
+            camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 100);
+            camera.position.set(0, 1, 4);
 
             // Renderer
             renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
             renderer.setSize(container.clientWidth, container.clientHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             container.appendChild(renderer.domElement);
 
-            // Luces
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            // Luces mejoradas
+            const ambientLight = new THREE.AmbientLight(0x404040, 1.5);
             scene.add(ambientLight);
 
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-            directionalLight.position.set(5, 10, 7);
-            scene.add(directionalLight);
+            const dirLight = new THREE.DirectionalLight(0xffffff, 2);
+            dirLight.position.set(5, 10, 7);
+            scene.add(dirLight);
 
-            const pointLight = new THREE.PointLight(0xf39c12, 0.5);
-            pointLight.position.set(-5, 5, -5);
+            const pointLight = new THREE.PointLight(0x00aaff, 1, 10);
+            pointLight.position.set(-2, 2, -2);
             scene.add(pointLight);
 
             // Controles
-            if (typeof THREE.OrbitControls !== 'undefined') {
-                controls = new THREE.OrbitControls(camera, renderer.domElement);
-                controls.enableDamping = true;
-                controls.dampingFactor = 0.05;
-                controls.enableZoom = false;
-                controls.autoRotate = true;
-                controls.autoRotateSpeed = 2.0;
-            }
+            controls = new OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.enableZoom = false;
+            controls.autoRotate = true;
+            controls.autoRotateSpeed = 3;
 
-            // Intentar cargar modelo FBX
+            // Cargar modelo
             loadFBXModel();
 
             // Resize handler
             window.addEventListener('resize', onWindowResize);
 
-            // Iniciar animación
+            // Animación
             animate();
         }
 
@@ -1414,115 +1416,97 @@
             const loadingEl = document.getElementById('fbx-loading');
             const errorEl = document.getElementById('fbx-error');
 
-            // Ruta del modelo FBX - Espada Azure
-            const modelPath = 'models/Espada-Azure.fbx';
+            const loader = new FBXLoader();
+            loader.load(
+                'models/Espada-Azure.fbx',
+                (object) => {
+                    model = object;
 
-            // Verificar si el archivo existe intentando cargarlo
-            if (typeof THREE.FBXLoader !== 'undefined') {
-                const loader = new THREE.FBXLoader();
+                    // Centrar y escalar
+                    const box = new THREE.Box3().setFromObject(object);
+                    const center = box.getCenter(new THREE.Vector3());
+                    const size = box.getSize(new THREE.Vector3());
+                    const maxDim = Math.max(size.x, size.y, size.z);
+                    const scale = 2 / maxDim;
 
-                loader.load(
-                    modelPath,
-                    function(object) {
-                        // Éxito
-                        model = object;
+                    object.scale.setScalar(scale);
+                    object.position.sub(center.clone().multiplyScalar(scale));
 
-                        // Escalar y centrar modelo (ajustado para espada)
-                        const box = new THREE.Box3().setFromObject(object);
-                        const center = box.getCenter(new THREE.Vector3());
-                        const size = box.getSize(new THREE.Vector3());
+                    // Rotar para mostrar la espada vertical
+                    object.rotation.x = Math.PI / 4;
 
-                        const maxDim = Math.max(size.x, size.y, size.z);
-                        const scale = 2.5 / maxDim; // Ligeramente más pequeño para espada
-                        object.scale.setScalar(scale);
+                    scene.add(object);
 
-                        object.position.sub(center.multiplyScalar(scale));
-
-                        // Rotar espada para mejor visualización (vertical)
-                        object.rotation.x = Math.PI / 6; // Inclinar 30 grados
-
-                        scene.add(object);
-
-                        // Ocultar loading y error
-                        if (loadingEl) loadingEl.style.display = 'none';
-                        if (errorEl) errorEl.style.display = 'none';
-                    },
-                    function(xhr) {
-                        // Progreso
-                        console.log((xhr.loaded / xhr.total * 100) + '% cargado');
-                    },
-                    function(error) {
-                        // Error - mostrar modelo placeholder
-                        console.log('FBX no encontrado, usando placeholder:', error);
-                        createPlaceholderModel();
-                        if (loadingEl) loadingEl.style.display = 'none';
-                        if (errorEl) errorEl.style.display = 'flex';
-                    }
-                );
-            } else {
-                // FBXLoader no disponible - usar placeholder
-                createPlaceholderModel();
-                if (loadingEl) loadingEl.style.display = 'none';
-                if (errorEl) errorEl.style.display = 'flex';
-            }
+                    if (loadingEl) loadingEl.style.display = 'none';
+                    if (errorEl) errorEl.style.display = 'none';
+                },
+                (xhr) => {
+                    const percent = xhr.total ? Math.round((xhr.loaded / xhr.total) * 100) : 0;
+                    console.log(`${percent}% cargado`);
+                },
+                (error) => {
+                    console.error('Error cargando FBX:', error);
+                    createPlaceholderModel();
+                    if (loadingEl) loadingEl.style.display = 'none';
+                    if (errorEl) errorEl.style.display = 'flex';
+                }
+            );
         }
 
         function createPlaceholderModel() {
-            // Crear un modelo placeholder (cofre o espada simple)
             const group = new THREE.Group();
 
-            // Caja principal (cuerpo del cofre)
-            const geometry = new THREE.BoxGeometry(1.5, 1, 1);
-            const material = new THREE.MeshStandardMaterial({
-                color: 0xf39c12,
-                metalness: 0.7,
-                roughness: 0.3
+            // Hoja de espada azul
+            const bladeGeo = new THREE.CylinderGeometry(0.1, 0.2, 2, 6);
+            const bladeMat = new THREE.MeshStandardMaterial({
+                color: 0x00aaff,
+                metalness: 0.8,
+                roughness: 0.2,
+                emissive: 0x0066cc,
+                emissiveIntensity: 0.2
             });
-            const box = new THREE.Mesh(geometry, material);
-            group.add(box);
+            const blade = new THREE.Mesh(bladeGeo, bladeMat);
+            blade.position.y = 0.5;
+            group.add(blade);
 
-            // Detalles dorados
-            const edgeGeometry = new THREE.BoxGeometry(1.55, 1.05, 1.05);
-            const edgeMaterial = new THREE.MeshStandardMaterial({
+            // Mango
+            const handleGeo = new THREE.CylinderGeometry(0.08, 0.08, 0.6, 8);
+            const handleMat = new THREE.MeshStandardMaterial({
+                color: 0x4a4a4a,
+                metalness: 0.5,
+                roughness: 0.7
+            });
+            const handle = new THREE.Mesh(handleGeo, handleMat);
+            handle.position.y = -0.8;
+            group.add(handle);
+
+            // Guardamanos dorado
+            const guardGeo = new THREE.BoxGeometry(0.6, 0.1, 0.3);
+            const guardMat = new THREE.MeshStandardMaterial({
                 color: 0xffd700,
                 metalness: 0.9,
                 roughness: 0.2
             });
-            const edges = new THREE.Mesh(edgeGeometry, edgeMaterial);
-            group.add(edges);
+            const guard = new THREE.Mesh(guardGeo, guardMat);
+            guard.position.y = -0.5;
+            group.add(guard);
 
-            // Tapa del cofre (parte superior)
-            const lidGeometry = new THREE.BoxGeometry(1.5, 0.3, 1);
-            const lidMaterial = new THREE.MeshStandardMaterial({
-                color: 0xe67e22,
-                metalness: 0.6,
-                roughness: 0.4
-            });
-            const lid = new THREE.Mesh(lidGeometry, lidMaterial);
-            lid.position.y = 0.65;
-            group.add(lid);
+            // Pomo
+            const pommelGeo = new THREE.SphereGeometry(0.15, 16, 16);
+            const pommel = new THREE.Mesh(pommelGeo, guardMat);
+            pommel.position.y = -1.2;
+            group.add(pommel);
 
-            // Cerradura
-            const lockGeometry = new THREE.BoxGeometry(0.3, 0.4, 0.1);
-            const lockMaterial = new THREE.MeshStandardMaterial({
-                color: 0xffd700,
-                metalness: 1.0,
-                roughness: 0.1
-            });
-            const lock = new THREE.Mesh(lockGeometry, lockMaterial);
-            lock.position.set(0, 0, 0.55);
-            group.add(lock);
-
-            // Brillo mágico alrededor
-            const glowGeometry = new THREE.SphereGeometry(1.2, 32, 32);
-            const glowMaterial = new THREE.MeshBasicMaterial({
-                color: 0xf39c12,
+            // Aura mágica
+            const auraGeo = new THREE.SphereGeometry(1.2, 32, 32);
+            const auraMat = new THREE.MeshBasicMaterial({
+                color: 0x00aaff,
                 transparent: true,
-                opacity: 0.1,
+                opacity: 0.08,
                 side: THREE.BackSide
             });
-            const glow = new THREE.Mesh(glowGeometry, glowMaterial);
-            group.add(glow);
+            const aura = new THREE.Mesh(auraGeo, auraMat);
+            group.add(aura);
 
             model = group;
             scene.add(model);
@@ -1539,40 +1523,25 @@
 
         function animate() {
             requestAnimationFrame(animate);
+            controls?.update();
 
-            if (controls) {
-                controls.update();
-            } else if (model && autoRotate) {
-                model.rotation.y += rotationSpeed;
-            }
-
-            // Efecto de flotación
             if (model) {
-                model.position.y = Math.sin(Date.now() * 0.001) * 0.1;
+                model.position.y = Math.sin(Date.now() * 0.0015) * 0.08;
             }
 
             renderer.render(scene, camera);
         }
 
-        // Controles externos
-        function rotateModel(direction) {
+        // Exponer funciones globales para los botones
+        window.rotateModel = (dir) => {
             if (!model) return;
-            autoRotate = false;
-            const rotationAmount = Math.PI / 4;
+            controls.autoRotate = false;
+            model.rotation.y += dir === 'left' ? -0.5 : 0.5;
+        };
 
-            if (direction === 'left') {
-                model.rotation.y -= rotationAmount;
-            } else {
-                model.rotation.y += rotationAmount;
-            }
-        }
-
-        function toggleAutoRotate() {
-            autoRotate = !autoRotate;
-            if (controls) {
-                controls.autoRotate = autoRotate;
-            }
-        }
+        window.toggleAutoRotate = () => {
+            if (controls) controls.autoRotate = !controls.autoRotate;
+        };
     </script>
 </body>
 </html>
