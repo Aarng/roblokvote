@@ -234,8 +234,10 @@
         /* CTA Banner */
         .cta-banner {
             background: linear-gradient(135deg, #e74c3c 0%, #c0392b 50%, #8e44ad 100%);
-            padding: 25px 20px;
-            position: relative;
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 999;
             overflow: hidden;
         }
 
@@ -960,6 +962,20 @@
         </div>
     </nav>
 
+    <!-- CTA Sorteo Banner - Lo primero que se ve -->
+    <section class="cta-banner" id="cta-sorteo">
+        <div class="cta-banner-content">
+            <div class="cta-banner-icon">🎁</div>
+            <div class="cta-banner-text">
+                <h3>🎉 ¡Sorteo Exclusivo!</h3>
+                <p>Completa la votación y gana la <strong>Espada Azure Legendaria</strong> 🗡️</p>
+            </div>
+            <a href="#reward" class="cta-banner-btn">
+                Ver Sorteo →
+            </a>
+        </div>
+    </section>
+
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
@@ -978,20 +994,6 @@
                     ⭐ Recomendar Personaje
                 </a>
             </div>
-        </div>
-    </section>
-
-    <!-- CTA Sorteo Banner -->
-    <section class="cta-banner" id="cta-sorteo">
-        <div class="cta-banner-content">
-            <div class="cta-banner-icon">🎁</div>
-            <div class="cta-banner-text">
-                <h3>¡Sorteo Exclusivo!</h3>
-                <p>Completa la votación y gana la <strong>Espada Azure Legendaria</strong> 🗡️</p>
-            </div>
-            <a href="#reward" class="cta-banner-btn">
-                Ver Sorteo →
-            </a>
         </div>
     </section>
 
