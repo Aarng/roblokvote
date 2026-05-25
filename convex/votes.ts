@@ -155,6 +155,14 @@ export const deleteVoterResults = mutation({
   },
 });
 
+// Obtener todos los votos (para migración/admin)
+export const getAllVotes = query({
+  handler: async (ctx) => {
+    const allVotes = await ctx.db.query("votes").collect();
+    return allVotes;
+  },
+});
+
 // Obtener personajes más votados (recomendaciones)
 export const getTopCharacters = query({
   handler: async (ctx) => {

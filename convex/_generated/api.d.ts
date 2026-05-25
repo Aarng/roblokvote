@@ -12,6 +12,7 @@ import type * as characters from "../characters.js";
 import type * as recommendations from "../recommendations.js";
 import type * as storage from "../storage.js";
 import type * as votes from "../votes.js";
+import type * as votingSessions from "../votingSessions.js";
 
 import type {
   ApiFromModules,
@@ -24,6 +25,7 @@ declare const fullApi: ApiFromModules<{
   recommendations: typeof recommendations;
   storage: typeof storage;
   votes: typeof votes;
+  votingSessions: typeof votingSessions;
 }>;
 
 /**
