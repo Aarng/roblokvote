@@ -231,6 +231,116 @@
             transform: translateY(-3px);
         }
 
+        /* CTA Banner */
+        .cta-banner {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 50%, #8e44ad 100%);
+            padding: 25px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.05) 10px,
+                rgba(255,255,255,0.05) 20px
+            );
+            animation: shimmer 20s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .cta-banner-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-banner-icon {
+            font-size: 3rem;
+            animation: bounce 2s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .cta-banner-text {
+            text-align: left;
+        }
+
+        .cta-banner-text h3 {
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .cta-banner-text p {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .cta-banner-text strong {
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255,215,0,0.5);
+        }
+
+        .cta-banner-btn {
+            display: inline-block;
+            background: white;
+            color: #c0392b;
+            padding: 15px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .cta-banner-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+
+        @media (max-width: 768px) {
+            .cta-banner-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .cta-banner-text {
+                text-align: center;
+            }
+
+            .cta-banner-text h3 {
+                font-size: 1.3rem;
+            }
+
+            .cta-banner-text p {
+                font-size: 1rem;
+            }
+        }
+
         /* Stats Section */
         .stats-section {
             background: linear-gradient(135deg, var(--darker), var(--dark));
@@ -868,6 +978,20 @@
                     ⭐ Recomendar Personaje
                 </a>
             </div>
+        </div>
+    </section>
+
+    <!-- CTA Sorteo Banner -->
+    <section class="cta-banner" id="cta-sorteo">
+        <div class="cta-banner-content">
+            <div class="cta-banner-icon">🎁</div>
+            <div class="cta-banner-text">
+                <h3>¡Sorteo Exclusivo!</h3>
+                <p>Completa la votación y gana la <strong>Espada Azure Legendaria</strong> 🗡️</p>
+            </div>
+            <a href="#reward" class="cta-banner-btn">
+                Ver Sorteo →
+            </a>
         </div>
     </section>
 
