@@ -59,8 +59,11 @@ if (!match) {
 const characters = eval(match[1]);
 console.log(`${colors.blue}📦 Total de personajes en data.js: ${characters.length}${colors.reset}\n`);
 
-// 3. Filtrar por nombre si se especificó
-const specificName = process.argv[2];
+// 3. Filtrar por nombre si se especificó (ignorar --prod, -p, y rutas de archivos)
+const args = process.argv.slice(2); // Remover node y nombre del script
+const specificName = args.find(arg =>
+  arg !== "--prod" && arg !== "-p" && !arg.startsWith("-") && !arg.includes("\\") && !arg.includes("/")
+);
 let charactersToUpload = characters;
 
 if (specificName) {
@@ -229,9 +232,10 @@ async function main() {
   console.log(`  node upload-images-auto.mjs           # Subir todas (desarrollo)`);
   console.log(`  node upload-images-auto.mjs --prod    # Subir todas (producción)`);
   console.log(`  node upload-images-auto.mjs "Kirito"  # Subir específico`);
-
+}
 
 main().catch(error => {
   console.error(`${colors.red}Error fatal: ${error.message}${colors.reset}`);
   process.exit(1);
 });
+
