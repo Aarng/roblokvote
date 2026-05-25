@@ -23,7 +23,7 @@ export const saveFile = mutation({
       .first();
 
     if (!character) {
-      throw new Error(Personaje no encontrado: );
+      throw new Error(`Personaje no encontrado: ${args.characterName}`);
     }
 
     // Generar URL publica
