@@ -484,6 +484,241 @@
             margin-bottom: 40px;
         }
 
+        /* Reward Section */
+        .reward-section {
+            padding: 100px 20px;
+            background: linear-gradient(135deg, var(--darker) 0%, #1a1a2e 50%, var(--darker) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .reward-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at 30% 50%, rgba(243, 156, 18, 0.1) 0%, transparent 50%),
+                        radial-gradient(ellipse at 70% 50%, rgba(155, 89, 182, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .reward-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .reward-info {
+            text-align: left;
+        }
+
+        .reward-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .reward-info h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #f39c12, #e67e22, #9b59b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .reward-description {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .reward-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .reward-feature {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .feature-icon {
+            font-size: 1.2rem;
+        }
+
+        .btn-reward {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            text-decoration: none;
+            padding: 20px 50px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(243, 156, 18, 0.3);
+        }
+
+        .btn-reward:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(243, 156, 18, 0.4);
+        }
+
+        .btn-sub {
+            font-size: 0.85rem;
+            font-weight: normal;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        /* 3D Viewer */
+        .reward-3d-viewer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .fbx-container {
+            width: 100%;
+            max-width: 450px;
+            height: 450px;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.03) 0%, transparent 70%);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .fbx-container canvas {
+            width: 100% !important;
+            height: 100% !important;
+            border-radius: 20px;
+        }
+
+        .fbx-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(243, 156, 18, 0.3);
+            border-top-color: #f39c12;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .fbx-error {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 3rem;
+        }
+
+        .fbx-error p {
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+
+        .fbx-error small {
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+
+        .viewer-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .viewer-controls button {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .viewer-controls button:hover {
+            background: rgba(243, 156, 18, 0.3);
+            border-color: #f39c12;
+        }
+
+        .viewer-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-align: center;
+        }
+
+        @media (max-width: 900px) {
+            .reward-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .reward-info {
+                text-align: center;
+            }
+
+            .reward-features {
+                justify-content: center;
+            }
+
+            .fbx-container {
+                max-width: 350px;
+                height: 350px;
+            }
+        }
+
         /* Footer */
         footer {
             background: var(--darker);
@@ -747,6 +982,62 @@
             <a href="vote.html" class="btn-primary" style="font-size: 1.2rem; padding: 20px 50px;">
                 🗳️ Ir a la Votación
             </a>
+        </div>
+    </section>
+
+    <!-- Sección Recompensa 3D -->
+    <section class="reward-section" id="reward">
+        <div class="reward-container">
+            <div class="reward-info">
+                <div class="reward-badge">🎁 SORTEO EXCLUSIVO</div>
+                <h2>Gana un Artículo Legendario del Juego</h2>
+                <p class="reward-description">
+                    Completa la votación de los 123 personajes y participa en el sorteo de un
+                    <strong>artículo exclusivo 3D</strong> para tu personaje en Proyecto Piece.
+                </p>
+
+                <div class="reward-features">
+                    <div class="reward-feature">
+                        <span class="feature-icon">⚔️</span>
+                        <span>Skin Exclusiva</span>
+                    </div>
+                    <div class="reward-feature">
+                        <span class="feature-icon">✨</span>
+                        <span>Efectos Especiales</span>
+                    </div>
+                    <div class="reward-feature">
+                        <span class="feature-icon">🔥</span>
+                        <span>Solo 100 disponibles</span>
+                    </div>
+                </div>
+
+                <a href="vote.html" class="btn-reward">
+                    🗳️ Completar Votación
+                    <span class="btn-sub">Participa en el sorteo al finalizar</span>
+                </a>
+            </div>
+
+            <div class="reward-3d-viewer">
+                <div id="fbx-container" class="fbx-container">
+                    <div id="fbx-loading" class="fbx-loading">
+                        <div class="spinner"></div>
+                        <p>Cargando modelo 3D...</p>
+                    </div>
+                    <div id="fbx-error" class="fbx-error" style="display: none;">
+                        <span>📦</span>
+                        <p>Modelo 3D no disponible</p>
+                        <small>El artículo se revelará pronto</small>
+                    </div>
+                </div>
+                <div class="viewer-controls">
+                    <button onclick="rotateModel('left')" title="Rotar izquierda">↺</button>
+                    <button onclick="toggleAutoRotate()" title="Auto-rotar">⟲</button>
+                    <button onclick="rotateModel('right')" title="Rotar derecha">↻</button>
+                </div>
+                <div class="viewer-label">
+                    🎮 Vista previa del artículo exclusivo
+                </div>
+            </div>
         </div>
     </section>
 
@@ -1051,6 +1342,233 @@
             // Iniciar auto-rotación después de cargar personajes
             startAutoRotate();
         });
+    </script>
+
+    <!-- Three.js y FBX Loader -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FBXLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+    <script>
+        // Renderizador 3D para el modelo FBX
+        let scene, camera, renderer, model, controls;
+        let autoRotate = true;
+        let rotationSpeed = 0.005;
+
+        // Inicializar cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function() {
+            init3DViewer();
+        });
+
+        function init3DViewer() {
+            const container = document.getElementById('fbx-container');
+            if (!container) return;
+
+            // Crear escena
+            scene = new THREE.Scene();
+            scene.background = null; // Transparente
+
+            // Cámara
+            camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.set(0, 0, 5);
+
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            container.appendChild(renderer.domElement);
+
+            // Luces
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(5, 10, 7);
+            scene.add(directionalLight);
+
+            const pointLight = new THREE.PointLight(0xf39c12, 0.5);
+            pointLight.position.set(-5, 5, -5);
+            scene.add(pointLight);
+
+            // Controles
+            if (typeof THREE.OrbitControls !== 'undefined') {
+                controls = new THREE.OrbitControls(camera, renderer.domElement);
+                controls.enableDamping = true;
+                controls.dampingFactor = 0.05;
+                controls.enableZoom = false;
+                controls.autoRotate = true;
+                controls.autoRotateSpeed = 2.0;
+            }
+
+            // Intentar cargar modelo FBX
+            loadFBXModel();
+
+            // Resize handler
+            window.addEventListener('resize', onWindowResize);
+
+            // Iniciar animación
+            animate();
+        }
+
+        function loadFBXModel() {
+            const loadingEl = document.getElementById('fbx-loading');
+            const errorEl = document.getElementById('fbx-error');
+
+            // Ruta del modelo FBX (cambiar cuando tengas el archivo)
+            const modelPath = 'models/reward-item.fbx';
+
+            // Verificar si el archivo existe intentando cargarlo
+            if (typeof THREE.FBXLoader !== 'undefined') {
+                const loader = new THREE.FBXLoader();
+
+                loader.load(
+                    modelPath,
+                    function(object) {
+                        // Éxito
+                        model = object;
+
+                        // Escalar y centrar modelo
+                        const box = new THREE.Box3().setFromObject(object);
+                        const center = box.getCenter(new THREE.Vector3());
+                        const size = box.getSize(new THREE.Vector3());
+
+                        const maxDim = Math.max(size.x, size.y, size.z);
+                        const scale = 3 / maxDim;
+                        object.scale.setScalar(scale);
+
+                        object.position.sub(center.multiplyScalar(scale));
+
+                        scene.add(object);
+
+                        // Ocultar loading
+                        if (loadingEl) loadingEl.style.display = 'none';
+                    },
+                    function(xhr) {
+                        // Progreso
+                        console.log((xhr.loaded / xhr.total * 100) + '% cargado');
+                    },
+                    function(error) {
+                        // Error - mostrar modelo placeholder
+                        console.log('FBX no encontrado, usando placeholder:', error);
+                        createPlaceholderModel();
+                        if (loadingEl) loadingEl.style.display = 'none';
+                        if (errorEl) errorEl.style.display = 'flex';
+                    }
+                );
+            } else {
+                // FBXLoader no disponible - usar placeholder
+                createPlaceholderModel();
+                if (loadingEl) loadingEl.style.display = 'none';
+                if (errorEl) errorEl.style.display = 'flex';
+            }
+        }
+
+        function createPlaceholderModel() {
+            // Crear un modelo placeholder (cofre o espada simple)
+            const group = new THREE.Group();
+
+            // Caja principal (cuerpo del cofre)
+            const geometry = new THREE.BoxGeometry(1.5, 1, 1);
+            const material = new THREE.MeshStandardMaterial({
+                color: 0xf39c12,
+                metalness: 0.7,
+                roughness: 0.3
+            });
+            const box = new THREE.Mesh(geometry, material);
+            group.add(box);
+
+            // Detalles dorados
+            const edgeGeometry = new THREE.BoxGeometry(1.55, 1.05, 1.05);
+            const edgeMaterial = new THREE.MeshStandardMaterial({
+                color: 0xffd700,
+                metalness: 0.9,
+                roughness: 0.2
+            });
+            const edges = new THREE.Mesh(edgeGeometry, edgeMaterial);
+            group.add(edges);
+
+            // Tapa del cofre (parte superior)
+            const lidGeometry = new THREE.BoxGeometry(1.5, 0.3, 1);
+            const lidMaterial = new THREE.MeshStandardMaterial({
+                color: 0xe67e22,
+                metalness: 0.6,
+                roughness: 0.4
+            });
+            const lid = new THREE.Mesh(lidGeometry, lidMaterial);
+            lid.position.y = 0.65;
+            group.add(lid);
+
+            // Cerradura
+            const lockGeometry = new THREE.BoxGeometry(0.3, 0.4, 0.1);
+            const lockMaterial = new THREE.MeshStandardMaterial({
+                color: 0xffd700,
+                metalness: 1.0,
+                roughness: 0.1
+            });
+            const lock = new THREE.Mesh(lockGeometry, lockMaterial);
+            lock.position.set(0, 0, 0.55);
+            group.add(lock);
+
+            // Brillo mágico alrededor
+            const glowGeometry = new THREE.SphereGeometry(1.2, 32, 32);
+            const glowMaterial = new THREE.MeshBasicMaterial({
+                color: 0xf39c12,
+                transparent: true,
+                opacity: 0.1,
+                side: THREE.BackSide
+            });
+            const glow = new THREE.Mesh(glowGeometry, glowMaterial);
+            group.add(glow);
+
+            model = group;
+            scene.add(model);
+        }
+
+        function onWindowResize() {
+            const container = document.getElementById('fbx-container');
+            if (!container || !camera || !renderer) return;
+
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            if (controls) {
+                controls.update();
+            } else if (model && autoRotate) {
+                model.rotation.y += rotationSpeed;
+            }
+
+            // Efecto de flotación
+            if (model) {
+                model.position.y = Math.sin(Date.now() * 0.001) * 0.1;
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        // Controles externos
+        function rotateModel(direction) {
+            if (!model) return;
+            autoRotate = false;
+            const rotationAmount = Math.PI / 4;
+
+            if (direction === 'left') {
+                model.rotation.y -= rotationAmount;
+            } else {
+                model.rotation.y += rotationAmount;
+            }
+        }
+
+        function toggleAutoRotate() {
+            autoRotate = !autoRotate;
+            if (controls) {
+                controls.autoRotate = autoRotate;
+            }
+        }
     </script>
 </body>
 </html>
