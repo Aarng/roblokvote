@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sea Lords - Anime Action RPG en Roblox</title>
+    <title>Sea Lords - Anime Action RPG on Roblox</title>
     <style>
         * {
             margin: 0;
@@ -149,36 +149,6 @@
             gap: 16px;
         }
 
-        /* Language Switcher */
-        .lang-switcher {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 6px 12px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .lang-switcher a {
-            color: rgba(255, 255, 255, 0.5);
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 500;
-            padding: 4px 8px;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-        }
-
-        .lang-switcher a.active {
-            background: var(--primary);
-            color: white;
-        }
-
-        .lang-switcher a:hover:not(.active) {
-            color: white;
-        }
-
         .nav-btn {
             padding: 10px 20px;
             border-radius: 8px;
@@ -216,7 +186,37 @@
             box-shadow: 0 8px 30px rgba(168, 85, 247, 0.4);
         }
 
-        /* CTA Sorteo Banner */
+        /* Language Switcher */
+        .lang-switcher {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .lang-switcher a {
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 4px 8px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .lang-switcher a.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .lang-switcher a:hover:not(.active) {
+            color: white;
+        }
+
+        /* CTA Giveaway Banner */
         .cta-banner {
             position: fixed;
             top: 120px;
@@ -779,6 +779,19 @@
                 display: none;
             }
 
+            .nav-actions {
+                gap: 10px;
+            }
+
+            .lang-switcher {
+                padding: 4px 8px;
+            }
+
+            .lang-switcher a {
+                font-size: 0.75rem;
+                padding: 3px 6px;
+            }
+
             .hero {
                 padding: 140px 20px 60px;
             }
@@ -832,37 +845,37 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="index.html" class="nav-logo">
+            <a href="index-en.html" class="nav-logo">
                 <img src="sealordslogo.webp" alt="Sea Lords" style="width: 100px; height: 100px; object-fit: contain;">
                 <img src="SeaLords.png" alt="Sea Lords" style="width: 100px; height: 100px; object-fit: contain;">
             </a>
 
             <ul class="nav-links">
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="vote.html">Votar</a></li>
-                <li><a href="status.html">Estadísticas</a></li>
-                <li><a href="recommendations.html">Recomendar</a></li>
+                <li><a href="index-en.html">Home</a></li>
+                <li><a href="vote-en.html">Vote</a></li>
+                <li><a href="status-en.html">Stats</a></li>
+                <li><a href="recommendations-en.html">Recommend</a></li>
             </ul>
 
             <div class="nav-actions">
                 <div class="lang-switcher">
-                    <a href="index.html" class="active">ES</a>
-                    <a href="index-en.html">EN</a>
+                    <a href="index.html">ES</a>
+                    <a href="index-en.html" class="active">EN</a>
                 </div>
-                <a href="status.html" class="nav-btn nav-btn-secondary">📊 Ver Stats</a>
-                <a href="vote.html" class="nav-btn nav-btn-primary">🗳️ Comenzar</a>
+                <a href="status-en.html" class="nav-btn nav-btn-secondary">📊 View Stats</a>
+                <a href="vote-en.html" class="nav-btn nav-btn-primary">🗳️ Start Voting</a>
             </div>
         </div>
     </nav>
 
-    <!-- CTA Sorteo Banner -->
-    <section class="cta-banner" id="cta-sorteo">
+    <!-- CTA Giveaway Banner -->
+    <section class="cta-banner" id="cta-giveaway">
         <div class="cta-banner-content">
             <div class="cta-banner-icon">🎁</div>
             <div class="cta-banner-text">
-                🎉 ¡Sorteo Exclusivo! Completa la votación y gana la <strong>Espada Azure</strong> 🗡️
+                🎉 Exclusive Giveaway! Complete the voting and win the <strong>Azure Sword</strong> 🗡️
             </div>
-            <a href="#reward" class="cta-banner-btn">Ver Sorteo →</a>
+            <a href="#reward" class="cta-banner-btn">View Giveaway →</a>
         </div>
     </section>
 
@@ -871,7 +884,7 @@
 
         <div class="hero-badge">
             <span>🎮</span>
-            <span>Anime Action RPG en Roblox</span>
+            <span>Anime Action RPG on Roblox</span>
         </div>
 
         <div style="margin-bottom: 0; line-height: 0;">
@@ -879,16 +892,16 @@
         </div>
 
         <p class="hero-subtitle" style="margin-top: 10px;">
-            Vota por tus personajes anime favoritos y ayúdanos a construir el mejor Action RPG.
-            Tu opinión define qué héroes formarán parte de Sea Lords.
+            Vote for your favorite anime characters and help us build the best Action RPG.
+            Your opinion defines which heroes will be part of Sea Lords.
         </p>
 
         <div class="hero-buttons">
-            <a href="vote.html" class="btn-primary">
-                🗳️ Comenzar Votación
+            <a href="vote-en.html" class="btn-primary">
+                🗳️ Start Voting
             </a>
-            <a href="status.html" class="btn-secondary">
-                📊 Ver Estadísticas
+            <a href="status-en.html" class="btn-secondary">
+                📊 View Statistics
             </a>
         </div>
     </section>
@@ -899,22 +912,22 @@
             <div class="stat-card">
                 <div class="stat-icon">⚔️</div>
                 <div class="stat-value" id="totalCharacters">123</div>
-                <div class="stat-label">Personajes en Lista</div>
+                <div class="stat-label">Characters in List</div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon">👊</div>
                 <div class="stat-value">3</div>
-                <div class="stat-label">Categorías</div>
+                <div class="stat-label">Categories</div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon">🎮</div>
                 <div class="stat-value" id="totalVoters">0</div>
-                <div class="stat-label">Votantes</div>
+                <div class="stat-label">Voters</div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon">⭐</div>
                 <div class="stat-value" id="totalRecommendations">0</div>
-                <div class="stat-label">Recomendaciones</div>
+                <div class="stat-label">Recommendations</div>
             </div>
         </div>
     </section>
@@ -923,14 +936,14 @@
     <section class="characters-section" id="characters">
         <div class="characters-container">
             <div class="section-header">
-                <h2>Personajes <span class="gradient-text">Destacados</span></h2>
-                <p>Descubre diferentes personajes de nuestra colección. ¡Cada vez que visitas verás nuevos! 🎲</p>
+                <h2>Featured <span class="gradient-text">Characters</span></h2>
+                <p>Discover different characters from our collection. Each time you visit you'll see new ones! 🎲</p>
             </div>
             <div class="categories-tabs">
-                <button class="category-tab active" onclick="filterCategory('all')">Todos</button>
+                <button class="category-tab active" onclick="filterCategory('all')">All</button>
                 <button class="category-tab" onclick="filterCategory('MELEE')">👊 Melee</button>
-                <button class="category-tab" onclick="filterCategory('ESPADA')">⚔️ Espada</button>
-                <button class="category-tab" onclick="filterCategory('MAGIA')">✨ Magia</button>
+                <button class="category-tab" onclick="filterCategory('ESPADA')">⚔️ Sword</button>
+                <button class="category-tab" onclick="filterCategory('MAGIA')">✨ Magic</button>
             </div>
             <div class="characters-grid" id="charactersGrid">
                 <div class="loading-skeleton" style="height: 300px; border-radius: 20px;"></div>
@@ -940,7 +953,7 @@
             </div>
             <div style="text-align: center; margin-top: 40px;">
                 <button onclick="shuffleFeaturedCharacters()" class="btn-secondary" style="cursor: pointer; border: none; font-family: inherit;">
-                    🎲 Ver otros personajes
+                    🎲 See other characters
                 </button>
             </div>
         </div>
@@ -950,42 +963,42 @@
     <section class="reward-section" id="reward">
         <div class="reward-container">
             <div class="reward-info">
-                <div class="reward-badge">🎁 SORTEO EXCLUSIVO</div>
-                <h2>Gana la <span class="gradient-text">Espada Azure</span> Legendaria</h2>
+                <div class="reward-badge">🎁 EXCLUSIVE GIVEAWAY</div>
+                <h2>Win the <span class="gradient-text">Legendary Azure Sword</span></h2>
                 <p class="reward-description">
-                    Completa la votación de los 123 personajes y participa en el sorteo de la
-                    <strong>Espada Azure</strong> - un arma mítica exclusiva para tu personaje en Sea Lords.
+                    Complete the voting of all 123 characters and participate in the giveaway for the
+                    <strong>Azure Sword</strong> - a mythical exclusive weapon for your character in Sea Lords.
                 </p>
 
                 <div class="reward-features">
                     <div class="reward-feature">
                         <span>⚔️</span>
-                        <span>Skin Exclusiva</span>
+                        <span>Exclusive Skin</span>
                     </div>
                     <div class="reward-feature">
                         <span>✨</span>
-                        <span>Efectos Especiales</span>
+                        <span>Special Effects</span>
                     </div>
                     <div class="reward-feature">
                         <span>🔥</span>
-                        <span>Solo 100 disponibles</span>
+                        <span>Only 100 available</span>
                     </div>
                 </div>
 
-                <a href="vote.html" class="btn-primary">
-                    🗳️ Completar Votación
+                <a href="vote-en.html" class="btn-primary">
+                    🗳️ Complete Voting
                 </a>
             </div>
 
             <div class="reward-preview">
                 <div class="fbx-container" id="sword-container">
-                    <div class="loading-text" id="loading-text">Cargando modelo 3D...</div>
+                    <div class="loading-text" id="loading-text">Loading 3D model...</div>
                 </div>
                 <div class="preview-label">
-                    Espada Azure Legendaria - Recompensa Exclusiva
+                    Legendary Azure Sword - Exclusive Reward
                 </div>
                 <div class="preview-hint">
-                    🖱️ Arrastra para rotar | 📜 Scroll para zoom
+                    🖱️ Drag to rotate | 📜 Scroll to zoom
                 </div>
             </div>
         </div>
@@ -996,40 +1009,40 @@
         <div class="footer-content">
             <div class="footer-brand">
                 <img src="SeaLords.png" alt="Sea Lords" style="width: 180px; height: auto; margin-bottom: 15px;">
-                <p>Un videojuego de anime action RPG en desarrollo para Roblox, creado por y para la comunidad de fans del anime.</p>
+                <p>An anime action RPG game in development for Roblox, created by and for the anime fan community.</p>
             </div>
             <div class="footer-links">
-                <h4>Enlaces</h4>
+                <h4>Links</h4>
                 <ul>
-                    <li><a href="vote.html">🗳️ Votación</a></li>
-                    <li><a href="status.html">📊 Estadísticas</a></li>
-                    <li><a href="recommendations.html">⭐ Recomendaciones</a></li>
+                    <li><a href="vote-en.html">🗳️ Voting</a></li>
+                    <li><a href="status-en.html">📊 Statistics</a></li>
+                    <li><a href="recommendations-en.html">⭐ Recommendations</a></li>
                     <li><a href="statusadmin.html">🔐 Admin</a></li>
                 </ul>
             </div>
             <div class="footer-links">
-                <h4>Categorías</h4>
+                <h4>Categories</h4>
                 <ul>
-                    <li><a href="vote.html">👊 Melee</a></li>
-                    <li><a href="vote.html">⚔️ Espada</a></li>
-                    <li><a href="vote.html">✨ Magia</a></li>
+                    <li><a href="vote-en.html">👊 Melee</a></li>
+                    <li><a href="vote-en.html">⚔️ Sword</a></li>
+                    <li><a href="vote-en.html">✨ Magic</a></li>
                 </ul>
             </div>
             <div class="footer-links">
-                <h4>Comunidad</h4>
+                <h4>Community</h4>
                 <ul>
-                    <li><a href="#">Discord (Pronto)</a></li>
-                    <li><a href="#">Twitter/X (Pronto)</a></li>
-                    <li><a href="#">YouTube (Pronto)</a></li>
+                    <li><a href="#">Discord (Soon)</a></li>
+                    <li><a href="#">Twitter/X (Soon)</a></li>
+                    <li><a href="#">YouTube (Soon)</a></li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2025 Sea Lords. Un proyecto de desarrollo de videojuegos en Roblox. No afiliado con los creadores de los animes mencionados.</p>
+            <p>© 2025 Sea Lords. A video game development project on Roblox. Not affiliated with the creators of the mentioned animes.</p>
         </div>
     </footer>
 
-    <!-- Import map para Three.js -->
+    <!-- Import map for Three.js -->
     <script type="importmap">
     {
         "imports": {
@@ -1041,7 +1054,7 @@
 
     <script src="convex-client.js?v=21"></script>
     <script>
-        // Cargar estadísticas
+        // Load stats
         async function loadStats() {
             try {
                 const [voters, recommendations] = await Promise.all([
@@ -1057,12 +1070,12 @@
             }
         }
 
-        // Variables para personajes destacados
+        // Variables for featured characters
         let allCharacters = [];
         let currentFeaturedSet = 0;
         const CHARACTERS_PER_SET = 12;
 
-        // Colores y clases por categoría
+        // Colors and classes by category
         const categoryColors = {
             'MELEE': '#e74c3c',
             'ESPADA': '#3498db',
@@ -1075,7 +1088,7 @@
             'MAGIA': 'category-magia'
         };
 
-        // Mezclar array (Fisher-Yates)
+        // Shuffle array (Fisher-Yates)
         function shuffleArray(array) {
             const shuffled = [...array];
             for (let i = shuffled.length - 1; i > 0; i--) {
@@ -1085,7 +1098,7 @@
             return shuffled;
         }
 
-        // Renderizar personajes
+        // Render characters
         function renderCharacters(characters) {
             const grid = document.getElementById('charactersGrid');
 
@@ -1115,7 +1128,7 @@
             }, 300);
         }
 
-        // Cargar personajes destacados
+        // Load featured characters
         async function loadFeaturedCharacters() {
             try {
                 if (allCharacters.length > 0) {
@@ -1127,7 +1140,7 @@
 
                 if (!characters || characters.length === 0) {
                     document.getElementById('charactersGrid').innerHTML =
-                        '<p style="text-align: center; color: #888;">No hay personajes disponibles</p>';
+                        '<p style="text-align: center; color: #888;">No characters available</p>';
                     return;
                 }
 
@@ -1138,11 +1151,11 @@
             } catch (error) {
                 console.error('Error loading characters:', error);
                 document.getElementById('charactersGrid').innerHTML =
-                    '<p style="text-align: center; color: #888;">Error cargando personajes</p>';
+                    '<p style="text-align: center; color: #888;">Error loading characters</p>';
             }
         }
 
-        // Mostrar siguiente conjunto de personajes
+        // Show next set of characters
         function showNextCharacterSet() {
             if (allCharacters.length === 0) return;
 
@@ -1166,7 +1179,7 @@
             currentFeaturedSet++;
         }
 
-        // Función para el botón de shuffle
+        // Shuffle function for button
         function shuffleFeaturedCharacters() {
             allCharacters = shuffleArray(allCharacters);
             currentFeaturedSet = 0;
@@ -1177,7 +1190,7 @@
             });
         }
 
-        // Filtrar por categoría
+        // Filter by category
         function filterCategory(category) {
             document.querySelectorAll('.category-tab').forEach(tab => {
                 tab.classList.remove('active');
@@ -1219,7 +1232,7 @@
         loadFeaturedCharacters();
     </script>
 
-    <!-- Renderizador 3D Espada Azure -->
+    <!-- 3D Azure Sword Renderer -->
     <script type="module">
         import * as THREE from 'three';
         import { FBXLoader } from 'three/addons/loaders/FBXLoader.js';
@@ -1249,7 +1262,7 @@
             renderer.toneMappingExposure = 1.2;
             container.appendChild(renderer.domElement);
 
-            // Luces
+            // Lights
             const ambientLight = new THREE.AmbientLight(0x404040, 0.5);
             scene.add(ambientLight);
 
@@ -1276,7 +1289,7 @@
             pointLight2.position.set(-30, -20, 30);
             scene.add(pointLight2);
 
-            // Cargar modelo FBX
+            // Load FBX model
             const loader = new FBXLoader();
             const modelPath = 'models/Espada-Azure.fbx';
 
@@ -1314,10 +1327,10 @@
                 animate();
 
             } catch (error) {
-                console.error('Error cargando modelo FBX:', error);
+                console.error('Error loading FBX model:', error);
                 const loadingText = document.getElementById('loading-text');
                 if (loadingText) {
-                    loadingText.innerHTML = '⚠️ No se pudo cargar el modelo 3D<br>🗡️';
+                    loadingText.innerHTML = '⚠️ Could not load 3D model<br>🗡️';
                 }
             }
         }
