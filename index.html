@@ -28,7 +28,6 @@
             background: var(--dark);
             color: white;
             overflow-x: hidden;
-            min-height: 100vh;
         }
 
         /* Glow effects background */
@@ -91,6 +90,9 @@
             right: 0;
             z-index: 1000;
             padding: 20px 40px;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .nav-container {
@@ -156,26 +158,89 @@
             transition: all 0.3s ease;
             border: none;
             font-family: inherit;
-        }
-
-        .nav-btn-lang {
-            background: transparent;
-            color: rgba(255, 255, 255, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            display: flex;
+            text-decoration: none;
+            display: inline-flex;
             align-items: center;
             gap: 6px;
         }
 
-        .nav-btn-login {
+        .nav-btn-secondary {
+            background: transparent;
+            color: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .nav-btn-primary {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
             box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3);
         }
 
-        .nav-btn-login:hover {
+        .nav-btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 30px rgba(168, 85, 247, 0.4);
+        }
+
+        /* CTA Sorteo Banner */
+        .cta-banner {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            z-index: 998;
+            background: linear-gradient(90deg, rgba(168, 85, 247, 0.2), rgba(236, 72, 153, 0.2));
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(168, 85, 247, 0.3);
+            padding: 12px 20px;
+            text-align: center;
+        }
+
+        .cta-banner-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .cta-banner-icon {
+            font-size: 1.5rem;
+            animation: bounce 2s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .cta-banner-text {
+            color: white;
+            font-size: 0.95rem;
+        }
+
+        .cta-banner-text strong {
+            color: var(--primary-light);
+        }
+
+        .cta-banner-btn {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .cta-banner-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(168, 85, 247, 0.4);
         }
 
         /* Hero Section */
@@ -185,7 +250,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 120px 20px 60px;
+            padding: 160px 20px 80px;
             position: relative;
             z-index: 1;
             text-align: center;
@@ -203,10 +268,6 @@
             color: var(--primary-light);
             margin-bottom: 30px;
             animation: fade-in-up 0.6s ease;
-        }
-
-        .hero-badge-icon {
-            font-size: 1rem;
         }
 
         .hero h1 {
@@ -282,20 +343,371 @@
             border-color: rgba(255, 255, 255, 0.3);
         }
 
-        /* Wave decoration */
-        .wave-decoration {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 200px;
-            background: linear-gradient(to top, rgba(168, 85, 247, 0.1), transparent);
-            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23fff' d='M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'/%3E%3C/svg%3E");
-            mask-size: cover;
-            mask-position: bottom;
-            opacity: 0.5;
+        /* Stats Section */
+        .stats-section {
+            padding: 80px 20px;
+            position: relative;
+            z-index: 1;
         }
 
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(168, 85, 247, 0.2);
+        }
+
+        .stat-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .stat-value {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-light), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1rem;
+        }
+
+        /* Characters Section */
+        .characters-section {
+            padding: 100px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .section-header h2 .gradient-text {
+            background: linear-gradient(135deg, var(--primary-light), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-header p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .characters-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .categories-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .category-tab {
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .category-tab:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .category-tab.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-color: transparent;
+        }
+
+        .characters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 25px;
+        }
+
+        .character-card {
+            background: var(--surface);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .character-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(168, 85, 247, 0.3);
+        }
+
+        .character-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .character-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .character-category {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .category-melee { background: #e74c3c; }
+        .category-espada { background: #3498db; }
+        .category-magia { background: #9b59b6; }
+
+        .character-info {
+            padding: 20px;
+        }
+
+        .character-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: white;
+        }
+
+        .character-anime {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        /* Reward Section */
+        .reward-section {
+            padding: 100px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .reward-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .reward-info {
+            text-align: left;
+        }
+
+        .reward-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .reward-info h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .reward-info h2 .gradient-text {
+            background: linear-gradient(135deg, var(--primary-light), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .reward-description {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .reward-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .reward-feature {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--surface);
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Preview 3D */
+        .reward-preview {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .fbx-container {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle at center, rgba(168, 85, 247, 0.15) 0%, transparent 70%);
+            border-radius: 20px;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), inset 0 0 60px rgba(168, 85, 247, 0.1);
+            overflow: hidden;
+        }
+
+        .fbx-container canvas {
+            width: 100% !important;
+            height: 100% !important;
+            border-radius: 20px;
+            cursor: grab;
+        }
+
+        .fbx-container canvas:active {
+            cursor: grabbing;
+        }
+
+        .loading-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+        }
+
+        .preview-label {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+        }
+
+        .preview-hint {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-align: center;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 60px 20px 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--primary-light), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .footer-brand p {
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.7;
+        }
+
+        .footer-links h4 {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-light);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Animations */
         @keyframes fade-in-up {
             from {
                 opacity: 0;
@@ -308,6 +720,26 @@
         }
 
         /* Responsive */
+        @media (max-width: 900px) {
+            .reward-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .reward-info {
+                text-align: center;
+            }
+
+            .reward-features {
+                justify-content: center;
+            }
+
+            .fbx-container {
+                max-width: 350px;
+                height: 350px;
+            }
+        }
+
         @media (max-width: 768px) {
             .navbar {
                 padding: 15px 20px;
@@ -318,7 +750,7 @@
             }
 
             .hero {
-                padding: 100px 20px 40px;
+                padding: 140px 20px 60px;
             }
 
             .hero-buttons {
@@ -331,6 +763,31 @@
                 width: 100%;
                 justify-content: center;
             }
+
+            .characters-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+
+            .fbx-container {
+                width: 100%;
+                max-width: 300px;
+                height: 300px;
+            }
+        }
+
+        .loading-skeleton {
+            background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
     </style>
 </head>
@@ -358,20 +815,27 @@
             </ul>
 
             <div class="nav-actions">
-                <button class="nav-btn nav-btn-lang">
-                    🌐 ES
-                </button>
-                <a href="vote.html" class="nav-btn nav-btn-login">
-                    Comenzar
-                </a>
+                <a href="status.html" class="nav-btn nav-btn-secondary">📊 Ver Stats</a>
+                <a href="vote.html" class="nav-btn nav-btn-primary">🗳️ Comenzar</a>
             </div>
         </div>
     </nav>
 
+    <!-- CTA Sorteo Banner -->
+    <section class="cta-banner" id="cta-sorteo">
+        <div class="cta-banner-content">
+            <div class="cta-banner-icon">🎁</div>
+            <div class="cta-banner-text">
+                🎉 ¡Sorteo Exclusivo! Completa la votación y gana la <strong>Espada Azure</strong> 🗡️
+            </div>
+            <a href="#reward" class="cta-banner-btn">Ver Sorteo →</a>
+        </div>
+    </section>
+
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-badge">
-            <span class="hero-badge-icon">🎮</span>
+            <span>🎮</span>
             <span>Anime Action RPG en Roblox</span>
         </div>
 
@@ -393,23 +857,521 @@
                 📊 Ver Estadísticas
             </a>
         </div>
-
-        <div class="wave-decoration"></div>
     </section>
 
-    <script src="convex-client.js?v=20"></script>
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-icon">⚔️</div>
+                <div class="stat-value" id="totalCharacters">123</div>
+                <div class="stat-label">Personajes en Lista</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">👊</div>
+                <div class="stat-value">3</div>
+                <div class="stat-label">Categorías</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🎮</div>
+                <div class="stat-value" id="totalVoters">0</div>
+                <div class="stat-label">Votantes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⭐</div>
+                <div class="stat-value" id="totalRecommendations">0</div>
+                <div class="stat-label">Recomendaciones</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Characters Section -->
+    <section class="characters-section" id="characters">
+        <div class="characters-container">
+            <div class="section-header">
+                <h2>Personajes <span class="gradient-text">Destacados</span></h2>
+                <p>Descubre diferentes personajes de nuestra colección. ¡Cada vez que visitas verás nuevos! 🎲</p>
+            </div>
+            <div class="categories-tabs">
+                <button class="category-tab active" onclick="filterCategory('all')">Todos</button>
+                <button class="category-tab" onclick="filterCategory('MELEE')">👊 Melee</button>
+                <button class="category-tab" onclick="filterCategory('ESPADA')">⚔️ Espada</button>
+                <button class="category-tab" onclick="filterCategory('MAGIA')">✨ Magia</button>
+            </div>
+            <div class="characters-grid" id="charactersGrid">
+                <div class="loading-skeleton" style="height: 300px; border-radius: 20px;"></div>
+                <div class="loading-skeleton" style="height: 300px; border-radius: 20px;"></div>
+                <div class="loading-skeleton" style="height: 300px; border-radius: 20px;"></div>
+                <div class="loading-skeleton" style="height: 300px; border-radius: 20px;"></div>
+            </div>
+            <div style="text-align: center; margin-top: 40px;">
+                <button onclick="shuffleFeaturedCharacters()" class="btn-secondary" style="cursor: pointer; border: none; font-family: inherit;">
+                    🎲 Ver otros personajes
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reward Section -->
+    <section class="reward-section" id="reward">
+        <div class="reward-container">
+            <div class="reward-info">
+                <div class="reward-badge">🎁 SORTEO EXCLUSIVO</div>
+                <h2>Gana la <span class="gradient-text">Espada Azure</span> Legendaria</h2>
+                <p class="reward-description">
+                    Completa la votación de los 123 personajes y participa en el sorteo de la
+                    <strong>Espada Azure</strong> - un arma mítica exclusiva para tu personaje en Proyecto Piece.
+                </p>
+
+                <div class="reward-features">
+                    <div class="reward-feature">
+                        <span>⚔️</span>
+                        <span>Skin Exclusiva</span>
+                    </div>
+                    <div class="reward-feature">
+                        <span>✨</span>
+                        <span>Efectos Especiales</span>
+                    </div>
+                    <div class="reward-feature">
+                        <span>🔥</span>
+                        <span>Solo 100 disponibles</span>
+                    </div>
+                </div>
+
+                <a href="vote.html" class="btn-primary">
+                    🗳️ Completar Votación
+                </a>
+            </div>
+
+            <div class="reward-preview">
+                <div class="fbx-container" id="sword-container">
+                    <div class="loading-text" id="loading-text">Cargando modelo 3D...</div>
+                </div>
+                <div class="preview-label">
+                    Espada Azure 3D - Recompensa Exclusiva
+                </div>
+                <div class="preview-hint">
+                    🖱️ Arrastra para rotar | 📜 Scroll para zoom
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>⚔️ Proyecto Piece</h3>
+                <p>Un videojuego de anime action RPG en desarrollo para Roblox, creado por y para la comunidad de fans del anime.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Enlaces</h4>
+                <ul>
+                    <li><a href="vote.html">🗳️ Votación</a></li>
+                    <li><a href="status.html">📊 Estadísticas</a></li>
+                    <li><a href="recommendations.html">⭐ Recomendaciones</a></li>
+                    <li><a href="statusadmin.html">🔐 Admin</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Categorías</h4>
+                <ul>
+                    <li><a href="vote.html">👊 Melee</a></li>
+                    <li><a href="vote.html">⚔️ Espada</a></li>
+                    <li><a href="vote.html">✨ Magia</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Comunidad</h4>
+                <ul>
+                    <li><a href="#">Discord (Pronto)</a></li>
+                    <li><a href="#">Twitter/X (Pronto)</a></li>
+                    <li><a href="#">YouTube (Pronto)</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Proyecto Piece. Un proyecto de desarrollo de videojuegos en Roblox. No afiliado con los creadores de los animes mencionados.</p>
+        </div>
+    </footer>
+
+    <!-- Import map para Three.js -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+
+    <script src="convex-client.js?v=21"></script>
     <script>
-        // Stats loading
+        // Cargar estadísticas
         async function loadStats() {
             try {
-                const voters = await convexQuery('votes:getAllVoters');
-                const recommendations = await convexQuery('recommendations:getRecommendationStats');
-                // Stats can be displayed if needed
+                const [voters, recommendations] = await Promise.all([
+                    convexQuery('votes:getAllVoters'),
+                    convexQuery('recommendations:getRecommendationStats')
+                ]);
+
+                document.getElementById('totalVoters').textContent = voters?.length || 0;
+                document.getElementById('totalRecommendations').textContent =
+                    recommendations?.totalRecommendations || 0;
             } catch (error) {
                 console.error('Error loading stats:', error);
             }
         }
+
+        // Variables para personajes destacados
+        let allCharacters = [];
+        let currentFeaturedSet = 0;
+        const CHARACTERS_PER_SET = 12;
+
+        // Colores y clases por categoría
+        const categoryColors = {
+            'MELEE': '#e74c3c',
+            'ESPADA': '#3498db',
+            'MAGIA': '#9b59b6'
+        };
+
+        const categoryClasses = {
+            'MELEE': 'category-melee',
+            'ESPADA': 'category-espada',
+            'MAGIA': 'category-magia'
+        };
+
+        // Mezclar array (Fisher-Yates)
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        // Renderizar personajes
+        function renderCharacters(characters) {
+            const grid = document.getElementById('charactersGrid');
+
+            grid.style.opacity = '0';
+            grid.style.transform = 'translateY(20px)';
+            grid.style.transition = 'all 0.3s ease';
+
+            setTimeout(() => {
+                grid.innerHTML = characters.map(char => `
+                    <div class="character-card" data-category="${char.category}">
+                        <div class="character-image">
+                            ${char.image ?
+                                `<img src="${char.image}" alt="${char.name}" loading="lazy" onerror="this.style.display='none'; this.parentElement.innerHTML='${char.emoji || '👤'}'; this.parentElement.style.background='linear-gradient(135deg, ${categoryColors[char.category]} 0%, ${categoryColors[char.category]}80 100%)';"/>` :
+                                (char.emoji || '👤')
+                            }
+                            <span class="character-category ${categoryClasses[char.category]}">${char.category}</span>
+                        </div>
+                        <div class="character-info">
+                            <div class="character-name">${char.name}</div>
+                            <div class="character-anime">${char.anime}</div>
+                        </div>
+                    </div>
+                `).join('');
+
+                grid.style.opacity = '1';
+                grid.style.transform = 'translateY(0)';
+            }, 300);
+        }
+
+        // Cargar personajes destacados
+        async function loadFeaturedCharacters() {
+            try {
+                if (allCharacters.length > 0) {
+                    showNextCharacterSet();
+                    return;
+                }
+
+                const characters = await convexQuery('characters:getAllCharacters');
+
+                if (!characters || characters.length === 0) {
+                    document.getElementById('charactersGrid').innerHTML =
+                        '<p style="text-align: center; color: #888;">No hay personajes disponibles</p>';
+                    return;
+                }
+
+                allCharacters = shuffleArray(characters);
+                currentFeaturedSet = 0;
+                showNextCharacterSet();
+
+            } catch (error) {
+                console.error('Error loading characters:', error);
+                document.getElementById('charactersGrid').innerHTML =
+                    '<p style="text-align: center; color: #888;">Error cargando personajes</p>';
+            }
+        }
+
+        // Mostrar siguiente conjunto de personajes
+        function showNextCharacterSet() {
+            if (allCharacters.length === 0) return;
+
+            const start = currentFeaturedSet * CHARACTERS_PER_SET;
+            const end = start + CHARACTERS_PER_SET;
+
+            if (start >= allCharacters.length) {
+                currentFeaturedSet = 0;
+                allCharacters = shuffleArray(allCharacters);
+                const featured = allCharacters.slice(0, CHARACTERS_PER_SET);
+                renderCharacters(featured);
+            } else {
+                const featured = allCharacters.slice(start, end);
+                if (featured.length < CHARACTERS_PER_SET) {
+                    const remaining = CHARACTERS_PER_SET - featured.length;
+                    featured.push(...allCharacters.slice(0, remaining));
+                }
+                renderCharacters(featured);
+            }
+
+            currentFeaturedSet++;
+        }
+
+        // Función para el botón de shuffle
+        function shuffleFeaturedCharacters() {
+            allCharacters = shuffleArray(allCharacters);
+            currentFeaturedSet = 0;
+            showNextCharacterSet();
+
+            document.querySelectorAll('.category-tab').forEach((tab, index) => {
+                tab.classList.toggle('active', index === 0);
+            });
+        }
+
+        // Filtrar por categoría
+        function filterCategory(category) {
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            const cards = document.querySelectorAll('.character-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    if (category === 'all' || card.dataset.category === category) {
+                        card.style.display = 'block';
+                        card.style.opacity = '0';
+                        card.style.transform = 'scale(0.9)';
+                        setTimeout(() => {
+                            card.style.transition = 'all 0.3s ease';
+                            card.style.opacity = '1';
+                            card.style.transform = 'scale(1)';
+                        }, 50);
+                    } else {
+                        card.style.display = 'none';
+                    }
+                }, index * 50);
+            });
+        }
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Load data on page load
         loadStats();
+        loadFeaturedCharacters();
+    </script>
+
+    <!-- Renderizador 3D Espada Azure -->
+    <script type="module">
+        import * as THREE from 'three';
+        import { FBXLoader } from 'three/addons/loaders/FBXLoader.js';
+
+        let scene, camera, renderer, swordModel;
+        let isDragging = false;
+        let previousMousePosition = { x: 0, y: 0 };
+        let targetRotation = { x: 0, y: 0 };
+        let currentRotation = { x: 0, y: 0 };
+
+        async function init3D() {
+            const container = document.getElementById('sword-container');
+            if (!container) return;
+
+            scene = new THREE.Scene();
+            scene.background = null;
+
+            camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.set(0, 0, 150);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.2;
+            container.appendChild(renderer.domElement);
+
+            // Luces
+            const ambientLight = new THREE.AmbientLight(0x404040, 0.5);
+            scene.add(ambientLight);
+
+            const keyLight = new THREE.DirectionalLight(0xffffff, 1.0);
+            keyLight.position.set(50, 50, 100);
+            keyLight.castShadow = true;
+            keyLight.shadow.mapSize.width = 2048;
+            keyLight.shadow.mapSize.height = 2048;
+            scene.add(keyLight);
+
+            const fillLight = new THREE.DirectionalLight(0x00aaff, 0.5);
+            fillLight.position.set(-50, 0, 50);
+            scene.add(fillLight);
+
+            const rimLight = new THREE.DirectionalLight(0xff6600, 0.5);
+            rimLight.position.set(0, 50, -50);
+            scene.add(rimLight);
+
+            const pointLight1 = new THREE.PointLight(0x00aaff, 0.8, 200);
+            pointLight1.position.set(30, 20, 30);
+            scene.add(pointLight1);
+
+            const pointLight2 = new THREE.PointLight(0xff6600, 0.6, 200);
+            pointLight2.position.set(-30, -20, 30);
+            scene.add(pointLight2);
+
+            // Cargar modelo FBX
+            const loader = new FBXLoader();
+            const modelPath = 'models/Espada-Azure.fbx';
+
+            try {
+                swordModel = await new Promise((resolve, reject) => {
+                    loader.load(modelPath, resolve, undefined, reject);
+                });
+
+                const loadingText = document.getElementById('loading-text');
+                if (loadingText) loadingText.style.display = 'none';
+
+                const box = new THREE.Box3().setFromObject(swordModel);
+                const center = box.getCenter(new THREE.Vector3());
+                const size = box.getSize(new THREE.Vector3());
+
+                swordModel.position.sub(center);
+
+                const maxDim = Math.max(size.x, size.y, size.z);
+                const scale = 80 / maxDim;
+                swordModel.scale.setScalar(scale);
+
+                swordModel.rotation.x = Math.PI / 6;
+                swordModel.rotation.y = Math.PI / 4;
+
+                swordModel.traverse((child) => {
+                    if (child.isMesh) {
+                        child.castShadow = true;
+                        child.receiveShadow = true;
+                    }
+                });
+
+                scene.add(swordModel);
+
+                setupControls(container);
+                animate();
+
+            } catch (error) {
+                console.error('Error cargando modelo FBX:', error);
+                const loadingText = document.getElementById('loading-text');
+                if (loadingText) {
+                    loadingText.innerHTML = '⚠️ No se pudo cargar el modelo 3D<br>🗡️';
+                }
+            }
+        }
+
+        function setupControls(container) {
+            container.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                previousMousePosition = { x: e.clientX, y: e.clientY };
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging || !swordModel) return;
+
+                const deltaX = e.clientX - previousMousePosition.x;
+                const deltaY = e.clientY - previousMousePosition.y;
+
+                targetRotation.y += deltaX * 0.01;
+                targetRotation.x += deltaY * 0.01;
+
+                previousMousePosition = { x: e.clientX, y: e.clientY };
+            });
+
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+            });
+
+            container.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                const touch = e.touches[0];
+                previousMousePosition = { x: touch.clientX, y: touch.clientY };
+            }, { passive: true });
+
+            container.addEventListener('touchmove', (e) => {
+                if (!isDragging || !swordModel) return;
+                const touch = e.touches[0];
+                const deltaX = touch.clientX - previousMousePosition.x;
+                const deltaY = touch.clientY - previousMousePosition.y;
+
+                targetRotation.y += deltaX * 0.01;
+                targetRotation.x += deltaY * 0.01;
+
+                previousMousePosition = { x: touch.clientX, y: touch.clientY };
+            }, { passive: true });
+
+            container.addEventListener('touchend', () => {
+                isDragging = false;
+            });
+
+            container.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                camera.position.z += e.deltaY * 0.1;
+                camera.position.z = Math.max(50, Math.min(300, camera.position.z));
+            }, { passive: false });
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            if (swordModel) {
+                currentRotation.x += (targetRotation.x - currentRotation.x) * 0.1;
+                currentRotation.y += (targetRotation.y - currentRotation.y) * 0.1;
+
+                swordModel.rotation.x = Math.PI / 6 + currentRotation.x;
+                swordModel.rotation.y = Math.PI / 4 + currentRotation.y;
+
+                if (!isDragging) {
+                    swordModel.rotation.y += 0.003;
+                    targetRotation.y = swordModel.rotation.y - Math.PI / 4;
+                }
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+            const container = document.getElementById('sword-container');
+            if (container && camera && renderer) {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            }
+        });
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init3D);
+        } else {
+            init3D();
+        }
     </script>
 </body>
 </html>
