@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recomendaciones - Sea Lords</title>
+    <title>Recommendations - Sea Lords</title>
     <style>
         * {
             margin: 0;
@@ -604,69 +604,69 @@
 
     <div class="main-content">
         <div class="header">
-            <h1>⭐ Recomendaciones <span class="gradient-text">Populares</span></h1>
-            <p>Descubre los personajes más solicitados por la comunidad y envía tu propia recomendación</p>
+            <h1>⭐ Popular <span class="gradient-text">Recommendations</span></h1>
+            <p>Discover the most requested characters by the community and submit your own recommendation</p>
         </div>
 
         <!-- Ranking -->
         <div class="ranking-section">
             <div class="ranking-header">
-                <h2 class="ranking-title">📈 Más Solicitados</h2>
-                <span class="total-recommendations" id="totalCount">Cargando...</span>
+                <h2 class="ranking-title">📈 Most Requested</h2>
+                <span class="total-recommendations" id="totalCount">Loading...</span>
             </div>
             <div id="rankingList" class="ranking-list">
                 <div class="empty-state">
                     <div class="empty-state-icon">📊</div>
-                    <p>Cargando recomendaciones...</p>
+                    <p>Loading recommendations...</p>
                 </div>
             </div>
         </div>
 
-        <!-- Formulario -->
+        <!-- Form -->
         <div class="form-section">
-            <h2 class="form-title">📝 Enviar Recomendación</h2>
+            <h2 class="form-title">📝 Send Recommendation</h2>
             <p class="form-subtitle">
-                💡 Las recomendaciones son revisadas periódicamente. Los personajes más solicitados tienen mayor probabilidad de ser agregados.
+                💡 Recommendations are reviewed periodically. The most requested characters are more likely to be added.
             </p>
 
             <form id="recommendationForm">
                 <div class="form-group">
-                    <label for="charName">Nombre del Personaje <span>*</span></label>
-                    <input type="text" id="charName" required maxlength="50" placeholder="Ej: Goku, Naruto, Luffy...">
+                    <label for="charName">Character Name <span>*</span></label>
+                    <input type="text" id="charName" required maxlength="50" placeholder="E.g.: Goku, Naruto, Luffy...">
                 </div>
 
                 <div class="form-group">
-                    <label for="charAnime">Anime / Serie <span>*</span></label>
-                    <input type="text" id="charAnime" required maxlength="50" placeholder="Ej: Dragon Ball, One Piece, Naruto...">
+                    <label for="charAnime">Anime / Series <span>*</span></label>
+                    <input type="text" id="charAnime" required maxlength="50" placeholder="E.g.: Dragon Ball, One Piece, Naruto...">
                 </div>
 
                 <div class="form-group">
-                    <label for="charCategory">Categoría Sugerida <span>*</span></label>
+                    <label for="charCategory">Suggested Category <span>*</span></label>
                     <select id="charCategory" required>
-                        <option value="">Selecciona una categoría...</option>
-                        <option value="MELEE">👊 Melee (Pelea cuerpo a cuerpo)</option>
-                        <option value="ESPADA">⚔️ Espada (Espadachines)</option>
-                        <option value="MAGIA">✨ Magia (Hechiceros/Magos)</option>
+                        <option value="">Select a category...</option>
+                        <option value="MELEE">👊 Melee (Hand-to-hand combat)</option>
+                        <option value="ESPADA">⚔️ Sword (Swordsmen)</option>
+                        <option value="MAGIA">✨ Magic (Sorcerers/Wizards)</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="charDescription">¿Por qué debería estar en la lista?</label>
-                    <textarea id="charDescription" maxlength="500" placeholder="Explica brevemente por qué crees que este personaje debería ser incluido..."></textarea>
+                    <label for="charDescription">Why should they be on the list?</label>
+                    <textarea id="charDescription" maxlength="500" placeholder="Briefly explain why you think this character should be included..."></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label for="userName">Tu Nombre (Opcional)</label>
-                    <input type="text" id="userName" maxlength="30" placeholder="Para saber quién hizo la recomendación">
+                    <label for="userName">Your Name (Optional)</label>
+                    <input type="text" id="userName" maxlength="30" placeholder="So we know who made the recommendation">
                 </div>
 
-                <button type="submit" class="submit-btn" id="submitBtn">📤 Enviar Recomendación</button>
+                <button type="submit" class="submit-btn" id="submitBtn">📤 Send Recommendation</button>
             </form>
 
             <div id="successMessage" class="success-message">
-                <h2>✅ ¡Recomendación Enviada!</h2>
-                <p>Tu recomendación ha sido registrada. ¡Gracias por contribuir a Sea Lords!</p>
-                <button onclick="resetForm()">Enviar otra recomendación</button>
+                <h2>✅ Recommendation Sent!</h2>
+                <p>Your recommendation has been registered. Thanks for contributing to Sea Lords!</p>
+                <button onclick="resetForm()">Send another recommendation</button>
             </div>
         </div>
     </div>
@@ -683,15 +683,15 @@
                     container.innerHTML = `
                         <div class="empty-state">
                             <div class="empty-state-icon">📝</div>
-                            <p>Aún no hay recomendaciones.<br>Sé el primero en sugerir un personaje!</p>
+                            <p>No recommendations yet.<br>Be the first to suggest a character!</p>
                         </div>
                     `;
-                    totalCount.textContent = '0 recomendaciones';
+                    totalCount.textContent = '0 recommendations';
                     return;
                 }
 
                 const total = ranking.reduce((sum, item) => sum + item.count, 0);
-                totalCount.textContent = `${total} recomendaciones totales`;
+                totalCount.textContent = `${total} total recommendations`;
 
                 container.innerHTML = ranking.map((item, index) => {
                     let positionClass = 'normal';
@@ -725,7 +725,7 @@
                 document.getElementById('rankingList').innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">⚠️</div>
-                        <p>Error cargando recomendaciones</p>
+                        <p>Error loading recommendations</p>
                     </div>
                 `;
             }
@@ -736,14 +736,14 @@
 
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = true;
-            submitBtn.textContent = 'Enviando...';
+            submitBtn.textContent = 'Sending...';
 
             const formData = {
                 characterName: document.getElementById('charName').value.trim(),
                 anime: document.getElementById('charAnime').value.trim(),
                 category: document.getElementById('charCategory').value,
                 description: document.getElementById('charDescription').value.trim(),
-                userName: document.getElementById('userName').value.trim() || 'Anónimo'
+                userName: document.getElementById('userName').value.trim() || 'Anonymous'
             };
 
             try {
@@ -756,9 +756,9 @@
 
             } catch (error) {
                 console.error('[Recommendations] Error:', error);
-                alert('Error al enviar la recomendación. Inténtalo de nuevo.');
+                alert('Error sending recommendation. Please try again.');
                 submitBtn.disabled = false;
-                submitBtn.textContent = '📤 Enviar Recomendación';
+                submitBtn.textContent = '📤 Send Recommendation';
             }
         });
 
@@ -767,7 +767,7 @@
             document.getElementById('recommendationForm').style.display = 'block';
             document.getElementById('successMessage').classList.remove('visible');
             document.getElementById('submitBtn').disabled = false;
-            document.getElementById('submitBtn').textContent = '📤 Enviar Recomendación';
+            document.getElementById('submitBtn').textContent = '📤 Send Recommendation';
         }
 
         loadRanking();

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estadísticas - Sea Lords</title>
+    <title>Statistics - Sea Lords</title>
     <style>
         * {
             margin: 0;
@@ -487,8 +487,8 @@
 
     <div class="main-content">
         <div class="header">
-            <h1>📊 Estadísticas <span class="gradient-text">Globales</span></h1>
-            <p>Porcentaje de aprobación de personajes por categoría</p>
+            <h1>📊 Global <span class="gradient-text">Statistics</span></h1>
+            <p>Character approval percentage by category</p>
         </div>
 
         <!-- Stats Summary -->
@@ -506,12 +506,12 @@
             <div class="summary-card">
                 <div class="summary-icon">👥</div>
                 <div class="summary-value">123</div>
-                <div class="summary-label">Personajes</div>
+                <div class="summary-label">Characters</div>
             </div>
         </div>
 
         <div class="stats-container" id="statsContainer">
-            <div class="loading">Cargando estadísticas...</div>
+            <div class="loading">Loading statistics...</div>
         </div>
     </div>
 
@@ -529,7 +529,7 @@
             const container = document.getElementById('statsContainer');
 
             try {
-                console.log('[Status] Cargando estadísticas y personajes...');
+                console.log('[Status] Loading statistics and characters...');
 
                 const [results, characters, voters] = await Promise.all([
                     convexQuery('votes:getGlobalResults'),
@@ -622,7 +622,7 @@
                 container.innerHTML = html;
             } catch (error) {
                 console.error('[Status] Error:', error);
-                container.innerHTML = `<div class="error">Error cargando estadísticas: ${error.message}</div>`;
+                container.innerHTML = `<div class="error">Error loading statistics: ${error.message}</div>`;
             }
         }
 

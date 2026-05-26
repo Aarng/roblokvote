@@ -1056,9 +1056,9 @@
     <div id="name-prompt" class="name-prompt">
         <div class="name-form">
             <h2>🗳️ Sea Lords</h2>
-            <p>Welcome to the voting system. Ingresa tu nombre para comenzar:</p>
-            <input type="text" id="voter-name" placeholder="Tu nombre" maxlength="30">
-            <button onclick="registerVoter()">Comenzar Votación</button>
+            <p>Welcome to the voting system. Enter your name to start:</p>
+            <input type="text" id="voter-name" placeholder="Your name" maxlength="30">
+            <button onclick="registerVoter()">Start Voting</button>
         </div>
     </div>
 
@@ -1087,28 +1087,28 @@
     <a href="index.html#reward" class="sword-reward-badge" id="swordRewardBadge">
         <span class="sword-icon">🗡️</span>
         <div class="badge-text">
-            <strong>Espada Azure</strong>
-            <span>¡Completar para ganar! 🎁</span>
+            <strong>Azure Sword</strong>
+            <span>Complete to win! 🎁</span>
         </div>
     </a>
 
     <!-- Main Content -->
     <div class="main-content">
         <div class="header">
-            <h1>🗳️ Votación de Personajes</h1>
+            <h1>🗳️ Character Voting</h1>
 
             <!-- Modern Progress Bar -->
             <div class="progress-container" id="progressContainer">
                 <div class="progress-header">
-                    <span class="progress-title">Progreso de Votación</span>
+                    <span class="progress-title">Voting Progress</span>
                     <span class="progress-percentage" id="progressPercent">0%</span>
                 </div>
                 <div class="progress-bar-bg">
                     <div class="progress-bar-fill" id="progressBarFill" style="width: 0%"></div>
                 </div>
                 <div class="progress-stats">
-                    <span class="progress-count" id="progressCount"><strong>0</strong> / 123 votados</span>
-                    <span class="progress-time" id="progressTime">⏱️ ~6 min restantes</span>
+                    <span class="progress-count" id="progressCount"><strong>0</strong> / 123 voted</span>
+                    <span class="progress-time" id="progressTime">⏱️ ~6 min remaining</span>
                 </div>
             </div>
         </div>
@@ -1118,18 +1118,18 @@
 
             <div class="card-container" id="cardContainer">
                 <div class="card" id="card">
-                    <div class="stamp stamp-like">¡SÍ!</div>
+                    <div class="stamp stamp-like">YES!</div>
                     <div class="stamp stamp-nope">NO</div>
 
                     <div class="card-image-container">
-                        <img class="card-image" id="cardImage" src="" alt="Personaje">
+                        <img class="card-image" id="cardImage" src="" alt="Character">
                     </div>
 
                     <div class="card-content">
                         <div class="card-anime" id="cardAnime">Anime</div>
-                        <div class="card-name" id="cardName">Cargando...</div>
-                        <div class="card-category" id="cardCategory">Categoría</div>
-                        <div class="card-title" id="cardDescription">Título...</div>
+                        <div class="card-name" id="cardName">Loading...</div>
+                        <div class="card-category" id="cardCategory">Category</div>
+                        <div class="card-title" id="cardDescription">Title...</div>
                     </div>
                 </div>
             </div>
@@ -1139,33 +1139,33 @@
 
         <!-- Floating Instructions Card -->
         <div class="instructions-card" id="instructionsCard">
-            <h4>⌨️ Controles</h4>
+            <h4>⌨️ Controls</h4>
             <div class="instruction-row">
                 <span class="key-group"><kbd>←</kbd> <kbd>A</kbd></span>
                 <span>NO ✕</span>
             </div>
             <div class="instruction-row">
                 <span class="key-group"><kbd>→</kbd> <kbd>D</kbd></span>
-                <span>SÍ ✓</span>
+                <span>YES ✓</span>
             </div>
             <div class="swipe-hint">
                 <span>👆</span>
-                <span>O desliza en móvil</span>
+                <span>Or swipe on mobile</span>
             </div>
         </div>
 
         <div class="results" id="results">
-            <h2>🎉 ¡Votación Completada!</h2>
-            <p>Estos son tus personajes favoritos por categoría:</p>
+            <h2>🎉 Voting Completed!</h2>
+            <p>These are your favorite characters by category:</p>
             <div class="results-grid" id="resultsGrid"></div>
-            <button class="btn-download" onclick="downloadResults()">📥 Descargar Resultados</button>
+            <button class="btn-download" onclick="downloadResults()">📥 Download Results</button>
         </div>
     </div>
 
     <script src="convex-client.js?v=22"></script>
     <script src="app-convex.js?v=22"></script>
     <script>
-        // Verificar si ya está registrado
+        // Check if already registered
         let voterName = sessionStorage.getItem('voterName');
 
         if (voterName) {
@@ -1178,12 +1178,12 @@
             const name = nameInput.value.trim();
 
             if (!name) {
-                alert('Por favor ingresa tu nombre');
+                alert('Please enter your name');
                 return;
             }
 
             if (name.length < 2) {
-                alert('El nombre debe tener al menos 2 caracteres');
+                alert('Name must be at least 2 characters');
                 return;
             }
 
