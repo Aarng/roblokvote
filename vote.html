@@ -297,34 +297,86 @@
             gap: 5px;
         }
 
-        /* Sword Reward Banner */
-        .sword-reward-banner {
-            background: linear-gradient(135deg, rgba(0,170,255,0.2), rgba(155,89,182,0.2));
-            border: 1px solid rgba(0,170,255,0.3);
-            border-radius: 12px;
-            padding: 12px 20px;
-            margin-top: 12px;
+        /* Compact Floating Sword Badge */
+        .sword-reward-badge {
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            z-index: 999;
+            background: linear-gradient(135deg, rgba(0,170,255,0.25), rgba(155,89,182,0.25));
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(0,170,255,0.5);
+            border-radius: 50px;
+            padding: 8px 16px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-size: 0.9rem;
-            color: rgba(255,255,255,0.9);
-            animation: pulse-glow 2s ease-in-out infinite;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.95);
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: float-badge 3s ease-in-out infinite, pulse-border 2s ease-in-out infinite;
+            box-shadow: 0 5px 20px rgba(0,170,255,0.3);
         }
 
-        .sword-reward-banner .sword-icon {
-            font-size: 1.5rem;
-            filter: drop-shadow(0 0 10px rgba(0,170,255,0.8));
+        .sword-reward-badge:hover {
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,170,255,0.5);
         }
 
-        .sword-reward-banner strong {
+        .sword-reward-badge .sword-icon {
+            font-size: 1.3rem;
+            filter: drop-shadow(0 0 8px rgba(0,170,255,0.8));
+            animation: sword-shine 1.5s ease-in-out infinite;
+        }
+
+        .sword-reward-badge .badge-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            line-height: 1.2;
+        }
+
+        .sword-reward-badge .badge-text strong {
             color: #00aaff;
+            font-size: 0.85rem;
         }
 
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 5px rgba(0,170,255,0.3); }
-            50% { box-shadow: 0 0 20px rgba(0,170,255,0.5); }
+        .sword-reward-badge .badge-text span {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        @keyframes float-badge {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+
+        @keyframes pulse-border {
+            0%, 100% { border-color: rgba(0,170,255,0.5); box-shadow: 0 5px 20px rgba(0,170,255,0.3); }
+            50% { border-color: rgba(0,170,255,0.8); box-shadow: 0 5px 25px rgba(0,170,255,0.5); }
+        }
+
+        @keyframes sword-shine {
+            0%, 100% { filter: drop-shadow(0 0 5px rgba(0,170,255,0.6)); }
+            50% { filter: drop-shadow(0 0 15px rgba(0,170,255,1)); }
+        }
+
+        @media (max-width: 768px) {
+            .sword-reward-badge {
+                top: auto;
+                bottom: 100px;
+                right: 10px;
+                padding: 6px 12px;
+            }
+            .sword-reward-badge .badge-text span {
+                display: none;
+            }
+        }
+
+        /* Sword Reward Banner (legacy - keep for reference) */
+        .sword-reward-banner {
+            display: none;
         }
 
         .progress {
@@ -649,13 +701,16 @@
             </div>
         </div>
 
-        <!-- Sword Reward Banner -->
-        <div class="sword-reward-banner" id="swordRewardBanner">
-            <span class="sword-icon">🗡️</span>
-            <span>¡Completa la votación y gana la <strong>Espada Azure</strong>! 🎁</span>
-        </div>
-
         <div class="progress" id="progress" style="display: none;">Cargando...</div>
+    </div>
+
+    <!-- Compact Floating Sword Badge -->
+    <div class="sword-reward-badge" id="swordRewardBadge" onclick="window.location.href='index.html#reward'">
+        <span class="sword-icon">🗡️</span>
+        <div class="badge-text">
+            <strong>Espada Azure</strong>
+            <span>¡Completar para ganar! 🎁</span>
+        </div>
     </div>
 
     <div class="card-container" id="cardContainer">
@@ -692,8 +747,8 @@
         <button class="btn-download" onclick="downloadResults()">📥 Descargar Resultados</button>
     </div>
 
-    <script src="convex-client.js?v=17"></script>
-    <script src="app-convex.js?v=17"></script>
+    <script src="convex-client.js?v=18"></script>
+    <script src="app-convex.js?v=18"></script>
     <script>
         // Verificar si ya está registrado
         let voterName = sessionStorage.getItem('voterName');

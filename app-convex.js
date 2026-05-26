@@ -538,11 +538,11 @@ async function showResults() {
   currentCategoryBadge.style.display = 'none';
   progressText.style.display = 'none';
 
-  // Ocultar contenedor de progreso
+  // Ocultar contenedor de progreso y badge
   const progressContainer = document.getElementById('progressContainer');
-  const swordBanner = document.getElementById('swordRewardBanner');
+  const swordBadge = document.getElementById('swordRewardBadge');
   if (progressContainer) progressContainer.style.display = 'none';
-  if (swordBanner) swordBanner.style.display = 'none';
+  if (swordBadge) swordBadge.style.display = 'none';
 
   results.style.display = 'block';
 
