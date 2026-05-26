@@ -604,22 +604,106 @@
             margin-top: 20px;
         }
 
-        .instructions {
-            color: #aaa;
-            margin-top: 15px;
-            font-size: 0.85rem;
-            text-align: center;
-            line-height: 1.6;
+        /* Floating Instructions Card */
+        .instructions-card {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(26, 26, 46, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 16px;
+            padding: 16px 20px;
+            max-width: 280px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            animation: slide-in 0.5s ease, float-card 4s ease-in-out infinite;
         }
 
-        .instructions kbd {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 4px;
-            padding: 2px 8px;
-            font-family: monospace;
+        @keyframes slide-in {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes float-card {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .instructions-card h4 {
+            color: #f39c12;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .instructions-card .instruction-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
             font-size: 0.8rem;
+            color: rgba(255,255,255,0.85);
+        }
+
+        .instructions-card .instruction-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .instructions-card kbd {
+            background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 6px;
+            padding: 4px 10px;
+            font-family: 'Segoe UI', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
             color: #fff;
+            min-width: 28px;
+            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .instructions-card .key-group {
+            display: flex;
+            gap: 4px;
+        }
+
+        .instructions-card .swipe-hint {
+            display: none;
+            align-items: center;
+            gap: 6px;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .instructions-card .swipe-icon {
+            font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .instructions-card {
+                bottom: 15px;
+                right: 15px;
+                left: 15px;
+                max-width: none;
+                padding: 12px 16px;
+            }
+            .instructions-card .swipe-hint {
+                display: flex;
+            }
+        }
+
+        /* Legacy instructions - hide */
+        .instructions {
+            display: none;
         }
 
         .swiping { transition: none !important; }
@@ -736,8 +820,21 @@
         <button class="btn btn-like" onclick="vote(true)">✓</button>
     </div>
 
-    <div class="instructions" id="instructions">
-        Teclado: <kbd>←</kbd> o <kbd>A</kbd> = NO ✕ | <kbd>→</kbd> o <kbd>D</kbd> = SÍ ✓
+    <!-- Floating Instructions Card -->
+    <div class="instructions-card" id="instructionsCard">
+        <h4>⌨️ Controles</h4>
+        <div class="instruction-row">
+            <span class="key-group"><kbd>←</kbd> <kbd>A</kbd></span>
+            <span>NO ✕</span>
+        </div>
+        <div class="instruction-row">
+            <span class="key-group"><kbd>→</kbd> <kbd>D</kbd></span>
+            <span>SÍ ✓</span>
+        </div>
+        <div class="swipe-hint">
+            <span class="swipe-icon">👆</span>
+            <span>O desliza en móvil</span>
+        </div>
     </div>
 
     <div class="results" id="results">
@@ -747,8 +844,8 @@
         <button class="btn-download" onclick="downloadResults()">📥 Descargar Resultados</button>
     </div>
 
-    <script src="convex-client.js?v=18"></script>
-    <script src="app-convex.js?v=18"></script>
+    <script src="convex-client.js?v=19"></script>
+    <script src="app-convex.js?v=19"></script>
     <script>
         // Verificar si ya está registrado
         let voterName = sessionStorage.getItem('voterName');

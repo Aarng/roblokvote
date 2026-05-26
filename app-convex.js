@@ -534,15 +534,16 @@ async function showResults() {
 
   cardContainer.style.display = 'none';
   controls.style.display = 'none';
-  instructions.style.display = 'none';
   currentCategoryBadge.style.display = 'none';
   progressText.style.display = 'none';
 
-  // Ocultar contenedor de progreso y badge
+  // Ocultar contenedor de progreso, badge y carta de instrucciones
   const progressContainer = document.getElementById('progressContainer');
   const swordBadge = document.getElementById('swordRewardBadge');
+  const instructionsCard = document.getElementById('instructionsCard');
   if (progressContainer) progressContainer.style.display = 'none';
   if (swordBadge) swordBadge.style.display = 'none';
+  if (instructionsCard) instructionsCard.style.display = 'none';
 
   results.style.display = 'block';
 
