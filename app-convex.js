@@ -365,15 +365,43 @@ function loadCard() {
   currentCategoryBadge.textContent = candidate.category;
   currentCategoryBadge.className = `category-badge ${categoryColors[candidate.category]}`;
 
-  // Contadores
-  const categoryCount = candidates.filter(c => c.category === candidate.category).length;
-  const categoryIndex = candidates.slice(0, currentIndex + 1).filter(c => c.category === candidate.category).length;
-
-  progressText.textContent = `${categoryIndex}/${categoryCount} en ${candidate.category} • Total: ${currentIndex + 1}/${candidates.length}`;
+  // Actualizar barra de progreso moderna
+  updateProgressBar();
 
   // Resetear transformaciones
   card.style.transform = 'translateX(0) rotate(0)';
   hideStamps();
+}
+
+// Función para actualizar la barra de progreso moderna
+function updateProgressBar() {
+  const total = candidates.length;
+  const current = currentIndex + 1;
+  const percent = Math.round((current / total) * 100);
+  const remaining = total - current;
+
+  // Calcular tiempo estimado: ~3 segundos por voto
+  const secondsPerVote = 3;
+  const remainingSeconds = remaining * secondsPerVote;
+  const minutes = Math.ceil(remainingSeconds / 60);
+
+  // Actualizar elementos del DOM
+  const progressPercent = document.getElementById('progressPercent');
+  const progressBarFill = document.getElementById('progressBarFill');
+  const progressCount = document.getElementById('progressCount');
+  const progressTime = document.getElementById('progressTime');
+
+  if (progressPercent) progressPercent.textContent = `${percent}%`;
+  if (progressBarFill) progressBarFill.style.width = `${percent}%`;
+  if (progressCount) progressCount.innerHTML = `<strong>${current}</strong> / ${total} votados`;
+  if (progressTime) {
+    if (remaining === 0) {
+      progressTime.innerHTML = '🎉 ¡Completado!';
+    } else {
+      const minText = minutes === 1 ? 'minuto' : 'minutos';
+      progressTime.innerHTML = `⏱️ ~${minutes} ${minText} restantes`;
+    }
+  }
 }
 
 function showEmojiFallback(container, candidate) {
@@ -509,6 +537,13 @@ async function showResults() {
   instructions.style.display = 'none';
   currentCategoryBadge.style.display = 'none';
   progressText.style.display = 'none';
+
+  // Ocultar contenedor de progreso
+  const progressContainer = document.getElementById('progressContainer');
+  const swordBanner = document.getElementById('swordRewardBanner');
+  if (progressContainer) progressContainer.style.display = 'none';
+  if (swordBanner) swordBanner.style.display = 'none';
+
   results.style.display = 'block';
 
   const voterName = sessionStorage.getItem('voterName') || 'Anónimo';
@@ -524,6 +559,14 @@ async function showResults() {
   const resultsTitle = results.querySelector('h2');
   if (resultsTitle) {
     resultsTitle.innerHTML = `🎉 Resultados de <span style="color: #f39c12;">${voterName}</span>`;
+  }
+
+  // Actualizar contenido de resultados para incluir mensaje de recompensa
+  const resultsParagraph = results.querySelector('p');
+  if (resultsParagraph) {
+    resultsParagraph.innerHTML = `Estos son tus personajes favoritos por categoría.<br><br>
+      <span style="font-size: 1.2rem; color: #00aaff;">🗡️ ¡Has ganado la <strong>Espada Azure</strong>! 🎁</span><br>
+      <span style="color: rgba(255,255,255,0.7);">Entraste al sorteo por completar todas las votaciones.</span>`;
   }
 
   resultsGrid.innerHTML = categories.map(cat => {

@@ -206,6 +206,127 @@
         .category-espada { background: #3498db; }
         .category-magia { background: #9b59b6; }
 
+        /* Modern Progress Bar */
+        .progress-container {
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 15px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .progress-title {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.8);
+            font-weight: 500;
+        }
+
+        .progress-percentage {
+            font-size: 1.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .progress-bar-bg {
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            height: 12px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f39c12, #e67e22, #ff6b6b);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer-bar 2s infinite;
+        }
+
+        @keyframes shimmer-bar {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .progress-count {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .progress-count strong {
+            color: #f39c12;
+        }
+
+        .progress-time {
+            font-size: 0.85rem;
+            color: #64b5f6;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Sword Reward Banner */
+        .sword-reward-banner {
+            background: linear-gradient(135deg, rgba(0,170,255,0.2), rgba(155,89,182,0.2));
+            border: 1px solid rgba(0,170,255,0.3);
+            border-radius: 12px;
+            padding: 12px 20px;
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.9);
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        .sword-reward-banner .sword-icon {
+            font-size: 1.5rem;
+            filter: drop-shadow(0 0 10px rgba(0,170,255,0.8));
+        }
+
+        .sword-reward-banner strong {
+            color: #00aaff;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(0,170,255,0.3); }
+            50% { box-shadow: 0 0 20px rgba(0,170,255,0.5); }
+        }
+
         .progress {
             color: #aaa;
             font-size: 0.85rem;
@@ -512,7 +633,29 @@
     <div class="header">
         <h1>🗳️ Votación de Personajes</h1>
         <span id="currentCategory" class="category-badge">Cargando...</span>
-        <div class="progress" id="progress">Cargando...</div>
+
+        <!-- Modern Progress Bar -->
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-header">
+                <span class="progress-title">Progreso de Votación</span>
+                <span class="progress-percentage" id="progressPercent">0%</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressBarFill" style="width: 0%"></div>
+            </div>
+            <div class="progress-stats">
+                <span class="progress-count" id="progressCount">0 / 123 votados</span>
+                <span class="progress-time" id="progressTime">⏱️ ~6 min restantes</span>
+            </div>
+        </div>
+
+        <!-- Sword Reward Banner -->
+        <div class="sword-reward-banner" id="swordRewardBanner">
+            <span class="sword-icon">🗡️</span>
+            <span>¡Completa la votación y gana la <strong>Espada Azure</strong>! 🎁</span>
+        </div>
+
+        <div class="progress" id="progress" style="display: none;">Cargando...</div>
     </div>
 
     <div class="card-container" id="cardContainer">
@@ -549,8 +692,8 @@
         <button class="btn-download" onclick="downloadResults()">📥 Descargar Resultados</button>
     </div>
 
-    <script src="convex-client.js?v=13"></script>
-    <script src="app-convex.js?v=13"></script>
+    <script src="convex-client.js?v=16"></script>
+    <script src="app-convex.js?v=16"></script>
     <script>
         // Verificar si ya está registrado
         let voterName = sessionStorage.getItem('voterName');
