@@ -597,6 +597,137 @@ async function showResults() {
       </div>
     `;
   }).join('');
+
+  // Agregar formulario de usuario de Roblox
+  const robloxForm = document.createElement('div');
+  robloxForm.className = 'roblox-form-container';
+  robloxForm.innerHTML = `
+    <div class="roblox-form-card">
+      <div class="sword-emoji">🗡️</div>
+      <h3>¡Reclama tu Espada Azure!</h3>
+      <p>Has completado la votación y ahora participas en el sorteo.<br>Ingresa tu usuario de Roblox para poder contactarte si ganas:</p>
+      <div class="roblox-input-group">
+        <span class="roblox-icon">🎮</span>
+        <input type="text" id="roblox-username" placeholder="Usuario de Roblox" maxlength="30" autocomplete="off">
+      </div>
+      <button id="btn-save-roblox" onclick="saveRobloxUser()">Guardar y Participar en el Sorteo</button>
+      <div id="roblox-message" class="roblox-message"></div>
+    </div>
+  `;
+
+  // Insertar después del botón de descargar
+  const downloadBtn = results.querySelector('.btn-download');
+  if (downloadBtn) {
+    downloadBtn.parentNode.insertBefore(robloxForm, downloadBtn.nextSibling);
+  } else {
+    results.appendChild(robloxForm);
+  }
+
+  // Agregar estilos si no existen
+  if (!document.getElementById('roblox-form-styles')) {
+    const styles = document.createElement('style');
+    styles.id = 'roblox-form-styles';
+    styles.textContent = `
+      .roblox-form-container {
+        max-width: 500px;
+        margin: 30px auto;
+        animation: fadeInUp 0.5s ease;
+      }
+      @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .roblox-form-card {
+        background: linear-gradient(135deg, rgba(0,170,255,0.2), rgba(155,89,182,0.2));
+        border: 2px solid rgba(0,170,255,0.4);
+        border-radius: 20px;
+        padding: 30px;
+        text-align: center;
+      }
+      .sword-emoji {
+        font-size: 4rem;
+        margin-bottom: 15px;
+        filter: drop-shadow(0 0 20px rgba(0,170,255,0.8));
+        animation: float 3s ease-in-out infinite;
+      }
+      @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+      }
+      .roblox-form-card h3 {
+        color: #00aaff;
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+      }
+      .roblox-form-card p {
+        color: rgba(255,255,255,0.7);
+        margin-bottom: 20px;
+        font-size: 0.95rem;
+      }
+      .roblox-input-group {
+        display: flex;
+        align-items: center;
+        background: rgba(255,255,255,0.1);
+        border: 2px solid rgba(0,170,255,0.3);
+        border-radius: 12px;
+        padding: 5px 15px;
+        margin-bottom: 20px;
+        transition: border-color 0.3s;
+      }
+      .roblox-input-group:focus-within {
+        border-color: #00aaff;
+      }
+      .roblox-icon {
+        font-size: 1.5rem;
+        margin-right: 10px;
+      }
+      #roblox-username {
+        flex: 1;
+        background: transparent;
+        border: none;
+        color: white;
+        font-size: 1.1rem;
+        outline: none;
+        padding: 10px 0;
+      }
+      #roblox-username::placeholder {
+        color: rgba(255,255,255,0.4);
+      }
+      #btn-save-roblox {
+        width: 100%;
+        padding: 15px 30px;
+        background: linear-gradient(135deg, #00aaff, #9b59b6);
+        border: none;
+        border-radius: 12px;
+        color: white;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+      #btn-save-roblox:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(0,170,255,0.4);
+      }
+      #btn-save-roblox:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+      .roblox-message {
+        margin-top: 15px;
+        font-size: 0.95rem;
+        min-height: 24px;
+      }
+      .roblox-message.success {
+        color: #2ecc71;
+      }
+      .roblox-message.error {
+        color: #e74c3c;
+      }
+    `;
+    document.head.appendChild(styles);
+  }
 }
 
 let sessionSaved = false;
@@ -676,6 +807,71 @@ function downloadResults() {
   URL.revokeObjectURL(url);
 }
 
+// Guardar usuario de Roblox
+async function saveRobloxUser() {
+  const input = document.getElementById('roblox-username');
+  const message = document.getElementById('roblox-message');
+  const btn = document.getElementById('btn-save-roblox');
+
+  const robloxUser = input.value.trim();
+
+  if (!robloxUser) {
+    message.textContent = 'Por favor ingresa tu usuario de Roblox';
+    message.className = 'roblox-message error';
+    return;
+  }
+
+  if (robloxUser.length < 3) {
+    message.textContent = 'El usuario debe tener al menos 3 caracteres';
+    message.className = 'roblox-message error';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Guardando...';
+
+  const voterName = sessionStorage.getItem('voterName') || 'Anónimo';
+
+  try {
+    // Guardar en Convex
+    await convexMutation('votes:saveRobloxUser', {
+      voterName: voterName,
+      robloxUser: robloxUser
+    });
+
+    // Guardar en localStorage para recordar
+    localStorage.setItem('proyectpiece_roblox_' + voterName, robloxUser);
+
+    message.innerHTML = '✅ ¡Usuario guardado! Estás participando en el sorteo de la Espada Azure. ¡Buena suerte! 🗡️🎉';
+    message.className = 'roblox-message success';
+
+    btn.textContent = '¡Participando!';
+
+    // Opcional: ocultar el formulario después de 3 segundos
+    setTimeout(() => {
+      const formCard = document.querySelector('.roblox-form-card');
+      if (formCard) {
+        formCard.innerHTML = `
+          <div class="sword-emoji">🗡️</div>
+          <h3 style="color: #2ecc71;">¡Listo!</h3>
+          <p style="color: rgba(255,255,255,0.8);">
+            Tu usuario <strong>${robloxUser}</strong> ha sido registrado.<br>
+            Participas en el sorteo de la Espada Azure.<br>
+            ¡Te contactaremos por Discord si ganas! 🎉
+          </p>
+        `;
+      }
+    }, 3000);
+
+  } catch (error) {
+    console.error('[ERROR] Error guardando usuario Roblox:', error);
+    message.textContent = 'Error al guardar. Intenta de nuevo.';
+    message.className = 'roblox-message error';
+    btn.disabled = false;
+    btn.textContent = 'Guardar y Participar en el Sorteo';
+  }
+}
+
 // Inicializar
 document.addEventListener('DOMContentLoaded', init);
 
@@ -683,3 +879,4 @@ document.addEventListener('DOMContentLoaded', init);
 window.vote = vote;
 window.animateAndVote = animateAndVote;
 window.downloadResults = downloadResults;
+window.saveRobloxUser = saveRobloxUser;
