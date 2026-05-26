@@ -283,3 +283,36 @@ export const getTopCharacters = query({
     return sorted;
   },
 });
+
+// Guardar usuario de Roblox para el sorteo
+export const saveRobloxUser = mutation({
+  args: {
+    voterName: v.string(),
+    robloxUser: v.string(),
+  },
+  handler: async (ctx, args) => {
+    // Buscar la sesión del votante
+    const session = await ctx.db
+      .query("votingSessions")
+      .withIndex("by_voter", (q) => q.eq("voterName", args.voterName))
+      .first();
+
+    if (session) {
+      // Actualizar sesión existente
+      await ctx.db.patch(session._id, {
+        robloxUser: args.robloxUser,
+      });
+      return { success: true, updated: true };
+    } else {
+      // Crear nueva sesión con el usuario de Roblox
+      const id = await ctx.db.insert("votingSessions", {
+        voterName: args.voterName,
+        totalVoted: 0,
+        totalYes: 0,
+        completedAt: Date.now(),
+        robloxUser: args.robloxUser,
+      });
+      return { success: true, created: true, id };
+    }
+  },
+});

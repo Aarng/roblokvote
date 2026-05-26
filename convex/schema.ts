@@ -38,6 +38,7 @@ export default defineSchema({
     totalVoted: v.number(),
     totalYes: v.number(),
     completedAt: v.number(),
+    robloxUser: v.optional(v.string()), // Usuario de Roblox para el sorteo
   })
     .index("by_voter", ["voterName"]),
 
