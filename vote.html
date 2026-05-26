@@ -228,7 +228,7 @@
         .main-content {
             position: relative;
             z-index: 1;
-            padding: 120px 20px 40px;
+            padding: 110px 20px 20px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -237,26 +237,39 @@
 
         /* Header */
         .header {
-            text-align: center;
-            margin-bottom: 20px;
+            text-align: left;
+            margin-bottom: 10px;
             width: 100%;
             max-width: 600px;
+            padding-top: 0;
         }
 
         .header h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 15px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 0;
+            position: fixed;
+            top: 80px;
+            left: 15px;
+            z-index: 100;
+            background: rgba(10, 10, 15, 0.8);
+            padding: 6px 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            color: rgba(255, 255, 255, 0.7);
+        }
         }
 
         .category-badge {
             display: inline-block;
-            padding: 8px 20px;
-            border-radius: 20px;
+            padding: 8px 24px;
+            border-radius: 50px;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         .category-melee { background: linear-gradient(135deg, #e74c3c, #c0392b); }
@@ -267,9 +280,9 @@
         .progress-container {
             background: var(--surface);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 20px;
-            margin-top: 20px;
+            border-radius: 12px;
+            padding: 12px 15px;
+            margin-top: 10px;
             width: 100%;
         }
 
@@ -352,7 +365,7 @@
         /* Sword Reward Badge */
         .sword-reward-badge {
             position: fixed;
-            top: 85px;
+            top: 120px;
             right: 20px;
             z-index: 999;
             background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(236, 72, 153, 0.25));
@@ -411,11 +424,16 @@
 
         @media (max-width: 768px) {
             .sword-reward-badge {
-                top: auto;
-                bottom: 130px;
-                right: 10px;
+                top: 90px;
+                bottom: auto;
+                right: 8px;
                 left: auto;
-                padding: 8px 14px;
+                padding: 6px 10px;
+                font-size: 0.75rem;
+            }
+
+            .sword-reward-badge .sword-icon {
+                font-size: 1.1rem;
             }
             .sword-reward-badge .badge-text span {
                 display: none;
@@ -425,10 +443,10 @@
         /* Card Container */
         .card-container {
             position: relative;
-            width: 360px;
+            width: 340px;
             max-width: 95vw;
-            height: 520px;
-            margin: 20px auto;
+            height: 420px;
+            margin: 5px auto;
             z-index: 1;
         }
 
@@ -449,7 +467,7 @@
 
         .card-image-container {
             width: 100%;
-            height: 300px;
+            height: 220px;
             background: linear-gradient(135deg, var(--darker), var(--dark));
             position: relative;
             overflow: hidden;
@@ -476,7 +494,7 @@
         }
 
         .card-content {
-            padding: 24px;
+            padding: 15px;
             flex: 1;
             display: flex;
             flex-direction: column;
@@ -492,7 +510,7 @@
         }
 
         .card-name {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             font-weight: 700;
             color: white;
             margin-bottom: 10px;
@@ -549,12 +567,32 @@
             border-color: #e74c3c;
         }
 
-        /* Controls */
-        .controls {
+        /* Voting Layout with Side Buttons */
+        .voting-layout {
             display: flex;
-            gap: 30px;
-            margin: 20px 0;
-            z-index: 1;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: 5px 0;
+        }
+
+        .side-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* Controls (hidden since we use side buttons) */
+        .controls {
+            display: none;
         }
 
         .btn {
@@ -933,23 +971,36 @@
             }
 
             .main-content {
-                padding: 100px 15px 30px;
+                padding: 105px 15px 20px;
             }
 
             .header h1 {
-                font-size: 1.6rem;
+                font-size: 0.95rem;
+                top: 72px;
+                left: 10px;
+                padding: 4px 8px;
+                background: rgba(10, 10, 15, 0.8);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(20px);
+                color: rgba(255, 255, 255, 0.7);
             }
 
             .card-container {
-                height: 480px;
+                height: 380px;
             }
 
             .card-image-container {
-                height: 260px;
+                height: 200px;
             }
 
-            .controls {
-                gap: 20px;
+            .voting-layout {
+                gap: 10px;
+            }
+
+            .side-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
             }
 
             .btn {
@@ -985,8 +1036,8 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">
-                <img src="sealordslogo.webp" alt="Sea Lords" style="width: 80px; height: 80px; object-fit: contain;">
-                <span>Sea Lords</span>
+                <img src="sealordslogo.webp" alt="Sea Lords" style="width: 100px; height: 100px; object-fit: contain;">
+                <img src="SeaLords.png" alt="Sea Lords" style="width: 100px; height: 100px; object-fit: contain;">
             </a>
             <ul class="nav-links">
                 <li><a href="index.html">Inicio</a></li>
@@ -1010,7 +1061,6 @@
     <div class="main-content">
         <div class="header">
             <h1>🗳️ Votación de Personajes</h1>
-            <span id="currentCategory" class="category-badge">Cargando...</span>
 
             <!-- Modern Progress Bar -->
             <div class="progress-container" id="progressContainer">
@@ -1028,27 +1078,28 @@
             </div>
         </div>
 
-        <div class="card-container" id="cardContainer">
-            <div class="card" id="card">
-                <div class="stamp stamp-like">¡SÍ!</div>
-                <div class="stamp stamp-nope">NO</div>
+        <div class="voting-layout">
+            <button class="btn btn-nope side-btn" onclick="vote(false)">✕</button>
 
-                <div class="card-image-container">
-                    <img class="card-image" id="cardImage" src="" alt="Personaje">
-                </div>
+            <div class="card-container" id="cardContainer">
+                <div class="card" id="card">
+                    <div class="stamp stamp-like">¡SÍ!</div>
+                    <div class="stamp stamp-nope">NO</div>
 
-                <div class="card-content">
-                    <div class="card-anime" id="cardAnime">Anime</div>
-                    <div class="card-name" id="cardName">Cargando...</div>
-                    <div class="card-category" id="cardCategory">Categoría</div>
-                    <div class="card-title" id="cardDescription">Título...</div>
+                    <div class="card-image-container">
+                        <img class="card-image" id="cardImage" src="" alt="Personaje">
+                    </div>
+
+                    <div class="card-content">
+                        <div class="card-anime" id="cardAnime">Anime</div>
+                        <div class="card-name" id="cardName">Cargando...</div>
+                        <div class="card-category" id="cardCategory">Categoría</div>
+                        <div class="card-title" id="cardDescription">Título...</div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="controls" id="controls">
-            <button class="btn btn-nope" onclick="vote(false)">✕</button>
-            <button class="btn btn-like" onclick="vote(true)">✓</button>
+            <button class="btn btn-like side-btn" onclick="vote(true)">✓</button>
         </div>
 
         <!-- Floating Instructions Card -->
